@@ -1,1 +1,5 @@
-export { default } from "./(auth)/login/page"
+function page() {
+  return <div></div>;
+}
+
+export default page;
