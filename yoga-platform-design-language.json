@@ -110,14 +110,22 @@
   },
   "typography": {
     "heading": {
-      "recommendedFamilies": ["Cormorant Garamond", "Playfair Display", "DM Serif Display"],
+      "recommendedFamilies": [
+        "Cormorant Garamond",
+        "Playfair Display",
+        "DM Serif Display"
+      ],
       "fallback": "Georgia, serif",
       "weight": 500,
       "colorHex": "#213D34",
       "style": "Elegant editorial serif with restrained line height"
     },
     "body": {
-      "recommendedFamilies": ["Inter", "Manrope", "DM Sans"],
+      "recommendedFamilies": [
+        "Inter",
+        "Manrope",
+        "DM Sans"
+      ],
       "fallback": "Arial, sans-serif",
       "weight": 400,
       "colorHex": "#24302C",
@@ -150,7 +158,20 @@
       "tablet": 32,
       "mobile": 20
     },
-    "spacingScalePx": [4, 8, 12, 16, 20, 24, 32, 40, 48, 64, 80, 96],
+    "spacingScalePx": [
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      32,
+      40,
+      48,
+      64,
+      80,
+      96
+    ],
     "grid": {
       "desktopColumns": 12,
       "tabletColumns": 8,
@@ -240,7 +261,12 @@
       "indoor plants",
       "wood, stone, cotton and woven natural materials"
     ],
-    "wardrobeColorsHex": ["#879C86", "#F7F3EC", "#C9B8A5", "#213D34"],
+    "wardrobeColorsHex": [
+      "#879C86",
+      "#F7F3EC",
+      "#C9B8A5",
+      "#213D34"
+    ],
     "composition": [
       "Leave negative space for interface content when needed",
       "Use calm seated or foundational poses",

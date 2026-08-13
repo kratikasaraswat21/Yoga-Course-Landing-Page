@@ -6,6 +6,10 @@ import { FormEvent, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { toast } from "@/components/ui/toast";
+import { useDebounce } from "@/hooks/useDebounce";
+import { multipleApiHandler } from "@/lib/api/multiple.api";
+import { storeDataInSecureCookie } from "@/lib/helper/hepler";
 import { validateLoginForm } from "@/lib/validation/auth.validation";
 import type { LoginFormData } from "@/types/user";
 
@@ -17,6 +21,7 @@ export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const updateValue = (field: keyof LoginFormData, value: string) => {
     setValues((current) => ({ ...current, [field]: value }));
@@ -24,11 +29,43 @@ export function LoginForm() {
     if (errors[field]) setErrors((current) => ({ ...current, [field]: undefined }));
   };
 
+  const submitLogin = useDebounce(async (formValues: LoginFormData) => {
+    try {
+      const response = await multipleApiHandler([
+        {
+          endPoint: "/auth/login",
+          method: "POST",
+          data: formValues,
+        },
+      ]);
+      const res = response[0];
+
+      if (!res?.data?.success) {
+        toast.add({ title: "Login failed", description: res?.data?.message ?? "Please try again.", type: "error" });
+        return;
+      }
+
+      const token = res.data.data?.auth_token;
+      if (token) storeDataInSecureCookie(token, "authenticationToken", rememberMe);
+      setSubmitted(true);
+      toast.add({ title: "Welcome back", description: "You have been logged in successfully.", type: "success" });
+    } catch {
+      toast.add({ title: "Login failed", description: "Please try again.", type: "error" });
+    } finally {
+      setIsSubmitting(false);
+    }
+  });
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const nextErrors = validateLoginForm(values);
     setErrors(nextErrors);
-    setSubmitted(Object.keys(nextErrors).length === 0);
+    setSubmitted(false);
+
+    if (Object.keys(nextErrors).length > 0) return;
+
+    setIsSubmitting(true);
+    submitLogin(values);
   };
 
   return (
@@ -89,13 +126,13 @@ export function LoginForm() {
           <input type="checkbox" checked={rememberMe} onChange={(event) => setRememberMe(event.target.checked)} />
           <span>Remember me</span>
         </label>
-        <Link href="#forgot-password" className="text-link">
+        <Link href="/forgot-password" className="text-link">
           Forgot password?
         </Link>
       </div>
 
-      <Button type="submit" className="login-submit">
-        Log in
+      <Button type="submit" className="login-submit" disabled={isSubmitting}>
+        {isSubmitting ? "Logging in…" : "Log in"}
       </Button>
       {submitted && (
         <p className="form-status" role="status">
