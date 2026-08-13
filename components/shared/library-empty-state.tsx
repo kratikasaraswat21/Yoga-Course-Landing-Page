@@ -1,36 +1,41 @@
 import { ArrowRight, FileText, Leaf } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import type { ReactNode } from "react";
 
 type LibraryEmptyStateProps = {
   type: "courses" | "pdfs";
+  title?: string;
+  description?: ReactNode;
+  showButton?: boolean;
+  showBorder?: boolean;
 };
 
-export function LibraryEmptyState({ type }: LibraryEmptyStateProps) {
+export function LibraryEmptyState({
+  type,
+  title,
+  description,
+  showButton = true,
+  showBorder = true,
+}: LibraryEmptyStateProps) {
   if (type === "pdfs") {
     return (
-      <div className="library-empty-state pdf-empty-state">
+      <div className={`library-empty-state pdf-empty-state${showBorder ? "" : " library-empty-state-no-border"}`}>
         <div className="empty-pdf-illustration">
           <FileText size={48} strokeWidth={1.15} />
           <Leaf size={27} strokeWidth={1.15} />
         </div>
         <div className="empty-state-copy">
-          <h3>No PDF courses yet</h3>
-          <p>
-            Discover in-depth guides, workbooks,
-            <br />
-            and practice resources.
-          </p>
-          <Link href="#pdf-catalog">
-            Browse PDF courses <ArrowRight size={15} />
-          </Link>
+          <h3>{title ?? "No PDF courses yet"}</h3>
+          <p>{description ?? <>Discover in-depth guides, workbooks,<br />and practice resources.</>}</p>
+          {showButton && <Link href="#pdf-catalog">Browse PDF courses <ArrowRight size={15} /></Link>}
         </div>
       </div>
     );
   }
 
   return (
-    <div className="library-empty-state course-empty-state">
+    <div className={`library-empty-state course-empty-state${showBorder ? "" : " library-empty-state-no-border"}`}>
       <Image
         className="course-empty-image"
         src="/images/course-empty-screen-img.png"
@@ -39,15 +44,9 @@ export function LibraryEmptyState({ type }: LibraryEmptyStateProps) {
         height={200}
       />
       <div className="empty-state-copy">
-        <h3>Your yoga journey starts here</h3>
-        <p>
-          You haven&apos;t purchased a course yet. Explore our
-          <br />
-          guided practices and find the right place to begin.
-        </p>
-        <Link href="#course-catalog">
-          Explore courses <ArrowRight size={15} />
-        </Link>
+        <h3>{title ?? "Your yoga journey starts here"}</h3>
+        <p>{description ?? <>You haven&apos;t purchased a course yet. Explore our<br />guided practices and find the right place to begin.</>}</p>
+        {showButton && <Link href="#course-catalog">Explore courses <ArrowRight size={15} /></Link>}
       </div>
     </div>
   );

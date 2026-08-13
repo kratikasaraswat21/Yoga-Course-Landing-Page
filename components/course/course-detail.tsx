@@ -1,11 +1,20 @@
 import type { Course, CourseVideo } from "@/types/course";
-import { Clock3, Infinity, Play, ShieldCheck } from "lucide-react";
+import { formatDuration, formatVideoDuration } from "@/lib/utils";
+import { Clock3, Infinity, Lock, Play, ShieldCheck } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 const fallbackImage = "/images/auth/login-yoga.png";
 
-export function CourseDetailHero({ course }: { course: Course }) {
+export function CourseDetailHero({
+  course,
+  paymentStatus = "idle",
+  onBuyCourse,
+}: {
+  course: Course;
+  paymentStatus?: "idle" | "opening" | "confirming";
+  onBuyCourse?: () => void;
+}) {
   const totalSeconds = course.courseVideos.reduce((total, video) => total + video.durationSeconds, 0);
   return (
     <section className="course-detail-hero">
@@ -31,7 +40,11 @@ export function CourseDetailHero({ course }: { course: Course }) {
           <span><Clock3 size={18} /> {formatDuration(totalSeconds)} total</span>
           <span><Infinity size={20} /> Lifetime access</span>
         </div>
-        <button className="detail-primary">Buy course</button>
+        {!course.isPurchased && paymentStatus !== "confirming" && (
+          <button className="detail-primary" disabled={paymentStatus !== "idle"} onClick={onBuyCourse}>
+            {paymentStatus === "opening" ? "Processing..." : "Buy course"}
+          </button>
+        )}
         <div className="secure-payment">
           <ShieldCheck size={16} /> Secure payment via Razorpay
         </div>
@@ -40,9 +53,9 @@ export function CourseDetailHero({ course }: { course: Course }) {
   );
 }
 
-export function CourseVideoCard({ video, courseId }: { video: CourseVideo; courseId: string }) {
-  return (
-    <Link href={`/my-courses/${courseId}/videos/${video.id}`} className="course-video-card-link"><article className="course-video-card">
+export function CourseVideoCard({ video, courseId, isPurchased }: { video: CourseVideo; courseId: string; isPurchased: boolean }) {
+  const card = (
+    <article className={`course-video-card${isPurchased ? "" : " course-video-card-locked"}`}>
       <div className="video-thumbnail">
         <Image
           src={video.thumbnailUrl || fallbackImage}
@@ -52,9 +65,15 @@ export function CourseVideoCard({ video, courseId }: { video: CourseVideo; cours
           className="aspect-video"
         />
 
-        <span className="video-play">
-          <Play size={20} fill="currentColor" />
-        </span>
+        {isPurchased ? (
+          <span className="video-play">
+            <Play size={20} fill="currentColor" />
+          </span>
+        ) : (
+          <span className="video-lock" title="Purchase this course to watch">
+            <Lock size={15} />
+          </span>
+        )}
         <b>{formatVideoDuration(video.durationSeconds)}</b>
       </div>
       <div className="video-copy">
@@ -62,8 +81,14 @@ export function CourseVideoCard({ video, courseId }: { video: CourseVideo; cours
         <h3>{video.title}</h3>
         <p>{video.description}</p>
       </div>
-    </article></Link>
+    </article>
   );
+
+  return isPurchased ? (
+    <Link href={`/my-courses/${courseId}/videos/${video.id}`} className="course-video-card-link">
+      {card}
+    </Link>
+  ) : card;
 }
 
 export function CourseVideoSection({ course }: { course: Course }) {
@@ -77,17 +102,9 @@ export function CourseVideoSection({ course }: { course: Course }) {
       </div>
       <div className="course-video-grid">
         {course.courseVideos.map((video) => (
-          <CourseVideoCard key={video.id} video={video} courseId={course.id} />
+          <CourseVideoCard key={video.id} video={video} courseId={course.id} isPurchased={course.isPurchased} />
         ))}
       </div>
     </section>
   );
-}
-
-function formatVideoDuration(seconds: number) {
-  return `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, "0")}`;
-}
-function formatDuration(seconds: number) {
-  const minutes = Math.floor(seconds / 60);
-  return `${Math.floor(minutes / 60)}h ${minutes % 60}m`;
 }

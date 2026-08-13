@@ -1,32 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 
+import { EnvConfig } from "@/lib/config/envConfig";
 import { getDataFromSecureCookie } from "@/lib/helper/hepler";
+import type { ApiReturnInterface, EndpointObject } from "@/types/api";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "";
-
-export type ApiMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
-
-export interface EndpointObject {
-  endPoint: string;
-  method?: ApiMethod;
-  protected?: boolean;
-  header?: Record<string, string>;
-  data?: unknown;
-}
-
-export interface CommonDataFormat {
-  message: string;
-  success: boolean;
-  data: Record<string, any>;
-}
-
-export interface ApiReturnInterface {
-  data?: CommonDataFormat;
-  error?: unknown;
-  status?: number;
-  ok: boolean;
-}
+const BASE_URL = EnvConfig.API_BASE_URL;
 
 const getUrl = (endPoint: string) => `${BASE_URL.replace(/\/$/, "")}/${endPoint.replace(/^\//, "")}`;
 

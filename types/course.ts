@@ -14,6 +14,7 @@ export interface Course {
   description: string;
   discount: number;
   price: number;
+  isPurchased: boolean;
   status: string;
   thumbnailUrl: string;
   totalPayableAmount: number;
@@ -26,6 +27,22 @@ export interface CourseDetailsResponse {
   success: boolean;
   message: string;
   data: { course: Course };
+}
+
+export interface ApiCourse {
+  id: string;
+  title: string;
+  description: string;
+  price: number;
+  thumbnailUrl: string;
+  totalPayableAmount: number;
+  videoCount: number;
+}
+
+export interface CoursesResponse {
+  success: boolean;
+  message: string;
+  data?: { courses?: ApiCourse[] };
 }
 
 export interface VideoPlayback {

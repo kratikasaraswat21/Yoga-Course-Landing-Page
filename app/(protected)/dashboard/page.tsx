@@ -45,9 +45,9 @@ export default function DashboardPage() {
           <Image
             src="/images/dashboard/dashboard-welcome-banner.png"
             alt="Woman meditating in a warm, sunlit yoga studio"
+            fill
             priority
-            width={1500}
-            height={150}
+            sizes="(max-width: 600px) 100vw, 52vw"
           />
         </div>
       </SectionContainer>

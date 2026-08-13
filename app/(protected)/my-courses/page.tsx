@@ -5,28 +5,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-import { toast } from "@/components/ui/toast";
 import { CourseListingSkeleton } from "@/components/course/course-skeletons";
+import { LibraryEmptyState } from "@/components/shared/library-empty-state";
+import { toast } from "@/components/ui/toast";
 import { useDebounce } from "@/hooks/useDebounce";
 import { multipleApiHandler } from "@/lib/api/multiple.api";
-
-type ApiCourse = {
-  id: string;
-  title: string;
-  description: string;
-  price: number;
-  thumbnailUrl: string;
-  totalPayableAmount: number;
-  videoCount: number;
-};
-
-type CoursesResponse = {
-  success: boolean;
-  message: string;
-  data?: {
-    courses?: ApiCourse[];
-  };
-};
+import type { ApiCourse, CoursesResponse } from "@/types/course";
 
 const fallbackImage = "/images/auth/login-yoga.png";
 
@@ -135,10 +119,13 @@ export default function MyCoursesPage() {
           ))}
         </div>
       ) : (
-        <div className="courses-status">
-          <h2>No courses found</h2>
-          <p>{search ? "Try a different search." : "There are no courses available yet."}</p>
-        </div>
+        <LibraryEmptyState
+          type="courses"
+          title={search ? "No courses found" : undefined}
+          description={search ? "Try a different search." : undefined}
+          showButton={!search}
+          showBorder={false}
+        />
       )}
     </div>
   );
