@@ -25,7 +25,7 @@ export function CourseCard({ course }: { course: Course }) {
         <span className="purchased-badge">Purchased</span>
       </div>
       <div className="course-card-body">
-        <h3>{course.title}</h3>
+        <h3 className="title-case">{course.title}</h3>
         <p className="course-description">{course.description}</p>
         <div className="progress-meta"><span>{course.progress}%</span><span>{course.completed} of {course.lessons} lessons</span></div>
         <div className="progress-track"><span style={{ width: `${course.progress}%` }} /></div>

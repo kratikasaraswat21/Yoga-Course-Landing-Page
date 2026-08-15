@@ -7,7 +7,17 @@ import { multipleApiHandler } from "@/lib/api/multiple.api";
 import { formatDuration, formatTime } from "@/lib/utils";
 import type { Course, VideoPlayback } from "@/types/course";
 import Hls from "hls.js";
-import { ChevronLeft, ChevronRight, CircleCheck, Maximize, Minimize, Pause, Play, Volume2, VolumeX } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  CircleCheck,
+  Maximize,
+  Minimize,
+  Pause,
+  Play,
+  Volume2,
+  VolumeX,
+} from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { type CSSProperties, useEffect, useMemo, useRef, useState } from "react";
@@ -21,6 +31,7 @@ export default function VideoPlaybackPage() {
   const [showEndPopup, setShowEndPopup] = useState(false);
   const [rating, setRating] = useState(0);
   const [isRatingSubmitted, setIsRatingSubmitted] = useState(false);
+  const [isRatingSubmitting, setIsRatingSubmitting] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -29,6 +40,7 @@ export default function VideoPlaybackPage() {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const playerRef = useRef<HTMLVideoElement>(null);
   const playerWrapRef = useRef<HTMLDivElement>(null);
+  const completionRequestRef = useRef(false);
 
   const loadPlayback = useDebounce(async () => {
     try {
@@ -67,8 +79,10 @@ export default function VideoPlaybackPage() {
     loadPlayback();
   }, [loadPlayback]);
 
+  const playbackUrl = video?.hlsUrl;
+
   useEffect(() => {
-    if (!video?.hlsUrl || !playerRef.current) return;
+    if (!playbackUrl || !playerRef.current) return;
     const player = playerRef.current;
     let hls: Hls | null = null;
 
@@ -76,7 +90,7 @@ export default function VideoPlaybackPage() {
       hls = new Hls({ enableWorker: true });
       hls.attachMedia(player);
       hls.on(Hls.Events.MEDIA_ATTACHED, () => {
-        hls?.loadSource(video.hlsUrl);
+        hls?.loadSource(playbackUrl);
       });
       hls.on(Hls.Events.ERROR, (_event, data) => {
         if (data.fatal) {
@@ -89,7 +103,7 @@ export default function VideoPlaybackPage() {
         }
       });
     } else if (player.canPlayType("application/vnd.apple.mpegurl")) {
-      player.src = video.hlsUrl;
+      player.src = playbackUrl;
     } else {
       toast.add({
         title: "Playback not supported",
@@ -103,7 +117,7 @@ export default function VideoPlaybackPage() {
       player.removeAttribute("src");
       player.load();
     };
-  }, [video]);
+  }, [playbackUrl]);
 
   useEffect(() => {
     const handleFullscreenChange = () => setIsFullscreen(Boolean(document.fullscreenElement));
@@ -120,14 +134,62 @@ export default function VideoPlaybackPage() {
   const currentVideoThumbnail =
     course?.courseVideos.find((item) => item.id === videoId)?.thumbnailUrl || course?.thumbnailUrl;
 
-  const submitRating = () => {
+  const submitRating = async () => {
     if (!rating) return;
+
+    setIsRatingSubmitting(true);
+    const response = await multipleApiHandler([
+      {
+        endPoint: `/courses/${courseId}/video/${videoId}/rating`,
+        method: "POST",
+        protected: true,
+        data: { rating, review: "" },
+      },
+    ]);
+
+    setIsRatingSubmitting(false);
+    if (!response[0]?.data?.success) {
+      toast.add({
+        title: "Rating could not be submitted",
+        description: response[0]?.data?.message ?? "Please try again later.",
+        type: "error",
+      });
+      return;
+    }
+
     setIsRatingSubmitted(true);
     toast.add({
       title: "Thank you for your feedback",
       description: `You rated this lesson ${rating} out of 5 stars.`,
       type: "success",
     });
+  };
+
+  const completeVideo = useDebounce(async () => {
+    if (!video || video.isCompleted || completionRequestRef.current) return;
+
+    completionRequestRef.current = true;
+    const response = await multipleApiHandler([
+      { endPoint: `/courses/${courseId}/videos/${videoId}/complete`, method: "POST", protected: true },
+    ]);
+
+    if (response[0]?.data?.success) {
+      setVideo((currentVideo) => (currentVideo ? { ...currentVideo, isCompleted: true } : currentVideo));
+      return;
+    }
+
+    completionRequestRef.current = false;
+    toast.add({
+      title: "Lesson completion could not be saved",
+      description: response[0]?.data?.message ?? "Please try again later.",
+      type: "error",
+    });
+  }, 100);
+
+  const handleVideoEnded = () => {
+    completeVideo();
+    setIsPlaying(false);
+    setShowEndPopup(true);
   };
 
   const togglePlay = async () => {
@@ -159,6 +221,8 @@ export default function VideoPlaybackPage() {
     setIsMuted(player.muted);
   };
 
+  console.log(video)
+
   const toggleFullscreen = async () => {
     if (!playerWrapRef.current) return;
 
@@ -181,11 +245,13 @@ export default function VideoPlaybackPage() {
   return (
     <div className="playback-page">
       <nav className="course-breadcrumb">
-        <Link href="/my-courses">Courses</Link>
+        <Link href="/course/enrolled">Courses</Link>
         <ChevronRight size={16} />
-        <Link href={`/my-courses/${course.id}`}>{course.title}</Link>
+        <Link className="title-case" href={`/course/enrolled/${course.id}`}>
+          {course.title}
+        </Link>
         <ChevronRight size={16} />
-        <span>{video.title}</span>
+        <span className="title-case">{video.title}</span>
       </nav>
       <div className="playback-layout">
         <main className="playback-main">
@@ -205,14 +271,15 @@ export default function VideoPlaybackPage() {
               onTimeUpdate={(event) => setCurrentTime(event.currentTarget.currentTime)}
               onPlay={() => setIsPlaying(true)}
               onPause={() => setIsPlaying(false)}
-              onEnded={() => {
-                setIsPlaying(false);
-                setShowEndPopup(true);
-              }}>
+              onEnded={handleVideoEnded}>
               Your browser does not support video playback.
             </video>
             <div className="playback-controls" aria-label="Video controls">
-              <button type="button" className="playback-control-button" onClick={() => void togglePlay()} aria-label={isPlaying ? "Pause video" : "Play video"}>
+              <button
+                type="button"
+                className="playback-control-button"
+                onClick={() => void togglePlay()}
+                aria-label={isPlaying ? "Pause video" : "Play video"}>
                 {isPlaying ? <Pause size={18} fill="currentColor" /> : <Play size={18} fill="currentColor" />}
               </button>
               <span className="playback-time">{formatTime(currentTime)}</span>
@@ -233,7 +300,11 @@ export default function VideoPlaybackPage() {
               />
               <span className="playback-time">{formatTime(duration)}</span>
               <div className="playback-volume">
-                <button type="button" className="playback-control-button" onClick={toggleMute} aria-label={isMuted ? "Unmute video" : "Mute video"}>
+                <button
+                  type="button"
+                  className="playback-control-button"
+                  onClick={toggleMute}
+                  aria-label={isMuted ? "Unmute video" : "Mute video"}>
                   {isMuted || volume === 0 ? <VolumeX size={18} /> : <Volume2 size={18} />}
                 </button>
                 <input
@@ -248,7 +319,11 @@ export default function VideoPlaybackPage() {
                   aria-label="Volume"
                 />
               </div>
-              <button type="button" className="playback-control-button" onClick={() => void toggleFullscreen()} aria-label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}>
+              <button
+                type="button"
+                className="playback-control-button"
+                onClick={() => void toggleFullscreen()}
+                aria-label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}>
                 {isFullscreen ? <Minimize size={18} /> : <Maximize size={18} />}
               </button>
             </div>
@@ -258,19 +333,19 @@ export default function VideoPlaybackPage() {
               <small>
                 Lesson {currentIndex + 1} of {course.videoCount}
               </small>
-              <h1>{video.title}</h1>
+              <h1 className="title-case">{video.title}</h1>
               <p>{course.description}</p>
             </div>
           </div>
           <div className="playback-navigation">
             <Link
               className={!previousVideo ? "disabled" : ""}
-              href={previousVideo ? `/my-courses/${course.id}/videos/${previousVideo.id}` : "#"}>
+              href={previousVideo ? `/course/enrolled/${course.id}/videos/${previousVideo.id}` : "#"}>
               <ChevronLeft size={17} /> Previous lesson
             </Link>
             <Link
               className={!nextVideo ? "disabled" : ""}
-              href={nextVideo ? `/my-courses/${course.id}/videos/${nextVideo.id}` : "#"}>
+              href={nextVideo ? `/course/enrolled/${course.id}/videos/${nextVideo.id}` : "#"}>
               Next lesson <ChevronRight size={17} />
             </Link>
           </div>
@@ -285,7 +360,7 @@ export default function VideoPlaybackPage() {
               <Link
                 className={item.id === videoId ? "current" : ""}
                 key={item.id}
-                href={`/my-courses/${course.id}/videos/${item.id}`}>
+                href={`/course/enrolled/${course.id}/videos/${item.id}`}>
                 <span>{item.id === videoId ? <Play size={14} fill="currentColor" /> : <CircleCheck size={16} />}</span>
                 <strong>{index + 1}.</strong>
                 <b>{item.title}</b>
@@ -340,8 +415,11 @@ export default function VideoPlaybackPage() {
             </div>
             <div className="video-ended-actions">
               {!isRatingSubmitted && (
-                <button className="detail-primary rating-submit" disabled={!rating} onClick={submitRating}>
-                  Submit response
+                <button
+                  className="detail-primary rating-submit"
+                  disabled={!rating || isRatingSubmitting}
+                  onClick={() => void submitRating()}>
+                  {isRatingSubmitting ? "Submitting..." : "Submit response"}
                 </button>
               )}
             </div>
@@ -355,7 +433,7 @@ export default function VideoPlaybackPage() {
                 Watch again
               </button>
               {nextVideo ? (
-                <Link className="detail-primary" href={`/my-courses/${course.id}/videos/${nextVideo.id}`}>
+                <Link className="detail-primary" href={`/course/enrolled/${course.id}/videos/${nextVideo.id}`}>
                   Next lesson <ChevronRight size={17} />
                 </Link>
               ) : (

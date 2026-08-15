@@ -34,9 +34,11 @@ export interface ApiCourse {
   title: string;
   description: string;
   price: number;
+  discount?: number;
   thumbnailUrl: string;
   totalPayableAmount: number;
   videoCount: number;
+  createdAt?: string;
 }
 
 export interface CoursesResponse {
@@ -51,6 +53,7 @@ export interface VideoPlayback {
   durationSeconds: number;
   playbackToken: string;
   expiresInSeconds: number;
+  isCompleted: boolean;
   hlsUrl: string;
   dashUrl: string;
   thumbnailUrl: string;
