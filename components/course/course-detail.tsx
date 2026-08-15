@@ -27,11 +27,15 @@ export function CourseDetailHero({
         />
       </div>
       <div className="detail-summary">
-        <h1>{course.title}</h1>
+        <h1 className="title-case">{course.title}</h1>
         <p>{course.description}</p>
         <div className="detail-price">
-          <del>₹{course.totalPayableAmount.toLocaleString("en-IN")}</del>
-          <span className="discount">{course.discount}% off</span>
+          {course.discount > 0 && (
+            <>
+              <del>₹{course.totalPayableAmount.toLocaleString("en-IN")}</del>
+              <span className="discount">{course.discount}% off</span>
+            </>
+          )}
           <strong>₹{course.price.toLocaleString("en-IN")}</strong>
         </div>
         <small className="payment-copy">One-time payment · Lifetime access</small>
@@ -78,14 +82,14 @@ export function CourseVideoCard({ video, courseId, isPurchased }: { video: Cours
       </div>
       <div className="video-copy">
         <small>Lesson {video.sortOrder}</small>
-        <h3>{video.title}</h3>
+        <h3 className="title-case">{video.title}</h3>
         <p>{video.description}</p>
       </div>
     </article>
   );
 
   return isPurchased ? (
-    <Link href={`/my-courses/${courseId}/videos/${video.id}`} className="course-video-card-link">
+    <Link href={`/course/enrolled/${courseId}/videos/${video.id}`} className="course-video-card-link">
       {card}
     </Link>
   ) : card;

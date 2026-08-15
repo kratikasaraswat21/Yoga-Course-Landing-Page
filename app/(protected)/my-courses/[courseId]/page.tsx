@@ -112,7 +112,7 @@ export default function CourseDetailPage() {
               setCourse(latestCourse);
               if (latestCourse.isPurchased) {
                 setPaymentStatus("idle");
-                router.replace(`/my-courses/${courseId}`, { scroll: false });
+                router.replace(`/course/enrolled/${courseId}`, { scroll: false });
                 toast.add({ title: "Payment successful", description: "You now have lifetime access to this course.", type: "success" });
                 return;
               }
@@ -123,7 +123,7 @@ export default function CourseDetailPage() {
         }
 
         setPaymentStatus("idle");
-        router.replace(`/my-courses/${courseId}`, { scroll: false });
+        router.replace(`/course/enrolled/${courseId}`, { scroll: false });
         throw new Error("Payment received, but course access is still being updated. Please refresh shortly.");
       };
 
@@ -136,10 +136,10 @@ export default function CourseDetailPage() {
         order_id: order.razorpayOrderId,
         handler: (payment) => {
           setPaymentStatus("confirming");
-          router.replace(`/my-courses/${courseId}?payment=verifying`, { scroll: false });
+          router.replace(`/course/enrolled/${courseId}?payment=verifying`, { scroll: false });
           void verifyPayment(payment).catch((verificationError: unknown) => {
             setPaymentStatus("idle");
-            router.replace(`/my-courses/${courseId}`, { scroll: false });
+            router.replace(`/course/enrolled/${courseId}`, { scroll: false });
             toast.add({
               title: "Payment verification failed",
               description: verificationError instanceof Error ? verificationError.message : "Please contact support.",
@@ -181,10 +181,7 @@ export default function CourseDetailPage() {
         <div className="payment-verification-backdrop" role="dialog" aria-modal="true" aria-live="polite">
           <div className="payment-verification-modal">
             <div className="payment-verification-animation" aria-hidden="true">
-              <span className="verification-orbit verification-orbit-one" />
-              <span className="verification-orbit verification-orbit-two" />
-              <span className="verification-orbit verification-orbit-three" />
-              <span className="verification-pulse" />
+              <span className="verification-spinner" />
             </div>
             <h2>Confirming payment…</h2>
             <p>We&apos;re securely confirming your payment. This may take a moment.</p>
@@ -193,9 +190,9 @@ export default function CourseDetailPage() {
       )}
       <div className="course-detail-page">
         <nav className="course-breadcrumb">
-          <Link href="/my-courses">Courses</Link>
+          <Link href="/course/enrolled">Courses</Link>
           <ChevronRight size={16} />
-          <span className="capitalize!">{course.title}</span>
+          <span className="title-case">{course.title}</span>
         </nav>
         <CourseDetailHero course={course} paymentStatus={paymentStatus} onBuyCourse={handleBuyCourse} />
         <CourseVideoSection course={course} />

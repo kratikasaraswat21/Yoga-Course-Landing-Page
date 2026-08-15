@@ -55,7 +55,7 @@ export default function DashboardPage() {
         <SectionContainer className="panel continue-panel">
           <div className="panel-heading">
             <h2>Continue learning</h2>
-            <Link href="/my-courses">
+            <Link href="/course/enrolled">
               View all <ChevronRight size={17} />
             </Link>
           </div>
@@ -110,7 +110,7 @@ export default function DashboardPage() {
         <SectionContainer className="panel pdf-panel" id="pdf-courses">
           <div className="panel-heading">
             <h2>Your PDF courses</h2>
-            <Link href="#pdf-courses">
+            <Link href="/pdf-course/explore">
               View all PDFs <ChevronRight size={17} />
             </Link>
           </div>
@@ -130,6 +130,9 @@ export default function DashboardPage() {
               <h2>Recommended for your practice</h2>
               <p>Thoughtfully selected products to support your yoga journey.</p>
             </div>
+            <Link href="/affiliate-products" className="panel-heading-link">
+              View all <ChevronRight size={17} />
+            </Link>
             <div className="carousel-actions">
               <button aria-label="Previous">
                 <ChevronLeft size={18} />

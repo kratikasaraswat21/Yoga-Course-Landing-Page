@@ -9,6 +9,8 @@ type LibraryEmptyStateProps = {
   description?: ReactNode;
   showButton?: boolean;
   showBorder?: boolean;
+  buttonHref?: string;
+  buttonLabel?: string;
 };
 
 export function LibraryEmptyState({
@@ -17,6 +19,8 @@ export function LibraryEmptyState({
   description,
   showButton = true,
   showBorder = true,
+  buttonHref = "#course-catalog",
+  buttonLabel = "Explore courses",
 }: LibraryEmptyStateProps) {
   if (type === "pdfs") {
     return (
@@ -46,7 +50,7 @@ export function LibraryEmptyState({
       <div className="empty-state-copy">
         <h3>{title ?? "Your yoga journey starts here"}</h3>
         <p>{description ?? <>You haven&apos;t purchased a course yet. Explore our<br />guided practices and find the right place to begin.</>}</p>
-        {showButton && <Link href="#course-catalog">Explore courses <ArrowRight size={15} /></Link>}
+        {showButton && <Link href={buttonHref}>{buttonLabel} <ArrowRight size={15} /></Link>}
       </div>
     </div>
   );
