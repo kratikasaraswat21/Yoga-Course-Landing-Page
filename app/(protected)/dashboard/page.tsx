@@ -1,36 +1,91 @@
 "use client";
 
 import { CourseCard, ExploreRow, PdfCard, ProductCard } from "@/components/course/course-card";
+import { DashboardSkeleton } from "@/components/dashboard/dashboard-skeleton";
 import { SectionContainer } from "@/components/layout/section-container";
 import { LibraryEmptyState } from "@/components/shared/library-empty-state";
+import { toast } from "@/components/ui/toast";
+import { multipleApiHandler } from "@/lib/api/multiple.api";
+import type { AffiliateProduct, AffiliateProductsResponse } from "@/types/affiliate-product";
+import type { ApiCourse, CoursesResponse } from "@/types/course";
+import type { PdfCourse, PdfCoursesResponse } from "@/types/pdf-course";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-
-const courses = [
-  {
-    title: "Foundations of Hatha Yoga",
-    description: "Build strength, balance, and mindful movement.",
-    lessons: "18",
-    completed: "12",
-    progress: 68,
-    imagePosition: "58% center",
-  },
-  {
-    title: "Mindful Pranayama",
-    description: "Discover calming breathwork for everyday practice.",
-    lessons: "14",
-    completed: "5",
-    progress: 35,
-    imagePosition: "78% center",
-  },
-];
-const pdfCourses = [
-  { title: "21-Day Mindfulness Journal", kind: "Workbook", pages: "42 pages", tone: "clay" as const },
-  { title: "Pranayama Practice Guide", kind: "Practice guide", pages: "28 pages", tone: "sage" as const },
-];
+import { useEffect, useState } from "react";
 
 export default function DashboardPage() {
+  const [purchasedCourses, setPurchasedCourses] = useState<ApiCourse[]>([]);
+  const [exploreCourses, setExploreCourses] = useState<ApiCourse[]>([]);
+  const [pdfCourses, setPdfCourses] = useState<PdfCourse[]>([]);
+  const [products, setProducts] = useState<AffiliateProduct[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchDashboardData = async () => {
+      try {
+      const responses = await multipleApiHandler([
+        { endPoint: "/courses/my-courses", method: "GET", protected: true },
+        { endPoint: "/courses", method: "GET", protected: true },
+        { endPoint: "/pdf-courses/purchased", method: "GET", protected: true },
+        { endPoint: "/affiliate-products", method: "GET" },
+      ]);
+      const purchased = responses[0]?.data as CoursesResponse | undefined;
+      const explore = responses[1]?.data as CoursesResponse | undefined;
+      const pdf = responses[2]?.data as PdfCoursesResponse | undefined;
+      const affiliate = responses[3]?.data as AffiliateProductsResponse | undefined;
+
+      if (purchased?.success) setPurchasedCourses(purchased.data?.courses ?? []);
+      if (explore?.success) setExploreCourses(explore.data?.courses ?? []);
+      if (pdf?.success) setPdfCourses(pdf.data?.pdfCourses ?? []);
+      if (affiliate?.success) setProducts((affiliate.data?.products ?? []).sort((a, b) => a.sortOrder - b.sortOrder));
+      if (![purchased, explore, pdf, affiliate].some((result) => result?.success)) {
+        toast.add({
+          title: "Dashboard data could not be loaded",
+          description: "Please refresh and try again.",
+          type: "error",
+        });
+      }
+      } catch {
+        toast.add({ title: "Dashboard data could not be loaded", description: "Please refresh and try again.", type: "error" });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    void fetchDashboardData();
+  }, []);
+
+  if (isLoading) return <DashboardSkeleton />;
+
+  const courses = purchasedCourses.slice(0, 2).map((course) => {
+    const completed = course.completedVideoCount ?? course.completedLessons ?? course.completed ?? 0;
+    const lessons = course.videoCount ?? 0;
+    return {
+      id: course.id,
+      title: course.title,
+      description: course.description,
+      lessons: String(lessons),
+      completed: String(completed),
+      progress: course.progress ?? (lessons ? Math.round((completed / lessons) * 100) : 0),
+      href: `/course/enrolled/${course.id}`,
+    };
+  });
+  const exploreRows = exploreCourses.slice(0, 2).map((course) => ({
+    title: course.title,
+    lessons: String(course.videoCount),
+    basePrice: course.totalPayableAmount > course.price ? `₹${course.totalPayableAmount.toLocaleString("en-IN")}` : "",
+    discount: course.discount ? `${course.discount}%` : "",
+    price: `₹${course.price.toLocaleString("en-IN")}`,
+    href: `/course/enrolled/${course.id}`,
+  }));
+  const pdfCards = pdfCourses.slice(0, 2).map((pdf, index) => ({
+    title: pdf.title,
+    kind: pdf.purchaseType === "FREE" ? "Free guide" : "PDF course",
+    pages: "",
+    tone: index % 2 === 0 ? ("clay" as const) : ("sage" as const),
+    href: `/pdf-course/${pdf.id}`,
+  }));
+
   return (
     <>
       <SectionContainer className="welcome-card">
@@ -81,29 +136,25 @@ export default function DashboardPage() {
               </button>
             </div>
           </div>
-          <div className="explore-list">
-            <ExploreRow
-              title="Yoga for Better Sleep"
-              lessons="8"
-              basePrice="₹1,899"
-              discount="21%"
-              price="₹1,499"
-              imagePosition="35% center"
+          {exploreRows.length ? (
+            <>
+              <div className="explore-list">
+                {exploreRows.map((course) => (
+                  <ExploreRow {...course} key={course.title} />
+                ))}
+              </div>
+              <div className="carousel-dots"><b /><i /><i /></div>
+            </>
+          ) : (
+            <LibraryEmptyState
+              type="courses"
+              title="No courses available"
+              description="New guided practices will appear here soon."
+              buttonHref="/course/explore"
+              buttonLabel="Explore courses"
+              showBorder={false}
             />
-            <ExploreRow
-              title="Morning Energy Flow"
-              lessons="10"
-              basePrice="₹1,599"
-              discount="19%"
-              price="₹1,299"
-              imagePosition="60% center"
-            />
-          </div>
-          <div className="carousel-dots">
-            <b />
-            <i />
-            <i />
-          </div>
+          )}
         </SectionContainer>
       </div>
       <div className="dashboard-grid bottom-grid">
@@ -114,9 +165,9 @@ export default function DashboardPage() {
               View all PDFs <ChevronRight size={17} />
             </Link>
           </div>
-          {pdfCourses.length ? (
+          {pdfCards.length ? (
             <div className="pdf-grid">
-              {pdfCourses.map((pdf) => (
+              {pdfCards.map((pdf) => (
                 <PdfCard {...pdf} key={pdf.title} />
               ))}
             </div>
@@ -143,8 +194,15 @@ export default function DashboardPage() {
             </div>
           </div>
           <div className="product-grid">
-            <ProductCard title="Natural Cork Yoga Mat" imagePosition="20% center" />
-            <ProductCard title="Meditation Cushion" imagePosition="82% center" />
+            {products.slice(0, 2).map((product) => (
+              <ProductCard
+                key={product.id}
+                title={product.title}
+                description={product.description}
+                href={product.productsLink}
+                buttonTitle={product.buttonTitle}
+              />
+            ))}
           </div>
           <div className="carousel-dots">
             <b />

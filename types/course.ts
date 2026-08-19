@@ -15,6 +15,11 @@ export interface Course {
   discount: number;
   price: number;
   isPurchased: boolean;
+  isCourseCompleted?: boolean;
+  hasReviewed?: boolean;
+  averageRating?: number;
+  totalReviews?: number;
+  reviewCount?: number;
   status: string;
   thumbnailUrl: string;
   totalPayableAmount: number;
@@ -39,6 +44,10 @@ export interface ApiCourse {
   totalPayableAmount: number;
   videoCount: number;
   createdAt?: string;
+  progress?: number;
+  completedVideoCount?: number;
+  completedLessons?: number;
+  completed?: number;
 }
 
 export interface CoursesResponse {
@@ -54,6 +63,7 @@ export interface VideoPlayback {
   playbackToken: string;
   expiresInSeconds: number;
   isCompleted: boolean;
+  hasReviewed?: boolean;
   hlsUrl: string;
   dashUrl: string;
   thumbnailUrl: string;

@@ -16,7 +16,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <DashboardHeader onMenuClick={() => setIsSidebarOpen(true)} />
         <div className="dashboard-content">
           {children}
-          <span className="p-15"></span>
+          {/* <span className="p-15"></span> */}
         </div>
       </main>
     </div>
