@@ -140,7 +140,7 @@ export default function VideoPlaybackPage() {
     setIsRatingSubmitting(true);
     const response = await multipleApiHandler([
       {
-        endPoint: `/courses/${courseId}/video/${videoId}/rating`,
+        endPoint: `/courses/${courseId}/videos/${videoId}/rating`,
         method: "POST",
         protected: true,
         data: { rating, review: "" },
@@ -189,7 +189,7 @@ export default function VideoPlaybackPage() {
   const handleVideoEnded = () => {
     completeVideo();
     setIsPlaying(false);
-    setShowEndPopup(true);
+    setShowEndPopup(video?.hasReviewed !== true);
   };
 
   const togglePlay = async () => {

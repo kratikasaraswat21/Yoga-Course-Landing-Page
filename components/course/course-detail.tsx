@@ -1,8 +1,14 @@
+"use client";
+
 import type { Course, CourseVideo } from "@/types/course";
+import { StarRating } from "@/components/course/star-rating";
 import { formatDuration, formatVideoDuration } from "@/lib/utils";
-import { Clock3, Infinity, Lock, Play, ShieldCheck } from "lucide-react";
+import { multipleApiHandler } from "@/lib/api/multiple.api";
+import { toast } from "@/components/ui/toast";
+import { Award, CheckCircle2, Clock3, Infinity, Lock, Play, ShieldCheck } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
 const fallbackImage = "/images/auth/login-yoga.png";
 
@@ -109,6 +115,98 @@ export function CourseVideoSection({ course }: { course: Course }) {
           <CourseVideoCard key={video.id} video={video} courseId={course.id} isPurchased={course.isPurchased} />
         ))}
       </div>
+    </section>
+  );
+}
+
+export function CourseCompletionSection({ course }: { course: Course }) {
+  const [rating, setRating] = useState(0);
+  const [review, setReview] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(course.hasReviewed === true);
+  const averageRating = course.averageRating ?? 0;
+  const totalReviews = course.totalReviews ?? course.reviewCount ?? 0;
+
+  if (course.isCourseCompleted !== true) return null;
+
+  const submitReview = async () => {
+    if (!rating || isSubmitting) return;
+
+    setIsSubmitting(true);
+    const response = await multipleApiHandler([
+      {
+        endPoint: `/courses/${course.id}/review`,
+        method: "POST",
+        protected: true,
+        data: { rating, comment: review.trim() },
+      },
+    ]);
+    setIsSubmitting(false);
+
+    if (!response[0]?.data?.success) {
+      toast.add({
+        title: "Review could not be submitted",
+        description: response[0]?.data?.message ?? "Please try again later.",
+        type: "error",
+      });
+      return;
+    }
+
+    setIsSubmitted(true);
+    toast.add({ title: "Thank you for your review", description: "Your course feedback has been saved.", type: "success" });
+  };
+
+  return (
+    <section className="course-completion-section" aria-labelledby="course-completion-title">
+      <div className="course-completion-summary">
+        <div className="course-completion-icon" aria-hidden="true">
+          <Award size={25} />
+        </div>
+        <div className="course-completion-copy">
+          <div className="course-completion-eyebrow">
+            <CheckCircle2 size={15} /> Course complete
+          </div>
+          <h2 id="course-completion-title">You completed this course</h2>
+          <p>Beautiful work. You finished all {course.videoCount} lessons in this practice.</p>
+        </div>
+        <div className="course-completion-badge">Completed</div>
+      </div>
+      {!isSubmitted ? (
+        <div className="course-review-form">
+          <div className="course-review-heading">
+            <h3>Rate this course</h3>
+            <div className="course-review-average">
+              {averageRating > 0 && <StarRating value={averageRating} readOnly label="Course average rating" />}
+              <p>{averageRating > 0 ? `${averageRating.toFixed(1)} average rating · ${totalReviews} reviews` : "No reviews yet"}</p>
+            </div>
+          </div>
+          <div className="course-review-rating"><StarRating value={rating} onChange={setRating} label="Choose a course rating" />{rating > 0 && <span>{rating}/5</span>}</div>
+          <label className="course-review-label" htmlFor="course-review-comment">Your review <span>(optional)</span></label>
+          <textarea
+            id="course-review-comment"
+            value={review}
+            onChange={(event) => setReview(event.target.value)}
+            placeholder="Write your review here..."
+            maxLength={1000}
+            aria-label="Course review"
+          />
+          <div className="course-review-footer">
+            <small>{review.length}/1000</small>
+            <button
+              type="button"
+              className="detail-primary course-review-submit"
+              disabled={!rating || isSubmitting}
+              onClick={() => void submitReview()}>
+              {isSubmitting ? "Submitting..." : "Submit review"}
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="course-review-success">
+          <CheckCircle2 size={19} />
+          {course.hasReviewed ? "You have already reviewed this course." : "Thanks for sharing your experience."}
+        </div>
+      )}
     </section>
   );
 }
