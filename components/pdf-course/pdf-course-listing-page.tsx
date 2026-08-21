@@ -6,13 +6,14 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import { PdfCourseListingSkeleton } from "@/components/pdf-course/pdf-course-listing-skeleton";
+import { loginYoga } from "@/assets/image-assets";
 import { LibraryEmptyState } from "@/components/shared/library-empty-state";
 import { toast } from "@/components/ui/toast";
 import { useDebounce } from "@/hooks/useDebounce";
 import { multipleApiHandler } from "@/lib/api/multiple.api";
 import type { PdfCourse, PdfCoursesResponse } from "@/types/pdf-course";
 
-const fallbackImage = "/images/auth/login-yoga.png";
+const fallbackImage = loginYoga;
 
 export function PdfCourseListingPage({ mode }: { mode: "explore" | "purchased" }) {
   const isPurchasedList = mode === "purchased";

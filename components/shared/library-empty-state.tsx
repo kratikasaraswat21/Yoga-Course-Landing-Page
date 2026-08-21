@@ -2,6 +2,7 @@ import { ArrowRight, FileText, Leaf } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { courseEmptyScreen } from "@/assets/image-assets";
 
 type LibraryEmptyStateProps = {
   type: "courses" | "pdfs";
@@ -42,7 +43,7 @@ export function LibraryEmptyState({
     <div className={`library-empty-state course-empty-state${showBorder ? "" : " library-empty-state-no-border"}`}>
       <Image
         className="course-empty-image"
-        src="/images/course-empty-screen-img.png"
+        src={courseEmptyScreen}
         alt="Yoga journey illustration"
         width={200}
         height={200}

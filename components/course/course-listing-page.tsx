@@ -6,13 +6,14 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import { CourseListingSkeleton } from "@/components/course/course-skeletons";
+import { loginYoga } from "@/assets/image-assets";
 import { LibraryEmptyState } from "@/components/shared/library-empty-state";
 import { toast } from "@/components/ui/toast";
 import { useDebounce } from "@/hooks/useDebounce";
 import { multipleApiHandler } from "@/lib/api/multiple.api";
 import type { ApiCourse, CoursesResponse } from "@/types/course";
 
-const fallbackImage = "/images/auth/login-yoga.png";
+const fallbackImage = loginYoga;
 type CourseListingMode = "enrolled" | "explore";
 
 const listingContent = {

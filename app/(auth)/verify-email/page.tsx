@@ -2,14 +2,15 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Logo } from "@/components/shared/logo";
+import { verifyEmailYoga } from "@/assets/image-assets";
 import { VerifyEmailForm } from "@/features/auth/components/verify-email-form";
 
 export default async function VerifyEmailPage({
   searchParams,
 }: {
-  searchParams: Promise<{ signature?: string; email?: string }>;
+  searchParams: Promise<{ signature?: string; email?: string; returnTo?: string }>;
 }) {
-  const { signature = "", email = "" } = await searchParams;
+  const { signature = "", email = "", returnTo } = await searchParams;
 
   return (
     <main className="login-page verify-email-page">
@@ -35,14 +36,14 @@ export default async function VerifyEmailPage({
               </p>
             </div>
 
-            <VerifyEmailForm email={signature} />
+            <VerifyEmailForm email={signature} returnTo={returnTo} />
           </div>
         </div>
       </section>
 
       <aside className="login-visual" aria-label="Yoga practice inspiration">
         <Image
-          src="/images/auth/verify-email-yoga.png"
+          src={verifyEmailYoga}
           alt="Woman practicing a calm forward fold in a warm sunlit yoga studio"
           fill
           priority

@@ -2,6 +2,7 @@
 
 import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -9,13 +10,14 @@ import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/toast";
 import { useDebounce } from "@/hooks/useDebounce";
 import { multipleApiHandler } from "@/lib/api/multiple.api";
-import { storeDataInSecureCookie } from "@/lib/helper/hepler";
+import { getDataFromSecureCookie, storeDataInSecureCookie } from "@/lib/helper/hepler";
 import { validateLoginForm } from "@/lib/validation/auth.validation";
 import type { LoginFormData } from "@/types/user";
 
 const initialValues: LoginFormData = { email: "", password: "" };
 
-export function LoginForm() {
+export function LoginForm({ returnTo }: { returnTo?: string }) {
+  const router = useRouter();
   const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState<ReturnType<typeof validateLoginForm>>({});
   const [showPassword, setShowPassword] = useState(false);
@@ -46,9 +48,21 @@ export function LoginForm() {
       }
 
       const token = res.data.data?.auth_token;
-      if (token) storeDataInSecureCookie(token, "authenticationToken", rememberMe);
+      if (!token) {
+        toast.add({ title: "Login failed", description: "No authentication token was returned. Please try again.", type: "error" });
+        return;
+      }
+
+      storeDataInSecureCookie(token, "authenticationToken", rememberMe);
+      if (getDataFromSecureCookie("authenticationToken") !== token) {
+        toast.add({ title: "Login failed", description: "Your session could not be saved. Please try again.", type: "error" });
+        return;
+      }
+
       setSubmitted(true);
       toast.add({ title: "Welcome back", description: "You have been logged in successfully.", type: "success" });
+      const destination = returnTo?.startsWith("/") && !returnTo.startsWith("//") ? returnTo : "/dashboard";
+      router.replace(destination);
     } catch {
       toast.add({ title: "Login failed", description: "Please try again.", type: "error" });
     } finally {

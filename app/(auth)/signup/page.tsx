@@ -2,9 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Logo } from "@/components/shared/logo";
+import { signupYoga } from "@/assets/image-assets";
 import { SignupForm } from "@/features/auth/components/signup-form";
 
-export default function SignupPage() {
+export default async function SignupPage({ searchParams }: { searchParams: Promise<{ returnTo?: string }> }) {
+  const { returnTo } = await searchParams;
+
   return (
     <main className="login-page signup-page">
       <section className="login-panel" aria-labelledby="signup-title">
@@ -16,12 +19,12 @@ export default function SignupPage() {
               <p>Create your account and take the first step towards a more mindful practice.</p>
             </div>
 
-            <SignupForm />
+            <SignupForm returnTo={returnTo} />
 
             <div className="signup-prompt">
               <div className="prompt-heading">
                 <p>Already have an account?</p>{" "}
-                <Link href="/login" className="p-0! m-0! signup-link">
+                <Link href={returnTo ? `/login?returnTo=${encodeURIComponent(returnTo)}` : "/login"} className="p-0! m-0! signup-link">
                   Log in
                 </Link>{" "}
               </div>
@@ -32,7 +35,7 @@ export default function SignupPage() {
 
       <aside className="login-visual" aria-label="Yoga practice inspiration">
         <Image
-          src="/images/auth/signup-yoga.png"
+          src={signupYoga}
           alt="Woman practicing yoga in a sunlit room"
           fill
           priority

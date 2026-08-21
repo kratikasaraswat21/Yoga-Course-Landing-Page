@@ -1,6 +1,7 @@
 "use client";
 
 import { PdfCourseSkeleton } from "@/components/pdf-course/pdf-course-skeleton";
+import { loginYoga } from "@/assets/image-assets";
 import { toast } from "@/components/ui/toast";
 import { useDebounce } from "@/hooks/useDebounce";
 import { multipleApiHandler } from "@/lib/api/multiple.api";
@@ -14,7 +15,7 @@ import { useParams } from "next/navigation";
 import Script from "next/script";
 import { useEffect, useState } from "react";
 
-const fallbackImage = "/images/auth/login-yoga.png";
+const fallbackImage = loginYoga;
 
 export default function PdfCourseDetailPage() {
   const { courseId } = useParams<{ courseId: string }>();
