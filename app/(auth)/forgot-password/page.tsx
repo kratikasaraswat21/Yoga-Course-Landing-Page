@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Logo } from "@/components/shared/logo";
+import { forgotPasswordYoga } from "@/assets/image-assets";
 import { ForgotPasswordForm } from "@/features/auth/components/forgot-password-form";
 
 export default function ForgotPasswordPage() {
@@ -45,7 +46,7 @@ export default function ForgotPasswordPage() {
 
       <aside className="login-visual" aria-label="Yoga practice inspiration">
         <Image
-          src="/images/auth/forgot-password-yoga.png"
+          src={forgotPasswordYoga}
           alt="Woman practicing a seated side stretch in a warm sunlit yoga studio"
           fill
           priority

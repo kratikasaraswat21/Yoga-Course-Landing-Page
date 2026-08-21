@@ -4,8 +4,8 @@ import { Toaster } from "@/components/ui/toast";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Log in | Kratika Yoga",
-  description: "Continue your yoga journey with Kratika Yoga.",
+  title: "Kratika Yoga | Come back to yourself",
+  description: "Thoughtful yoga practices designed to help you move better, breathe deeper, and reconnect with yourself.",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

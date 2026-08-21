@@ -1,16 +1,18 @@
 "use client"
 
 import { FormEvent, useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp"
 import { Button } from "@/components/ui/button"
 import { toast } from "@/components/ui/toast"
 import { useDebounce } from "@/hooks/useDebounce"
 import { multipleApiHandler } from "@/lib/api/multiple.api"
-import { storeDataInSecureCookie } from "@/lib/helper/hepler"
+import { getDataFromSecureCookie, storeDataInSecureCookie } from "@/lib/helper/hepler"
 import { validateVerifyEmailForm } from "@/lib/validation/auth.validation"
 
-export function VerifyEmailForm({ email }: { email: string }) {
+export function VerifyEmailForm({ email, returnTo }: { email: string; returnTo?: string }) {
+  const router = useRouter()
   const [code, setCode] = useState("")
   const [resendSeconds, setResendSeconds] = useState(42)
   const [error, setError] = useState<string>()
@@ -44,9 +46,30 @@ export function VerifyEmailForm({ email }: { email: string }) {
       }
 
       const token = res.data.data?.auth_token
-      if (token) storeDataInSecureCookie(token, "authenticationToken", true)
+      if (!token) {
+        toast.add({
+          title: "Email verification failed",
+          description: "Verification succeeded, but your session could not be created. Please try again.",
+          type: "error",
+        })
+        return
+      }
+
+      storeDataInSecureCookie(token, "authenticationToken", true)
+      const storedToken = getDataFromSecureCookie("authenticationToken")
+      if (storedToken !== token) {
+        toast.add({
+          title: "Sign-in could not be completed",
+          description: "Your session could not be saved. Please try again.",
+          type: "error",
+        })
+        return
+      }
+
       setSubmitted(true)
       toast.add({ title: "Email verified", description: "Your email has been verified successfully.", type: "success" })
+      const destination = returnTo?.startsWith("/") && !returnTo.startsWith("//") ? returnTo : "/dashboard";
+      router.replace(destination)
     } catch {
       toast.add({ title: "Email verification failed", description: "Please try again.", type: "error" })
     } finally {

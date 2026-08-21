@@ -1,11 +1,14 @@
 "use client";
 
 import { CourseCard, ExploreRow, PdfCard, ProductCard } from "@/components/course/course-card";
+import { dashboardWelcomeBanner } from "@/assets/image-assets";
 import { DashboardSkeleton } from "@/components/dashboard/dashboard-skeleton";
 import { SectionContainer } from "@/components/layout/section-container";
+import { useDashboardSession } from "@/components/layout/dashboard-session";
 import { LibraryEmptyState } from "@/components/shared/library-empty-state";
 import { toast } from "@/components/ui/toast";
 import { multipleApiHandler } from "@/lib/api/multiple.api";
+import { getTimeGreeting } from "@/lib/helper/time";
 import type { AffiliateProduct, AffiliateProductsResponse } from "@/types/affiliate-product";
 import type { ApiCourse, CoursesResponse } from "@/types/course";
 import type { PdfCourse, PdfCoursesResponse } from "@/types/pdf-course";
@@ -15,6 +18,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function DashboardPage() {
+  const user = useDashboardSession();
   const [purchasedCourses, setPurchasedCourses] = useState<ApiCourse[]>([]);
   const [exploreCourses, setExploreCourses] = useState<ApiCourse[]>([]);
   const [pdfCourses, setPdfCourses] = useState<PdfCourse[]>([]);
@@ -90,7 +94,7 @@ export default function DashboardPage() {
     <>
       <SectionContainer className="welcome-card">
         <div className="welcome-copy">
-          <h1>Good morning, Varun</h1>
+          <h1>{getTimeGreeting()}, {user?.name ?? "there"}</h1>
           <p>
             Welcome back. Continue your practice and
             <br className="desktop-only" /> take one mindful step today.
@@ -98,7 +102,7 @@ export default function DashboardPage() {
         </div>
         <div className="welcome-image">
           <Image
-            src="/images/dashboard/dashboard-welcome-banner.png"
+            src={dashboardWelcomeBanner}
             alt="Woman meditating in a warm, sunlit yoga studio"
             fill
             priority

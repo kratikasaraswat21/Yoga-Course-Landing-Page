@@ -2,9 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Logo } from "@/components/shared/logo";
+import { loginYoga } from "@/assets/image-assets";
 import { LoginForm } from "@/features/auth/components/login-form";
 
-export default function LoginPage() {
+export default async function LoginPage({ searchParams }: { searchParams: Promise<{ returnTo?: string }> }) {
+  const { returnTo } = await searchParams;
+
   return (
     <main className="login-page">
       <section className="login-panel" aria-labelledby="login-title">
@@ -16,12 +19,12 @@ export default function LoginPage() {
               <p>Continue your yoga journey and return to your practice.</p>
             </div>
 
-            <LoginForm />
+            <LoginForm returnTo={returnTo} />
 
             <div className="signup-prompt">
               <div className="prompt-heading">
                 <p>New to Kratika Yoga?</p>{" "}
-                <Link href="/signup" className="p-0! m-0! signup-link">
+                <Link href={returnTo ? `/signup?returnTo=${encodeURIComponent(returnTo)}` : "/signup"} className="p-0! m-0! signup-link">
                   Create an account
                 </Link>{" "}
               </div>
@@ -32,7 +35,7 @@ export default function LoginPage() {
 
       <aside className="login-visual" aria-label="Yoga practice inspiration">
         <Image
-          src="/images/auth/login-yoga.png"
+          src={loginYoga}
           alt="Woman meditating in a sunlit yoga room"
           fill
           priority

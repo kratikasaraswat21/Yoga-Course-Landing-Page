@@ -1,4 +1,5 @@
 import { ArrowRight, BookOpen, CheckCircle2 } from "lucide-react";
+import { loginYoga } from "@/assets/image-assets";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -19,7 +20,7 @@ export function CourseCard({ course }: { course: Course }) {
     <article className="course-card">
       <div className="course-image-wrap">
         <Image
-          src={course.imageUrl || "/images/auth/login-yoga.png"}
+          src={course.imageUrl || loginYoga}
           alt="Yoga practice in warm natural light"
           fill
           sizes="(max-width: 700px) 100vw, 340px"
@@ -102,7 +103,7 @@ export function ProductCard({
     <article className="product-card">
       <div className="product-image-wrap">
         <Image
-          src={imageUrl || "/images/auth/login-yoga.png"}
+          src={imageUrl || loginYoga}
           alt={title}
           fill
           sizes="300px"
@@ -147,7 +148,7 @@ export function ExploreRow({
     <article className="explore-row">
       <div className="explore-image">
         <Image
-          src={imageUrl || "/images/auth/login-yoga.png"}
+          src={imageUrl || loginYoga}
           alt={`${title} course`}
           fill
           sizes="220px"

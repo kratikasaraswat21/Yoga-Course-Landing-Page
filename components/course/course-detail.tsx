@@ -1,6 +1,7 @@
 "use client";
 
 import type { Course, CourseVideo } from "@/types/course";
+import { loginYoga } from "@/assets/image-assets";
 import { StarRating } from "@/components/course/star-rating";
 import { formatDuration, formatVideoDuration } from "@/lib/utils";
 import { multipleApiHandler } from "@/lib/api/multiple.api";
@@ -10,7 +11,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
-const fallbackImage = "/images/auth/login-yoga.png";
+const fallbackImage = loginYoga;
 
 export function CourseDetailHero({
   course,

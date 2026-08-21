@@ -25,7 +25,7 @@ import type { SignupFormData } from "@/types/user";
 
 const initialValues: SignupFormData = { fullName: "", email: "", password: "", acceptedTerms: false };
 
-export function SignupForm() {
+export function SignupForm({ returnTo }: { returnTo?: string }) {
   const router = useRouter();
   const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState<ReturnType<typeof validateSignupForm>>({});
@@ -205,7 +205,7 @@ export function SignupForm() {
             <AlertDialogAction
               onClick={() =>
                 router.push(
-                  `/verify-email?email=${encodeURIComponent(values.email.trim())}&signature=${verificationSignature}`,
+                  `/verify-email?email=${encodeURIComponent(values.email.trim())}&signature=${verificationSignature}${returnTo ? `&returnTo=${encodeURIComponent(returnTo)}` : ""}`,
                 )
               }
               className="verification-dialog-action">

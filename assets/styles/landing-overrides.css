@@ -1,0 +1,2134 @@
+/* Landing page heading scale */
+.landing-page {
+  overflow-x: hidden;
+}
+
+@media (max-width: 1100px) {
+  .landing-about-grid {
+    grid-template-columns: 1fr;
+    gap: 45px;
+  }
+
+  .landing-about-image-wrap {
+    width: min(100%, 620px);
+    margin: 0 auto;
+  }
+
+  .landing-about-copy {
+    max-width: 700px;
+  }
+
+  .landing-principles {
+    grid-template-columns: 1fr;
+  }
+
+  .landing-principle,
+  .landing-principle:first-child {
+    padding: 23px 24px;
+    border-right: 0;
+    border-bottom: 1px solid #d7d7cf;
+  }
+
+  .landing-principle:last-child {
+    border-bottom: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .landing-about {
+    padding-right: 22px;
+    padding-left: 22px;
+  }
+
+  .landing-about-grid,
+  .landing-principles,
+  .landing-principle {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  main.landing-page .platform-section-intro h2,
+  main.landing-page .platform-carousel-heading h2,
+  main.landing-page .platform-free-courses-heading h2,
+  main.landing-page .platform-pdf-heading h2,
+  main.landing-page .platform-testimonials-heading h2,
+  main.landing-page .platform-final-cta h2 {
+    text-align: left;
+  }
+}
+
+/* Category-card typography follows the landing section scale. */
+main.landing-page .platform-category-overlay h3 {
+  max-width: 100%;
+  margin-bottom: 8px;
+  overflow-wrap: anywhere;
+  font-size: 22px;
+  line-height: 1.15;
+}
+
+main.landing-page .platform-category-overlay p {
+  max-width: 100%;
+  margin-bottom: 14px;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+main.landing-page .platform-category-overlay a {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  main.landing-page .platform-category-overlay h3 { font-size: 24px; }
+  main.landing-page .platform-category-overlay p { font-size: 16px; }
+  main.landing-page .platform-category-overlay a { font-size: 15px; }
+}
+
+@media (min-width: 1024px) {
+  main.landing-page .platform-category-overlay h3 { font-size: 28px; }
+  main.landing-page .platform-category-overlay p { font-size: 17px; }
+  main.landing-page .platform-category-overlay a { font-size: 16px; }
+}
+
+@media (min-width: 1200px) {
+  main.landing-page .platform-category-overlay h3 { font-size: 30px; }
+  main.landing-page .platform-category-overlay p { font-size: 18px; }
+}
+
+@media (min-width: 1400px) {
+  main.landing-page .platform-category-overlay h3 { font-size: 32px; }
+}
+
+@media (max-width: 767px) {
+  main.landing-page .platform-section-intro,
+  main.landing-page .platform-carousel-heading,
+  main.landing-page .platform-free-courses-heading,
+  main.landing-page .platform-pdf-heading,
+  main.landing-page .platform-testimonials-heading,
+  main.landing-page .platform-final-cta {
+    text-align: left;
+  }
+
+  main.landing-page .platform-categories .platform-section-intro {
+    display: block;
+  }
+
+  main.landing-page .platform-section-intro > p:last-child,
+  main.landing-page .platform-carousel-heading p,
+  main.landing-page .platform-free-courses-side p,
+  main.landing-page .platform-testimonials-heading > p,
+  main.landing-page .platform-final-cta > div > p {
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  main.landing-page .platform-pdf-heading-actions,
+  main.landing-page .platform-free-courses-side {
+    align-items: flex-start;
+  }
+}
+
+/* Homepage landing sections: responsive vertical rhythm. */
+.landing-page .landing-about,
+.landing-page .platform-categories,
+.landing-page .platform-free-courses,
+.landing-page .platform-course-carousel,
+.landing-page .platform-pdf-carousel,
+.landing-page .platform-testimonials,
+.landing-page .platform-essentials,
+.landing-page .platform-faq,
+.landing-page .platform-final-cta {
+  padding-top: 45px;
+  padding-bottom: 45px;
+}
+
+@media (min-width: 601px) {
+  .landing-page .landing-about,
+  .landing-page .platform-categories,
+  .landing-page .platform-free-courses,
+  .landing-page .platform-course-carousel,
+  .landing-page .platform-pdf-carousel,
+  .landing-page .platform-testimonials,
+  .landing-page .platform-essentials,
+  .landing-page .platform-faq,
+  .landing-page .platform-final-cta {
+    padding-top: 55px;
+    padding-bottom: 55px;
+  }
+}
+
+@media (min-width: 992px) {
+  .landing-page .landing-about,
+  .landing-page .platform-categories,
+  .landing-page .platform-free-courses,
+  .landing-page .platform-course-carousel,
+  .landing-page .platform-pdf-carousel,
+  .landing-page .platform-testimonials,
+  .landing-page .platform-essentials,
+  .landing-page .platform-faq,
+  .landing-page .platform-final-cta {
+    padding-top: 65px;
+    padding-bottom: 65px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .landing-page .landing-about,
+  .landing-page .platform-categories,
+  .landing-page .platform-free-courses,
+  .landing-page .platform-course-carousel,
+  .landing-page .platform-pdf-carousel,
+  .landing-page .platform-testimonials,
+  .landing-page .platform-essentials,
+  .landing-page .platform-faq,
+  .landing-page .platform-final-cta {
+    padding-top: 75px;
+    padding-bottom: 75px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .landing-page .landing-about,
+  .landing-page .platform-categories,
+  .landing-page .platform-free-courses,
+  .landing-page .platform-course-carousel,
+  .landing-page .platform-pdf-carousel,
+  .landing-page .platform-testimonials,
+  .landing-page .platform-essentials,
+  .landing-page .platform-faq,
+  .landing-page .platform-final-cta {
+    padding-top: 85px;
+    padding-bottom: 85px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .landing-page .landing-about,
+  .landing-page .platform-categories,
+  .landing-page .platform-free-courses,
+  .landing-page .platform-course-carousel,
+  .landing-page .platform-pdf-carousel,
+  .landing-page .platform-testimonials,
+  .landing-page .platform-essentials,
+  .landing-page .platform-faq,
+  .landing-page .platform-final-cta {
+    padding-top: 100px;
+    padding-bottom: 100px;
+  }
+}
+
+.landing-about-copy h2,
+.platform-section-intro h2,
+.platform-featured-copy h2,
+.platform-carousel-heading h2,
+.platform-free-courses-heading h2,
+.platform-free-copy h2,
+.platform-instructor-panel h2,
+.platform-final-cta h2 {
+  font-size: clamp(38px, 5vw, 70px);
+}
+
+/* Category intro: keep the heading and description side by side. */
+.platform-categories .platform-section-intro {
+  max-width: none;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  column-gap: clamp(48px, 10vw, 150px);
+  align-items: center;
+}
+
+.platform-categories .platform-section-intro h2 {
+  margin-top: 18px;
+}
+
+.platform-categories .platform-section-intro > p:last-child {
+  margin-top: 22px;
+}
+
+.platform-free-courses-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  column-gap: clamp(48px, 10vw, 150px);
+  align-items: center;
+}
+
+.platform-free-courses-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.platform-free-courses-side p {
+  margin: 0;
+}
+
+.platform-free-courses-side .platform-free-course-controls {
+  align-self: flex-end;
+  margin-top: 28px;
+}
+
+/* Consistent vertical spacing for the landing page sections. */
+.landing-about,
+.platform-categories,
+.platform-free-courses,
+.platform-course-carousel,
+.platform-pdf-carousel,
+.platform-testimonials,
+.platform-essentials,
+.platform-faq,
+.platform-final-cta {
+  padding-top: 100px;
+  padding-bottom: 100px;
+}
+
+@media (max-width: 600px) {
+  .landing-about {
+    padding: 100px 22px;
+  }
+}
+
+/* Expanded footer layout */
+.landing-footer-top {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 48px;
+  align-items: start;
+  padding-bottom: 48px;
+}
+
+.platform-final-cta {
+  padding: 100px 0;
+  background: #fff;
+}
+
+.platform-final-cta > div {
+  padding: 82px 32px;
+  border: 1px solid #d8dce6;
+  border-radius: 18px;
+  background-color: rgb(242, 241, 241);
+}
+
+.platform-final-cta h2 {
+  color: var(--landing-forest);
+}
+
+.platform-final-cta > div > p {
+  color: #53615c;
+}
+
+.platform-final-cta > div > div {
+  margin-top: 30px;
+}
+
+.platform-final-cta .landing-button-light {
+  color: #fff;
+  background: var(--landing-forest);
+}
+
+.platform-final-cta .landing-button-secondary {
+  border: 1px solid var(--landing-peach);
+  color: var(--landing-peach);
+  background: transparent;
+}
+
+.paid-course-hero {
+  padding: 110px 0 85px;
+  color: #fff;
+  background: var(--landing-forest);
+}
+
+.paid-course-hero h1 {
+  max-width: 850px;
+  margin: 24px 0 22px;
+  font:
+    500 clamp(48px, 6vw, 88px)/1 Georgia,
+    serif;
+  letter-spacing: -0.06em;
+}
+
+.paid-course-hero > div > p:last-child {
+  max-width: 650px;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 19px;
+  line-height: 1.65;
+}
+
+.paid-course-list-section {
+  padding: 100px 0;
+  background: var(--landing-cream);
+}
+
+.paid-course-list-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 42px;
+}
+
+.paid-course-list-heading h2 {
+  margin: 0;
+  color: var(--landing-forest);
+  font:
+    500 clamp(38px, 5vw, 64px)/1.05 Georgia,
+    serif;
+  letter-spacing: -0.055em;
+}
+
+.paid-course-list-heading span {
+  color: #68766f;
+  font-size: 16px;
+}
+
+.paid-course-list-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.paid-course-card {
+  overflow: hidden;
+  border: 1px solid #d6ddd5;
+  border-radius: 14px;
+  background: #fff;
+}
+
+.paid-course-card-image {
+  height: 260px;
+  position: relative;
+  background-position: center;
+  background-size: cover;
+}
+
+.paid-course-card-image img {
+  object-fit: cover;
+}
+
+.paid-course-card-content {
+  padding: 26px;
+}
+
+.paid-course-card-rating,
+.paid-course-card-meta,
+.paid-course-card-footer {
+  display: flex;
+  align-items: center;
+}
+
+.paid-course-card-rating {
+  gap: 6px;
+  color: var(--color-accent);
+  font-size: 14px;
+}
+
+.course-rating-stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  color: var(--color-accent);
+}
+
+.course-rating-gradient {
+  position: absolute;
+  pointer-events: none;
+}
+
+.platform-course-feature-image {
+  background-position: center;
+  background-size: cover;
+}
+
+.platform-course-feature-rating .course-rating-stars {
+  color: var(--landing-peach);
+}
+
+.landing-course-message {
+  padding: 22px 0;
+  color: #53615c;
+  font-size: 17px;
+}
+
+.landing-course-message.error {
+  color: #a34f45;
+}
+
+.paid-course-card-footer > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.paid-course-card-footer small {
+  color: #68766f;
+  font-size: 12px;
+}
+
+.paid-course-skeleton {
+  overflow: hidden;
+  border-radius: 14px;
+  background: #fff;
+}
+
+.paid-course-skeleton > div {
+  height: 260px;
+  background: #e3e8e1;
+}
+
+.paid-course-skeleton span {
+  display: block;
+  height: 14px;
+  margin: 22px 26px 0;
+  border-radius: 5px;
+  background: #e3e8e1;
+}
+
+.paid-course-skeleton span:last-child {
+  width: 45%;
+  margin-bottom: 28px;
+}
+
+.pdf-landing-hero {
+  padding: 110px 0 85px;
+  color: #fff;
+  background: #2d1b29;
+}
+
+.pdf-landing-hero h1 {
+  max-width: 900px;
+  margin: 24px 0 22px;
+  font:
+    500 clamp(48px, 6vw, 88px)/1 Georgia,
+    serif;
+  letter-spacing: -0.06em;
+}
+
+.pdf-landing-hero > div > p:last-child {
+  max-width: 650px;
+  margin: 0;
+  color: rgba(248, 238, 224, 0.78);
+  font-size: 19px;
+  line-height: 1.65;
+}
+
+.pdf-landing-list-section {
+  padding: 100px 0;
+  background: var(--landing-cream);
+}
+
+.pdf-landing-list-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 42px;
+}
+
+.pdf-landing-list-heading h2 {
+  margin: 0;
+  color: var(--landing-forest);
+  font:
+    500 clamp(38px, 5vw, 64px)/1.05 Georgia,
+    serif;
+  letter-spacing: -0.055em;
+}
+
+.pdf-landing-list-heading span {
+  color: #68766f;
+  font-size: 16px;
+}
+
+.pdf-landing-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.pdf-landing-card {
+  overflow: hidden;
+  border: 1px solid #d6ddd5;
+  border-radius: 14px;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+.pdf-landing-card-image {
+  aspect-ratio: 4 / 3;
+  position: relative;
+  background-position: center;
+  background-size: cover;
+}
+
+.pdf-landing-card-image img {
+  object-fit: cover;
+}
+
+.pdf-landing-card-content {
+  padding: 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: space-between;
+}
+
+.pdf-landing-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  color: #68766f;
+  font-size: 13px;
+}
+
+.pdf-landing-card-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pdf-landing-card-meta svg {
+  color: var(--color-accent);
+}
+
+.pdf-landing-card h3 {
+  margin: 18px 0 10px;
+  color: var(--landing-forest);
+  font:
+    400 25px/1.15 Georgia,
+    serif;
+}
+
+.pdf-landing-card p {
+  margin: 0;
+  color: #53615c;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.affiliate-landing-card-image {
+  overflow: hidden;
+}
+
+.affiliate-landing-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  color: #fff;
+  background: rgba(23, 61, 50, 0.84);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.pdf-landing-card-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 44px;
+  margin-top: 24px;
+  padding: 0 14px;
+  border-radius: 8px;
+  color: #fff;
+  background: var(--landing-forest);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.pdf-landing-card-action:hover {
+  background: #285344;
+}
+
+.pdf-landing-card-action.disabled {
+  color: #68766f;
+  background: #e7ebe6;
+  cursor: not-allowed;
+}
+
+.pdf-landing-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid #e0e5df;
+}
+
+.pdf-landing-card-footer strong {
+  color: var(--landing-forest);
+  font:
+    400 23px Georgia,
+    serif;
+}
+
+.pdf-landing-card-footer small {
+  display: block;
+  margin-top: 4px;
+  color: #68766f;
+  font-size: 13px;
+}
+
+.pdf-landing-card-footer a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--landing-forest);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+@media (max-width: 1050px) {
+  .pdf-landing-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .pdf-landing-hero {
+    padding: 80px 0 65px;
+  }
+
+  .pdf-landing-list-section {
+    padding: 100px 0;
+  }
+
+  .pdf-landing-list-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .pdf-landing-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.course-loading-line {
+  width: 55%;
+  height: 22px;
+  margin-top: 20px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.simple-site-page {
+  min-height: 55vh;
+  padding: 120px 0;
+  background: var(--landing-cream);
+}
+
+.simple-site-page h1 {
+  margin: 0 0 24px;
+  color: var(--landing-forest);
+  font: 400 clamp(42px, 6vw, 76px)/1.05 Georgia, serif;
+}
+
+.simple-site-page p,
+.simple-site-page li {
+  max-width: 680px;
+  color: #53615c;
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.simple-site-page ul {
+  display: grid;
+  gap: 12px;
+  padding-left: 20px;
+}
+
+.simple-site-page a { color: var(--landing-forest); }
+
+.course-loading-line.wide {
+  width: 70%;
+  height: 58px;
+  margin-top: 28px;
+}
+
+.course-loading-line.short {
+  width: 35%;
+}
+
+.paid-course-card-rating span {
+  color: #68766f;
+}
+
+.paid-course-card h3 {
+  margin: 18px 0 10px;
+  color: var(--landing-forest);
+  font:
+    400 27px/1.15 Georgia,
+    serif;
+}
+
+.paid-course-card p {
+  margin: 0;
+  color: #53615c;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.paid-course-card-meta {
+  flex-wrap: wrap;
+  gap: 14px 20px;
+  margin: 22px 0;
+  padding: 16px 0;
+  border-top: 1px solid #e0e5df;
+  border-bottom: 1px solid #e0e5df;
+  color: #68766f;
+  font-size: 14px;
+}
+
+.paid-course-card-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.paid-course-card-meta svg {
+  color: var(--color-accent);
+}
+
+.paid-course-card-footer {
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.paid-course-card-footer strong {
+  color: var(--landing-forest);
+  font:
+    400 24px Georgia,
+    serif;
+}
+
+.paid-course-card-footer a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--landing-forest);
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+@media (max-width: 1000px) {
+  .paid-course-list-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .paid-course-hero {
+    padding: 80px 0 65px;
+  }
+
+  .paid-course-list-section {
+    padding: 75px 0;
+  }
+
+  .paid-course-list-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .paid-course-list-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .platform-final-cta {
+    padding: 55px 0;
+  }
+
+  .platform-final-cta > div {
+    padding: 55px 22px;
+  }
+}
+
+.landing-footer-top p {
+  max-width: 360px;
+  margin: 12px 0 0;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.landing-footer-socials {
+  display: flex;
+  gap: 12px;
+}
+
+.landing-footer-socials a {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(248, 238, 224, 0.35);
+  border-radius: 50%;
+  color: #f8eee0;
+}
+
+.landing-footer-links {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+  padding: 28px 0 54px;
+}
+
+.landing-footer-links > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.landing-footer-links strong {
+  margin-bottom: 4px;
+  color: #f8eee0;
+  font-size: 15px;
+}
+
+.landing-footer-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: rgba(248, 238, 224, 0.6);
+  font-size: 15px;
+  text-decoration: none;
+}
+
+.landing-footer-links a:hover,
+.landing-footer-bottom a:hover {
+  color: var(--landing-peach);
+}
+
+.landing-footer-bottom {
+  border-top: 1px solid rgba(238, 183, 156, 0.25);
+}
+
+@media (max-width: 900px) {
+  .landing-footer-top {
+    grid-template-columns: 1fr auto;
+  }
+
+  .landing-footer-top p {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  .landing-footer-links {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .landing-footer-top {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .landing-footer-top p {
+    margin-top: 0;
+  }
+
+  .landing-footer-links {
+    grid-template-columns: 1fr 1fr;
+    gap: 30px 18px;
+  }
+}
+
+.platform-categories .platform-category {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.platform-testimonials {
+  padding: 100px 0;
+  background: #eef1ec;
+}
+
+.platform-testimonials-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: clamp(48px, 10vw, 150px);
+  align-items: center;
+  margin-bottom: 42px;
+}
+
+.platform-testimonials-heading h2 {
+  margin: 18px 0 0;
+  color: var(--landing-forest);
+  font:
+    500 clamp(42px, 5vw, 68px)/1.03 Georgia,
+    serif;
+  letter-spacing: -0.055em;
+}
+
+.platform-testimonials-heading > p {
+  margin: 0;
+  color: #53615c;
+  font-size: 19px;
+  line-height: 1.65;
+}
+
+.platform-testimonial-card {
+  min-height: 300px;
+  width: 100%;
+  height: 100%;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid #d1ddd1;
+  border-radius: 12px;
+  background: #f7f3ec;
+}
+
+.platform-testimonial-swiper .swiper-wrapper {
+  align-items: stretch;
+}
+
+.platform-testimonial-swiper .swiper-slide {
+  height: auto;
+  display: flex;
+}
+
+.platform-testimonial-rating {
+  display: flex;
+  gap: 5px;
+  color: var(--color-accent);
+}
+
+.platform-testimonial-card blockquote {
+  margin: 28px 0;
+  color: var(--landing-forest);
+  font:
+    400 25px/1.25 Georgia,
+    serif;
+  letter-spacing: -0.02em;
+}
+
+.platform-testimonial-author {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.platform-testimonial-author strong {
+  color: var(--landing-forest);
+  font-size: 16px;
+}
+
+.platform-testimonial-author span {
+  color: #68766f;
+  font-size: 14px;
+}
+
+.platform-testimonial-controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.platform-testimonial-controls button {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--landing-forest);
+  border-radius: 50%;
+  color: var(--landing-forest);
+  background: transparent;
+  cursor: pointer;
+}
+
+.platform-testimonial-controls button.swiper-button-disabled {
+  opacity: 0.35;
+}
+
+.platform-essentials {
+  padding: 100px 0;
+  background: #e8cdb5;
+}
+
+.platform-essentials .platform-section-intro {
+  max-width: none;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  column-gap: clamp(48px, 10vw, 150px);
+  align-items: center;
+}
+
+.platform-essentials .platform-section-intro h2 {
+  margin-top: 18px;
+}
+
+.platform-essentials .platform-section-intro > p:last-child {
+  margin-top: 22px;
+}
+
+.platform-essentials .platform-products-grid {
+  gap: 24px;
+}
+
+.platform-essentials .platform-products-grid article {
+  min-width: 0;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #fff;
+  border: 0;
+}
+
+.platform-essentials .platform-product-image {
+  height: 230px;
+  margin-bottom: 0;
+  border-radius: 12px;
+  background-position: center;
+  background-size: cover;
+}
+
+.platform-product-content {
+  display: block !important;
+  padding: 24px;
+}
+
+.platform-essentials .platform-product-image-1 {
+  background:
+    linear-gradient(0deg, rgba(23, 56, 46, 0.25), transparent),
+    url("../images/landing/course/course-main.png") center/cover;
+}
+
+.platform-essentials .platform-product-image-2 {
+  background:
+    linear-gradient(0deg, rgba(23, 56, 46, 0.25), transparent),
+    url("../images/landing/pdf-yoga-program.png") center/cover;
+}
+
+.platform-essentials .platform-product-image-3 {
+  background:
+    linear-gradient(0deg, rgba(23, 56, 46, 0.25), transparent),
+    url("../images/about-us-image.png") center/cover;
+}
+
+.platform-essentials .platform-product-image-4 {
+  background:
+    linear-gradient(0deg, rgba(23, 56, 46, 0.25), transparent),
+    url("../images/landing/course/lesson-warrior.png") center/cover;
+}
+
+.platform-essentials .platform-products-grid h3 {
+  margin: 0 0 10px;
+  color: var(--landing-forest);
+  font-size: 26px;
+}
+
+.platform-essentials .platform-products-grid p {
+  min-height: 56px;
+  margin-bottom: 18px;
+  color: #53615c;
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+.platform-product-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.platform-product-meta strong {
+  color: var(--landing-forest);
+  font:
+    400 22px Georgia,
+    serif;
+}
+
+.platform-product-rating {
+  display: inline-flex;
+  gap: 3px;
+  color: var(--color-accent);
+}
+
+.platform-affiliate-note {
+  display: block;
+  margin-top: 12px;
+  color: #53615c;
+  font-size: 16px;
+}
+
+.platform-product-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  color: var(--landing-forest);
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.platform-essentials-cta {
+  display: flex;
+  width: fit-content;
+  margin-top: 38px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.landing-footer {
+  padding: 58px 0 28px;
+  color: rgba(248, 238, 224, 0.78);
+  background: #17382e;
+}
+
+.landing-footer-main {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 48px;
+  align-items: center;
+  padding-bottom: 52px;
+  border-bottom: 1px solid rgba(238, 183, 156, 0.3);
+}
+
+.landing-footer-brand {
+  color: #f8eee0;
+}
+
+.landing-footer-main p {
+  max-width: 360px;
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.landing-footer-back-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--landing-peach);
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.landing-footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  padding-top: 24px;
+  font-size: 14px;
+}
+
+.landing-footer-bottom nav {
+  display: flex;
+  gap: 25px;
+}
+
+.landing-footer-bottom a {
+  color: rgba(248, 238, 224, 0.78);
+  text-decoration: none;
+}
+
+.platform-faq-list summary svg {
+  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.platform-faq-answer {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 480ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.platform-faq-answer > div {
+  overflow: hidden;
+}
+
+.platform-faq-list details[open] .platform-faq-answer {
+  grid-template-rows: 1fr;
+}
+
+@media (max-width: 900px) {
+  .landing-footer-main {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .landing-footer-back-top {
+    justify-self: end;
+  }
+}
+
+@media (max-width: 600px) {
+  .landing-footer {
+    padding: 45px 0 24px;
+  }
+
+  .landing-footer-main,
+  .landing-footer-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .landing-footer-main {
+    gap: 24px;
+    padding-bottom: 32px;
+  }
+
+  .landing-footer-back-top {
+    justify-self: auto;
+  }
+
+  .landing-footer-bottom nav {
+    flex-wrap: wrap;
+    gap: 14px 20px;
+  }
+}
+
+@media (max-width: 900px) {
+  .platform-testimonials-heading {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .platform-essentials .platform-products-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .platform-essentials .platform-section-intro {
+    grid-template-columns: 1fr;
+    row-gap: 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .platform-essentials {
+    padding: 100px 0;
+  }
+
+  .platform-essentials .platform-products-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .platform-essentials .platform-section-intro {
+    display: block;
+  }
+
+  .platform-essentials .platform-section-intro > p:last-child {
+    margin-top: 0;
+  }
+}
+
+.platform-carousel-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  column-gap: clamp(48px, 10vw, 150px);
+  align-items: center;
+}
+
+.platform-carousel-heading-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.platform-carousel-heading-copy p {
+  margin: 0;
+}
+
+.platform-carousel-heading-copy .landing-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 28px;
+  color: var(--landing-forest);
+  background: var(--landing-cream);
+}
+
+@media (max-width: 900px) {
+  .platform-carousel-heading {
+    grid-template-columns: 1fr;
+    row-gap: 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .platform-categories .platform-section-intro {
+    display: block;
+  }
+
+  .platform-categories .platform-section-intro > p:last-child {
+    margin-top: 0;
+  }
+
+  .platform-free-courses-heading {
+    display: flex;
+  }
+
+  .platform-free-courses-side {
+    width: 100%;
+  }
+}
+
+/* PDF carousel redesign */
+.platform-pdf-carousel {
+  background: #2d1b29;
+  color: #f8eee0;
+}
+.platform-pdf-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 40px;
+  margin-bottom: 46px;
+}
+.platform-pdf-heading h2 {
+  margin: 0;
+  color: #f8eee0;
+  font:
+    500 clamp(42px, 5vw, 70px)/1.02 Georgia,
+    serif;
+  letter-spacing: -0.055em;
+}
+.platform-pdf-heading a {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 12px;
+  color: var(--landing-peach);
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.platform-pdf-heading-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  justify-content: space-between;
+  gap: 32px;
+}
+.platform-pdf-heading-actions .platform-pdf-carousel-footer {
+  margin-top: 0;
+}
+.platform-pdf-feature-slide {
+  grid-template-columns: 1fr 1fr;
+  min-height: 520px;
+  overflow: hidden;
+  border: 1px solid rgba(238, 183, 156, 0.3);
+  border-radius: 12px;
+  background: rgba(70, 40, 58, 0.4);
+}
+.platform-pdf-visual {
+  min-height: 520px;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  padding: 30px;
+  background: center/cover no-repeat;
+}
+.platform-pdf-visual-beginner {
+  background-image:
+    linear-gradient(0deg, rgba(45, 27, 41, 0.35), transparent), url("../images/landing/pdf/pdf-program-dummy.png");
+}
+.platform-pdf-visual-mobility {
+  background-image:
+    linear-gradient(0deg, rgba(45, 27, 41, 0.35), transparent), url("../images/landing/pdf-yoga-program.png");
+}
+.platform-pdf-visual-breathwork {
+  background-image:
+    linear-gradient(0deg, rgba(45, 27, 41, 0.35), transparent), url("../images/landing/pdf/pdf-program-dummy.png");
+}
+.platform-pdf-visual .platform-text-link {
+  color: var(--landing-peach);
+  border-bottom: 1px solid var(--landing-peach);
+  padding-bottom: 6px;
+}
+.platform-pdf-feature-copy {
+  display: flex;
+  align-items: center;
+  padding: 48px 58px;
+  background: rgba(57, 31, 49, 0.55);
+  width: 100%;
+}
+.platform-pdf-detail{
+  width: 100%;
+}
+.platform-pdf-detail h3 {
+  color: #f8eee0;
+  font-size: clamp(30px, 3vw, 43px);
+}
+.platform-pdf-detail p {
+  color: rgba(248, 238, 224, 0.8);
+  font-size: 19px;
+  line-height: 1.6;
+}
+.platform-pdf-detail > small {
+  color: rgba(248, 238, 224, 0.72);
+}
+.platform-pdf-detail > strong {
+  color: var(--landing-peach);
+  font-size: 38px;
+}
+.platform-pdf-detail > small:last-of-type {
+  margin-top: -12px;
+}
+.platform-pdf-meta {
+  display: flex;
+  gap: 25px;
+  margin: 28px 0;
+  padding: 20px 0;
+  border-top: 1px solid rgba(238, 183, 156, 0.3);
+  border-bottom: 1px solid rgba(238, 183, 156, 0.3);
+}
+.platform-pdf-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: rgba(248, 238, 224, 0.86);
+  font-size: 17px;
+}
+.platform-pdf-meta svg {
+  color: var(--landing-peach);
+}
+.platform-pdf-carousel .landing-button-light {
+  color: var(--landing-forest);
+  background: #f8eee0;
+}
+.platform-pdf-carousel-footer {
+  color: #f8eee0;
+}
+.platform-pdf-carousel-footer button {
+  border-color: var(--landing-peach);
+  color: var(--landing-peach);
+}
+.pdf-carousel-pagination {
+  color: #f8eee0;
+}
+.platform-pdf-progress {
+  background: rgba(248, 238, 224, 0.2);
+}
+.platform-pdf-progress span {
+  background: var(--landing-peach);
+}
+@media (max-width: 900px) {
+  .platform-pdf-heading {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .platform-pdf-heading-actions {
+    width: 100%;
+    align-items: center;
+  }
+  .platform-pdf-feature-slide {
+    grid-template-columns: 1fr;
+  }
+  .platform-pdf-visual {
+    min-height: 400px;
+  }
+  .platform-pdf-feature-copy {
+    padding: 38px;
+  }
+}
+@media (max-width: 600px) {
+  .platform-pdf-carousel {
+    padding: 72px 0 55px;
+  }
+  .platform-pdf-heading h2 {
+    font-size: 48px;
+  }
+  .platform-pdf-feature-copy {
+    padding: 30px 22px;
+  }
+  .platform-pdf-visual {
+    min-height: 310px;
+    padding: 22px;
+  }
+  .platform-pdf-meta {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .platform-pdf-carousel-footer {
+    gap: 10px;
+  }
+}
+
+/* Final homepage section spacing scale. */
+.landing-page .landing-about,
+.landing-page .platform-categories,
+.landing-page .platform-free-courses,
+.landing-page .platform-course-carousel,
+.landing-page .platform-pdf-carousel,
+.landing-page .platform-testimonials,
+.landing-page .platform-essentials,
+.landing-page .platform-faq,
+.landing-page .platform-final-cta {
+  padding-block: 45px;
+}
+
+@media (min-width: 601px) { .landing-page .landing-about, .landing-page .platform-categories, .landing-page .platform-free-courses, .landing-page .platform-course-carousel, .landing-page .platform-pdf-carousel, .landing-page .platform-testimonials, .landing-page .platform-essentials, .landing-page .platform-faq, .landing-page .platform-final-cta { padding-block: 55px; } }
+@media (min-width: 992px) { .landing-page .landing-about, .landing-page .platform-categories, .landing-page .platform-free-courses, .landing-page .platform-course-carousel, .landing-page .platform-pdf-carousel, .landing-page .platform-testimonials, .landing-page .platform-essentials, .landing-page .platform-faq, .landing-page .platform-final-cta { padding-block: 65px; } }
+@media (min-width: 1024px) { .landing-page .landing-about, .landing-page .platform-categories, .landing-page .platform-free-courses, .landing-page .platform-course-carousel, .landing-page .platform-pdf-carousel, .landing-page .platform-testimonials, .landing-page .platform-essentials, .landing-page .platform-faq, .landing-page .platform-final-cta { padding-block: 75px; } }
+@media (min-width: 1200px) { .landing-page .landing-about, .landing-page .platform-categories, .landing-page .platform-free-courses, .landing-page .platform-course-carousel, .landing-page .platform-pdf-carousel, .landing-page .platform-testimonials, .landing-page .platform-essentials, .landing-page .platform-faq, .landing-page .platform-final-cta { padding-block: 85px; } }
+@media (min-width: 1400px) { .landing-page .landing-about, .landing-page .platform-categories, .landing-page .platform-free-courses, .landing-page .platform-course-carousel, .landing-page .platform-pdf-carousel, .landing-page .platform-testimonials, .landing-page .platform-essentials, .landing-page .platform-faq, .landing-page .platform-final-cta { padding-block: 100px; } }
+
+/* Homepage landing typography scale. */
+main.landing-page .landing-hero h1 {
+  font-size: 38px;
+  line-height: 1.05;
+}
+
+main.landing-page .landing-about-copy h2,
+main.landing-page .platform-section-intro h2,
+main.landing-page .platform-carousel-heading h2,
+main.landing-page .platform-free-courses-heading h2,
+main.landing-page .platform-pdf-heading h2,
+main.landing-page .platform-testimonials-heading h2 {
+  margin-bottom: 20px;
+  font-size: 30px;
+  line-height: 1.1;
+}
+
+main.landing-page .landing-about-copy > p,
+main.landing-page .platform-section-intro > p:last-child,
+main.landing-page .platform-carousel-heading p,
+main.landing-page .platform-free-courses-side p,
+main.landing-page .platform-testimonials-heading > p {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@media (min-width: 768px) {
+  main.landing-page .landing-hero h1 { font-size: 42px; }
+  main.landing-page .landing-about-copy h2,
+  main.landing-page .platform-section-intro h2,
+  main.landing-page .platform-carousel-heading h2,
+  main.landing-page .platform-free-courses-heading h2,
+  main.landing-page .platform-pdf-heading h2,
+  main.landing-page .platform-testimonials-heading h2 { font-size: 34px; }
+}
+
+@media (min-width: 1024px) {
+  main.landing-page .landing-hero h1 { font-size: 50px; }
+  main.landing-page .landing-about-copy h2,
+  main.landing-page .platform-section-intro h2,
+  main.landing-page .platform-carousel-heading h2,
+  main.landing-page .platform-free-courses-heading h2,
+  main.landing-page .platform-pdf-heading h2,
+  main.landing-page .platform-testimonials-heading h2 { font-size: 40px; }
+  main.landing-page .landing-about-copy > p,
+  main.landing-page .platform-section-intro > p:last-child,
+  main.landing-page .platform-carousel-heading p,
+  main.landing-page .platform-free-courses-side p,
+  main.landing-page .platform-testimonials-heading > p { font-size: 18px; }
+}
+
+@media (min-width: 1200px) {
+  main.landing-page .landing-hero h1 { font-size: 70px; }
+  main.landing-page .landing-about-copy h2,
+  main.landing-page .platform-section-intro h2,
+  main.landing-page .platform-carousel-heading h2,
+  main.landing-page .platform-free-courses-heading h2,
+  main.landing-page .platform-pdf-heading h2,
+  main.landing-page .platform-testimonials-heading h2 { font-size: 50px; }
+  main.landing-page .landing-about-copy > p,
+  main.landing-page .platform-section-intro > p:last-child,
+  main.landing-page .platform-carousel-heading p,
+  main.landing-page .platform-free-courses-side p,
+  main.landing-page .platform-testimonials-heading > p { font-size: 20px; }
+}
+
+@media (min-width: 1400px) {
+  main.landing-page .landing-hero h1 { font-size: 88px; }
+  main.landing-page .landing-about-copy h2,
+  main.landing-page .platform-section-intro h2,
+  main.landing-page .platform-carousel-heading h2,
+  main.landing-page .platform-free-courses-heading h2,
+  main.landing-page .platform-pdf-heading h2,
+  main.landing-page .platform-testimonials-heading h2 { font-size: 60px; }
+}
+
+main.landing-page .platform-final-cta h2 { font-size: 30px; line-height: 1.1; }
+main.landing-page .platform-final-cta > div > p { font-size: 16px; line-height: 1.6; }
+@media (min-width: 768px) { main.landing-page .platform-final-cta h2 { font-size: 34px; } }
+@media (min-width: 1024px) { main.landing-page .platform-final-cta h2 { font-size: 40px; } main.landing-page .platform-final-cta > div > p { font-size: 18px; } }
+@media (min-width: 1200px) { main.landing-page .platform-final-cta h2 { font-size: 50px; } main.landing-page .platform-final-cta > div > p { font-size: 20px; } }
+@media (min-width: 1400px) { main.landing-page .platform-final-cta h2 { font-size: 60px; } }
+
+/* Keep PDF slider cards within the viewport without fixed minimum heights. */
+.platform-pdf-feature-slide {
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+}
+
+.platform-pdf-visual {
+  min-height: 0;
+  aspect-ratio: 4 / 3;
+}
+
+.platform-pdf-feature-copy,
+.platform-pdf-detail {
+  min-width: 0;
+}
+
+.platform-pdf-detail h3,
+.platform-pdf-detail p {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 900px) {
+  .platform-pdf-visual {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+@media (max-width: 600px) {
+  .platform-pdf-feature-slide {
+    border-radius: 10px;
+  }
+
+  .platform-pdf-visual {
+    aspect-ratio: 16 / 9;
+  }
+
+  .platform-pdf-feature-copy {
+    padding: 22px 20px 24px;
+  }
+
+  .platform-pdf-detail h3 {
+    margin: 0 0 10px;
+    font-size: 30px;
+  }
+
+  .platform-pdf-detail p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.45;
+  }
+
+  .platform-pdf-meta {
+    margin: 18px 0;
+    padding: 14px 0;
+    gap: 10px;
+  }
+
+  .platform-pdf-meta span {
+    font-size: 15px;
+  }
+
+  .platform-pdf-detail > strong {
+    font-size: 32px;
+  }
+
+  .platform-pdf-detail > small:last-of-type {
+    margin-top: -6px;
+  }
+
+  .platform-pdf-carousel .landing-button-light {
+    min-height: 44px;
+    margin-top: 18px;
+  }
+}
+
+@media (max-width: 767px) {
+  main.landing-page .platform-free-courses-heading {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 28px;
+  }
+
+  main.landing-page .platform-free-courses-heading h2,
+  main.landing-page .platform-free-courses-side {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 767px) {
+  main.landing-page .platform-course-feature-slide,
+  main.landing-page .platform-course-feature-copy,
+  main.landing-page .platform-course-feature-title,
+  main.landing-page .platform-faq-grid,
+  main.landing-page .platform-faq-list {
+    width: 100%;
+    min-width: 0;
+  }
+
+  main.landing-page .platform-course-feature-image {
+    min-height: 0;
+    aspect-ratio: 4 / 3;
+  }
+
+  main.landing-page .platform-course-feature-copy {
+    padding: 24px 20px 26px;
+  }
+
+  main.landing-page .platform-course-feature-title h3 {
+    font-size: 27px;
+    line-height: 1.12;
+    overflow-wrap: anywhere;
+  }
+
+  main.landing-page .platform-course-feature-copy > p {
+    margin: 18px 0 22px;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  main.landing-page .platform-course-feature-meta {
+    flex-wrap: wrap;
+    gap: 12px 18px;
+    padding: 14px 0;
+  }
+
+  main.landing-page .platform-course-feature-meta span,
+  main.landing-page .platform-course-feature-rating small {
+    font-size: 14px;
+  }
+
+  main.landing-page .platform-course-feature-rating {
+    flex-wrap: wrap;
+    padding: 18px 0;
+  }
+
+  main.landing-page .platform-course-feature-price strong {
+    font-size: 32px;
+  }
+
+  main.landing-page .platform-free-card-copy {
+    padding: 18px 16px 16px;
+  }
+
+  main.landing-page .platform-free-card h3 {
+    min-height: 0;
+    margin: 12px 0 8px;
+    font-size: 22px;
+  }
+
+  main.landing-page .platform-free-card p {
+    min-height: 0;
+    margin-bottom: 16px;
+    font-size: 14px;
+  }
+
+  main.landing-page .platform-free-card-meta {
+    flex-wrap: wrap;
+    font-size: 13px;
+  }
+
+  main.landing-page .platform-testimonial-card {
+    min-height: 0;
+    padding: 22px 20px;
+  }
+
+  main.landing-page .platform-testimonial-card blockquote {
+    margin: 20px 0;
+    font-size: 20px;
+    line-height: 1.3;
+  }
+
+  main.landing-page .platform-essentials .platform-products-grid h3 {
+    font-size: 22px;
+  }
+
+  main.landing-page .platform-essentials .platform-products-grid p {
+    min-height: 0;
+    font-size: 14px;
+  }
+
+  main.landing-page .platform-product-content {
+    padding: 18px;
+  }
+
+  main.landing-page .platform-faq-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  main.landing-page .platform-faq-list summary {
+    gap: 14px;
+    padding: 18px 0;
+    font-size: 18px;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 767px) {
+  main.landing-page .platform-section-intro h2,
+  main.landing-page .platform-carousel-heading h2,
+  main.landing-page .platform-free-courses-heading h2,
+  main.landing-page .platform-pdf-heading h2,
+  main.landing-page .platform-testimonials-heading h2,
+  main.landing-page .platform-final-cta h2 {
+    margin-top: 0;
+    margin-bottom: 12px;
+  }
+
+  main.landing-page .platform-free-courses-heading {
+    gap: 12px;
+  }
+
+  main.landing-page .platform-free-courses-heading h2 {
+    margin-bottom: 0;
+  }
+
+  main.landing-page .platform-section-intro {
+    margin-bottom: 30px;
+  }
+}
+
+/* Keep the testimonial header inside the viewport on small screens. */
+@media (max-width: 767px) {
+  main.landing-page .platform-testimonials-heading {
+    display: flex;
+    width: 100%;
+    min-width: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 30px;
+  }
+
+  main.landing-page .platform-testimonials-heading > div,
+  main.landing-page .platform-testimonials-heading > p {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  main.landing-page .platform-testimonials-heading h2,
+  main.landing-page .platform-testimonials-heading > p {
+    margin-left: 0;
+    margin-right: 0;
+    text-align: left;
+    overflow-wrap: anywhere;
+  }
+}
+
+/* Keep the about section compact and readable on phones. */
+@media (max-width: 767px) {
+  main.landing-page .landing-about-grid {
+    width: 100%;
+    min-width: 0;
+    gap: 24px;
+  }
+
+  main.landing-page .landing-about-copy {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  main.landing-page .landing-about-copy h2 {
+    margin-bottom: 24px;
+  }
+
+  main.landing-page .landing-about-copy > p {
+    width: 100%;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+}
+
+/* Keep the landing navbar attached to the viewport while the page scrolls. */
+main.landing-page {
+  overflow-x: clip;
+}
+
+main.landing-page .landing-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* Give every free-course card the same height and keep its footer aligned. */
+main.landing-page .platform-free-swiper-wrap .swiper-wrapper {
+  align-items: stretch;
+}
+
+main.landing-page .platform-free-swiper-wrap .swiper-slide {
+  display: flex;
+  height: auto;
+}
+
+main.landing-page .platform-free-card {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+main.landing-page .platform-free-card-copy {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+main.landing-page .platform-free-card h3 {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+main.landing-page .platform-free-card p {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+main.landing-page .platform-free-card-meta {
+  margin-top: auto;
+}
+
+/* Use the same landing-page section spacing on the public listing pages. */
+.landing-page .paid-course-hero,
+.landing-page .paid-course-list-section,
+.landing-page .pdf-landing-hero,
+.landing-page .pdf-landing-list-section {
+  padding-block: 45px;
+}
+
+@media (min-width: 601px) {
+  .landing-page .paid-course-hero,
+  .landing-page .paid-course-list-section,
+  .landing-page .pdf-landing-hero,
+  .landing-page .pdf-landing-list-section {
+    padding-block: 55px;
+  }
+}
+
+@media (min-width: 992px) {
+  .landing-page .paid-course-hero,
+  .landing-page .paid-course-list-section,
+  .landing-page .pdf-landing-hero,
+  .landing-page .pdf-landing-list-section {
+    padding-block: 65px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .landing-page .paid-course-hero,
+  .landing-page .paid-course-list-section,
+  .landing-page .pdf-landing-hero,
+  .landing-page .pdf-landing-list-section {
+    padding-block: 75px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .landing-page .paid-course-hero,
+  .landing-page .paid-course-list-section,
+  .landing-page .pdf-landing-hero,
+  .landing-page .pdf-landing-list-section {
+    padding-block: 85px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .landing-page .paid-course-hero,
+  .landing-page .paid-course-list-section,
+  .landing-page .pdf-landing-hero,
+  .landing-page .pdf-landing-list-section {
+    padding-block: 100px;
+  }
+}
+
+/* Shared responsive typography for every public landing-page variant. */
+.landing-page .landing-hero h1,
+.landing-page .paid-course-hero h1,
+.landing-page .pdf-landing-hero h1 {
+  font-size: 38px;
+  line-height: 1.05;
+}
+
+.landing-page .paid-course-list-heading h2,
+.landing-page .pdf-landing-list-heading h2 {
+  font-size: 30px;
+  line-height: 1.1;
+}
+
+.landing-page .landing-hero > div > p:last-child,
+.landing-page .paid-course-hero > div > p:last-child,
+.landing-page .pdf-landing-hero > div > p:last-child {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@media (min-width: 768px) {
+  .landing-page .landing-hero h1,
+  .landing-page .paid-course-hero h1,
+  .landing-page .pdf-landing-hero h1 {
+    font-size: 42px;
+  }
+
+  .landing-page .paid-course-list-heading h2,
+  .landing-page .pdf-landing-list-heading h2 {
+    font-size: 34px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .landing-page .landing-hero h1,
+  .landing-page .paid-course-hero h1,
+  .landing-page .pdf-landing-hero h1 {
+    font-size: 50px;
+  }
+
+  .landing-page .paid-course-list-heading h2,
+  .landing-page .pdf-landing-list-heading h2 {
+    font-size: 40px;
+  }
+
+  .landing-page .landing-hero > div > p:last-child,
+  .landing-page .paid-course-hero > div > p:last-child,
+  .landing-page .pdf-landing-hero > div > p:last-child {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .landing-page .landing-hero h1,
+  .landing-page .paid-course-hero h1,
+  .landing-page .pdf-landing-hero h1 {
+    font-size: 70px;
+  }
+
+  .landing-page .paid-course-list-heading h2,
+  .landing-page .pdf-landing-list-heading h2 {
+    font-size: 50px;
+  }
+
+  .landing-page .landing-hero > div > p:last-child,
+  .landing-page .paid-course-hero > div > p:last-child,
+  .landing-page .pdf-landing-hero > div > p:last-child {
+    font-size: 20px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .landing-page .landing-hero h1,
+  .landing-page .paid-course-hero h1,
+  .landing-page .pdf-landing-hero h1 {
+    font-size: 88px;
+  }
+
+  .landing-page .paid-course-list-heading h2,
+  .landing-page .pdf-landing-list-heading h2 {
+    font-size: 60px;
+  }
+}
