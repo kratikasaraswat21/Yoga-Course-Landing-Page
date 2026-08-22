@@ -2,6 +2,7 @@
 
 import { CourseCompletionSection, CourseDetailHero, CourseVideoSection } from "@/components/course/course-detail";
 import { CourseDetailSkeleton } from "@/components/course/course-skeletons";
+import { CourseErrorState } from "@/components/shared/course-error-state";
 import { toast } from "@/components/ui/toast";
 import { useDebounce } from "@/hooks/useDebounce";
 import { multipleApiHandler } from "@/lib/api/multiple.api";
@@ -50,7 +51,7 @@ export default function CourseDetailPage() {
   }, [fetchCourse]);
 
   const handleBuyCourse = async () => {
-    if (!course || paymentStatus !== "idle") return;
+    if (!course || course.isAccessRevoked || paymentStatus !== "idle") return;
 
     const razorpayKey = EnvConfig.RAZORPAY_KEY_ID;
     if (!razorpayKey) {
@@ -162,13 +163,9 @@ export default function CourseDetailPage() {
   };
 
   if (isLoading) return <CourseDetailSkeleton />;
-  if (error || !course)
-    return (
-      <div className="courses-status courses-error">
-        <p>{error || "Course not found."}</p>
-        <button onClick={fetchCourse}>Try again</button>
-      </div>
-    );
+  if (error || !course) {
+    return <CourseErrorState message={error || "Course not found."} onRetry={fetchCourse} />;
+  }
 
   return (
     <>

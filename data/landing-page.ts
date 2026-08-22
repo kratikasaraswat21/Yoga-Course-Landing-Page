@@ -10,7 +10,7 @@ export const landingNavLinks: NavLink[] = [
   { label: "Explore all courses", href: "/courses" },
   { label: "Explore all PDF courses", href: "/pdf-courses" },
   { label: "Affiliate products", href: "/affiliate-products" },
-  { label: "FAQ", href: "/#faq" },
+  { label: "FAQ", href: "/faq" },
 ];
 
 export const footerColumns: FooterColumn[] = [
@@ -29,7 +29,7 @@ export const footerColumns: FooterColumn[] = [
       { label: "Courses", href: "/courses" },
       { label: "PDF programs", href: "/pdf-courses" },
       { label: "Recommended essentials", href: "/#essentials" },
-      { label: "FAQ", href: "/#faq" },
+      { label: "FAQ", href: "/faq" },
     ],
   },
   {

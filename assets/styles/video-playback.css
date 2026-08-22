@@ -475,6 +475,7 @@
 .login-brand-icon {
   width: 48px;
   height: 48px;
+  object-fit: contain;
 }
 .login-intro {
   margin: 76px 0 34px;
@@ -890,4 +891,3 @@
     padding-top: 48px;
   }
 }
-

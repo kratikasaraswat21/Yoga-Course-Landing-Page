@@ -49,13 +49,21 @@ export function LoginForm({ returnTo }: { returnTo?: string }) {
 
       const token = res.data.data?.auth_token;
       if (!token) {
-        toast.add({ title: "Login failed", description: "No authentication token was returned. Please try again.", type: "error" });
+        toast.add({
+          title: "Login failed",
+          description: "No authentication token was returned. Please try again.",
+          type: "error",
+        });
         return;
       }
 
-      storeDataInSecureCookie(token, "authenticationToken", rememberMe);
-      if (getDataFromSecureCookie("authenticationToken") !== token) {
-        toast.add({ title: "Login failed", description: "Your session could not be saved. Please try again.", type: "error" });
+      storeDataInSecureCookie(token, "yoga_platform_auth_token", rememberMe);
+      if (getDataFromSecureCookie("yoga_platform_auth_token") !== token) {
+        toast.add({
+          title: "Login failed",
+          description: "Your session could not be saved. Please try again.",
+          type: "error",
+        });
         return;
       }
 

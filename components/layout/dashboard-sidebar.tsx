@@ -1,8 +1,10 @@
 "use client";
 
-import { BookOpen, Flower2, Home, LogOut, Package, ShoppingBag, UserRound } from "lucide-react";
+import { BookOpen, Home, LogOut, Package, ShoppingBag, UserRound } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import sidebarLogo from "@/assets/images/logo/logo-transparent.png";
 import { clearLocalSessionStorage } from "@/lib/helper/hepler";
 import { useDashboardSession } from "./dashboard-session";
 
@@ -18,7 +20,7 @@ export function DashboardSidebar({ isOpen, onClose }: { isOpen: boolean; onClose
   return (
     <aside className={`sidebar${isOpen ? " sidebar-open" : ""}`}>
       <Link href="/" className="sidebar-brand">
-        <Flower2 size={42} strokeWidth={1.15} />
+        <Image src={sidebarLogo} alt="" width={48} height={48} priority />
         <span>Kratika Yoga</span>
       </Link>
       <nav className="sidebar-nav" aria-label="Main navigation">

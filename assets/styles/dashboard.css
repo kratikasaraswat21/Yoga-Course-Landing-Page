@@ -111,6 +111,11 @@
   letter-spacing: -0.04em;
   margin-bottom: 33px;
 }
+.sidebar-brand img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
 .sidebar-brand svg {
   color: #f8f5ed;
 }

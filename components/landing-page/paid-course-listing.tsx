@@ -54,9 +54,9 @@ export function PaidCourseListing({ courses, error }: { courses: LandingCourse[]
                   <div className="paid-course-card-footer">
                     <div>
                       <strong>₹{course.totalPayableAmount.toLocaleString("en-IN")}</strong>
-                      <small>
+                      {course.discount > 0 && <small>
                         ₹{course.price.toLocaleString("en-IN")} · {course.discount}% off
-                      </small>
+                      </small>}
                     </div>
                     <a href={`/course/enrolled/${course.courseId}`}>
                       View course <ArrowRight size={16} />

@@ -15,6 +15,7 @@ export interface Course {
   discount: number;
   price: number;
   isPurchased: boolean;
+  isAccessRevoked?: boolean;
   isCourseCompleted?: boolean;
   hasReviewed?: boolean;
   averageRating?: number;

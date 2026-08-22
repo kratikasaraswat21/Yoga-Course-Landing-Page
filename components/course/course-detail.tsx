@@ -51,22 +51,28 @@ export function CourseDetailHero({
           <span><Clock3 size={18} /> {formatDuration(totalSeconds)} total</span>
           <span><Infinity size={20} /> Lifetime access</span>
         </div>
-        {!course.isPurchased && paymentStatus !== "confirming" && (
+        {course.isAccessRevoked ? (
+          <div className="course-access-revoked" role="alert">
+            <Lock size={18} aria-hidden="true" />
+            You no longer have access to this course.
+          </div>
+        ) : !course.isPurchased && paymentStatus !== "confirming" && (
           <button className="detail-primary" disabled={paymentStatus !== "idle"} onClick={onBuyCourse}>
             {paymentStatus === "opening" ? "Processing..." : "Buy course"}
           </button>
         )}
-        <div className="secure-payment">
+        {!course.isAccessRevoked && <div className="secure-payment">
           <ShieldCheck size={16} /> Secure payment via Razorpay
-        </div>
+        </div>}
       </div>
     </section>
   );
 }
 
-export function CourseVideoCard({ video, courseId, isPurchased }: { video: CourseVideo; courseId: string; isPurchased: boolean }) {
+export function CourseVideoCard({ video, courseId, isPurchased, isAccessRevoked = false }: { video: CourseVideo; courseId: string; isPurchased: boolean; isAccessRevoked?: boolean }) {
+  const canAccessVideo = isPurchased && !isAccessRevoked;
   const card = (
-    <article className={`course-video-card${isPurchased ? "" : " course-video-card-locked"}`}>
+    <article className={`course-video-card${canAccessVideo ? "" : " course-video-card-locked"}${isAccessRevoked ? " course-video-card-revoked" : ""}`}>
       <div className="video-thumbnail">
         <Image
           src={video.thumbnailUrl || fallbackImage}
@@ -76,12 +82,12 @@ export function CourseVideoCard({ video, courseId, isPurchased }: { video: Cours
           className="aspect-video"
         />
 
-        {isPurchased ? (
+        {canAccessVideo ? (
           <span className="video-play">
             <Play size={20} fill="currentColor" />
           </span>
         ) : (
-          <span className="video-lock" title="Purchase this course to watch">
+          <span className="video-lock" title={isAccessRevoked ? "Access to this course has been revoked" : "Purchase this course to watch"}>
             <Lock size={15} />
           </span>
         )}
@@ -95,7 +101,7 @@ export function CourseVideoCard({ video, courseId, isPurchased }: { video: Cours
     </article>
   );
 
-  return isPurchased ? (
+  return canAccessVideo ? (
     <Link href={`/course/enrolled/${courseId}/videos/${video.id}`} className="course-video-card-link">
       {card}
     </Link>
@@ -112,8 +118,8 @@ export function CourseVideoSection({ course }: { course: Course }) {
         </div>
       </div>
       <div className="course-video-grid">
-        {course.courseVideos.map((video) => (
-          <CourseVideoCard key={video.id} video={video} courseId={course.id} isPurchased={course.isPurchased} />
+          {course.courseVideos.map((video) => (
+            <CourseVideoCard key={video.id} video={video} courseId={course.id} isPurchased={course.isPurchased} isAccessRevoked={course.isAccessRevoked} />
         ))}
       </div>
     </section>
@@ -128,7 +134,7 @@ export function CourseCompletionSection({ course }: { course: Course }) {
   const averageRating = course.averageRating ?? 0;
   const totalReviews = course.totalReviews ?? course.reviewCount ?? 0;
 
-  if (course.isCourseCompleted !== true) return null;
+  if (course.isCourseCompleted !== true || course.isAccessRevoked) return null;
 
   const submitReview = async () => {
     if (!rating || isSubmitting) return;
