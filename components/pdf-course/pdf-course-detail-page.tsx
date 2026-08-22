@@ -1,6 +1,7 @@
 "use client";
 
 import { PdfCourseSkeleton } from "@/components/pdf-course/pdf-course-skeleton";
+import { CourseErrorState } from "@/components/shared/course-error-state";
 import { loginYoga } from "@/assets/image-assets";
 import { toast } from "@/components/ui/toast";
 import { useDebounce } from "@/hooks/useDebounce";
@@ -133,7 +134,7 @@ export default function PdfCourseDetailPage() {
   }, 0);
 
   if (isLoading) return <PdfCourseSkeleton />;
-  if (error || !course) return <div className="courses-status courses-error"><p>{error || "PDF course not found."}</p><button onClick={fetchCourse}>Try again</button></div>;
+  if (error || !course) return <CourseErrorState message={error || "PDF course not found."} onRetry={fetchCourse} />;
 
   return (
     <>

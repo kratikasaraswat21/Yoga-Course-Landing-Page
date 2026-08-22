@@ -10,7 +10,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
   const [isCheckingSession, setIsCheckingSession] = useState(true);
 
   useEffect(() => {
-    const token = getDataFromSecureCookie("authenticationToken");
+    const token = getDataFromSecureCookie("yoga_platform_auth_token");
 
     if (token) {
       const returnTo = searchParams.get("returnTo");

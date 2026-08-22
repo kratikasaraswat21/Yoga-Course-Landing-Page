@@ -1,6 +1,6 @@
 /* Landing page heading scale */
 .landing-page {
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 @media (max-width: 1100px) {
@@ -80,24 +80,42 @@ main.landing-page .platform-category-overlay a {
 }
 
 @media (min-width: 768px) {
-  main.landing-page .platform-category-overlay h3 { font-size: 24px; }
-  main.landing-page .platform-category-overlay p { font-size: 16px; }
-  main.landing-page .platform-category-overlay a { font-size: 15px; }
+  main.landing-page .platform-category-overlay h3 {
+    font-size: 24px;
+  }
+  main.landing-page .platform-category-overlay p {
+    font-size: 16px;
+  }
+  main.landing-page .platform-category-overlay a {
+    font-size: 15px;
+  }
 }
 
 @media (min-width: 1024px) {
-  main.landing-page .platform-category-overlay h3 { font-size: 28px; }
-  main.landing-page .platform-category-overlay p { font-size: 17px; }
-  main.landing-page .platform-category-overlay a { font-size: 16px; }
+  main.landing-page .platform-category-overlay h3 {
+    font-size: 28px;
+  }
+  main.landing-page .platform-category-overlay p {
+    font-size: 17px;
+  }
+  main.landing-page .platform-category-overlay a {
+    font-size: 16px;
+  }
 }
 
 @media (min-width: 1200px) {
-  main.landing-page .platform-category-overlay h3 { font-size: 30px; }
-  main.landing-page .platform-category-overlay p { font-size: 18px; }
+  main.landing-page .platform-category-overlay h3 {
+    font-size: 30px;
+  }
+  main.landing-page .platform-category-overlay p {
+    font-size: 18px;
+  }
 }
 
 @media (min-width: 1400px) {
-  main.landing-page .platform-category-overlay h3 { font-size: 32px; }
+  main.landing-page .platform-category-overlay h3 {
+    font-size: 32px;
+  }
 }
 
 @media (max-width: 767px) {
@@ -290,10 +308,11 @@ main.landing-page .platform-category-overlay a {
 
 /* Expanded footer layout */
 .landing-footer-top {
-  display: grid;
-  grid-template-columns: 1fr 1fr auto;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
   gap: 48px;
-  align-items: start;
   padding-bottom: 48px;
 }
 
@@ -328,8 +347,8 @@ main.landing-page .platform-category-overlay a {
 
 .platform-final-cta .landing-button-secondary {
   border: 1px solid var(--landing-peach);
-  color: var(--landing-peach);
-  background: transparent;
+  color: #fff;
+  background: var(--landing-peach);
 }
 
 .paid-course-hero {
@@ -726,7 +745,9 @@ main.landing-page .platform-category-overlay a {
 .simple-site-page h1 {
   margin: 0 0 24px;
   color: var(--landing-forest);
-  font: 400 clamp(42px, 6vw, 76px)/1.05 Georgia, serif;
+  font:
+    400 clamp(42px, 6vw, 76px)/1.05 Georgia,
+    serif;
 }
 
 .simple-site-page p,
@@ -743,7 +764,180 @@ main.landing-page .platform-category-overlay a {
   padding-left: 20px;
 }
 
-.simple-site-page a { color: var(--landing-forest); }
+.legal-page article {
+  max-width: 900px;
+}
+
+.legal-page-eyebrow {
+  margin-bottom: 18px;
+  color: var(--color-accent) !important;
+  font-size: 13px !important;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.legal-page .legal-page-intro {
+  max-width: 780px;
+  margin-bottom: 58px;
+  font-size: 21px;
+}
+
+.legal-page section {
+  max-width: 780px;
+  margin-top: 42px;
+}
+
+.legal-page h2 {
+  margin: 0 0 14px;
+  color: var(--landing-forest);
+  font-size: 25px;
+  line-height: 1.25;
+}
+
+.legal-page section p,
+.legal-page section li {
+  max-width: none;
+  font-size: 16px;
+  line-height: 1.75;
+}
+
+.legal-page strong {
+  color: var(--landing-forest);
+}
+
+.standalone-faq .platform-section-intro h1 {
+  margin: 18px 0 22px;
+  color: var(--landing-forest);
+  font:
+    500 clamp(42px, 5vw, 68px)/1.05 Georgia,
+    serif;
+  letter-spacing: -0.055em;
+}
+
+.standalone-faq .platform-faq-grid {
+  grid-template-columns: 1fr;
+}
+
+.standalone-faq .platform-section-intro {
+  max-width: 780px;
+  margin-bottom: 42px;
+}
+
+.standalone-faq .platform-faq-grid .platform-section-intro {
+  position: static;
+}
+
+.standalone-faq .platform-section-intro > p:last-child {
+  max-width: 650px;
+  margin: 0;
+  color: #53615c;
+  font-size: 20px;
+  line-height: 1.65;
+}
+
+.simple-site-page a {
+  color: var(--landing-forest);
+}
+
+.sitemap-page .simple-site-page {
+  padding: 92px 0 120px;
+  background: #fff;
+}
+
+.sitemap-page .sitemap-header {
+  max-width: 780px;
+  margin-bottom: 82px !important;
+}
+
+.sitemap-page .sitemap-header h1 {
+  margin-bottom: 20px;
+  color: #111b18;
+  font-family: var(--font-montserrat), Arial, sans-serif;
+  font-weight: 700;
+  font-size: clamp(46px, 6vw, 74px);
+  line-height: 1.02;
+  letter-spacing: -0.06em;
+}
+
+.sitemap-page .sitemap-header h1 i {
+  color: var(--color-accent);
+  font-family: Georgia, serif;
+  font-weight: 400;
+}
+
+.sitemap-page .sitemap-header p {
+  max-width: 680px;
+  margin: 0;
+  color: #53615c;
+  font-size: 20px;
+  line-height: 1.55;
+}
+
+.sitemap-page .sitemap-group {
+  margin-bottom: 78px !important;
+}
+
+.sitemap-page .sitemap-group h2 {
+  margin: 0 0 26px;
+  color: #111b18;
+  font-size: clamp(32px, 4vw, 42px);
+  letter-spacing: -0.045em;
+}
+
+.sitemap-page .sitemap-link-list {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.sitemap-page .sitemap-link {
+  min-height: 48px;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 0 22px;
+  border: 1px solid #17231f;
+  border-radius: 999px;
+  color: #111b18 !important;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 180ms ease, background 180ms ease;
+}
+
+.sitemap-page .sitemap-link span {
+  font-size: 21px;
+  line-height: 1;
+}
+
+.sitemap-page .sitemap-link:hover {
+  color: #fff !important;
+  background: var(--landing-forest);
+}
+
+@media (max-width: 600px) {
+  .sitemap-page .simple-site-page {
+    padding: 64px 22px 80px;
+  }
+
+  .sitemap-page .sitemap-header {
+    margin-bottom: 58px;
+  }
+
+  .sitemap-page .sitemap-header p {
+    font-size: 17px;
+  }
+
+  .sitemap-page .sitemap-group {
+    margin-bottom: 56px;
+  }
+
+  .sitemap-page .sitemap-link {
+    width: 100%;
+  }
+}
 
 .course-loading-line.wide {
   width: 70%;
@@ -909,38 +1103,156 @@ main.landing-page .platform-category-overlay a {
 }
 
 .landing-footer-bottom {
-  border-top: 1px solid rgba(238, 183, 156, 0.25);
+  border-top: 1px solid rgba(255, 255, 255, 0.5) !important;
 }
 
-@media (max-width: 900px) {
+/* Reference-style footer: keep the navigation links shared with the navbar. */
+.landing-footer {
+  padding: 74px 0 30px;
+  color: #c4cedc;
+  background: #030914;
+}
+
+.landing-footer-top {
+  gap: 58px;
+  padding-bottom: 58px;
+}
+
+.landing-footer-about {
+  flex: 1.5 1 0;
+  min-width: 0;
+}
+
+.landing-footer-brand {
+  color: #f7fafc;
+}
+
+.landing-footer-about > p {
+  max-width: 390px;
+  margin: 34px 0 36px;
+  color: #aab5c4;
+  font-size: 16px;
+  line-height: 1.75;
+}
+
+.landing-footer-socials {
+  display: flex;
+  gap: 46px;
+}
+
+.landing-footer-socials a {
+  width: auto;
+  min-width: 0;
+  height: 40px;
+  padding: 0 14px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--color-accent);
+  border-radius: 999px;
+  color: var(--color-accent);
+  transition:
+    color 180ms ease,
+    background 180ms ease;
+}
+
+.landing-footer-socials a:hover {
+  color: #030914;
+  background: var(--color-accent);
+}
+
+.landing-footer-column {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 17px;
+}
+
+.landing-footer-column strong {
+  margin-bottom: 18px;
+  color: #f7fafc;
+  font-size: 16px;
+}
+
+.landing-footer-column a,
+.landing-footer-column span {
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+  color: #aab5c4;
+  font-size: 16px;
+  line-height: 1.4;
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+
+.landing-footer-column a:hover {
+  color: var(--color-accent);
+}
+
+.landing-footer-contact a,
+.landing-footer-contact span {
+  gap: 20px;
+}
+
+.landing-footer-contact svg {
+  flex: 0 0 auto;
+  color: var(--color-accent);
+}
+
+.landing-footer-bottom {
+  padding-top: 24px;
+  border-top: 1px solid #293545;
+}
+
+.landing-footer-bottom a,
+.landing-footer-bottom small {
+  color: #8490a1;
+  font-size: 16px;
+}
+
+@media (max-width: 1100px) {
   .landing-footer-top {
-    grid-template-columns: 1fr auto;
+    flex-wrap: wrap;
   }
 
-  .landing-footer-top p {
-    grid-column: 1 / -1;
-    grid-row: 2;
+  .landing-footer-about {
+    flex-basis: 100%;
   }
 
-  .landing-footer-links {
-    grid-template-columns: repeat(2, 1fr);
+  .landing-footer-column {
+    flex-basis: calc(50% - 29px);
+  }
+
+  .landing-footer-contact {
+    flex-basis: calc(50% - 29px);
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 700px) {
+  .landing-footer {
+    padding: 54px 0 24px;
+  }
+
   .landing-footer-top {
-    display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 42px 24px;
+    padding-bottom: 42px;
   }
 
-  .landing-footer-top p {
-    margin-top: 0;
+  .landing-footer-about,
+  .landing-footer-column,
+  .landing-footer-contact {
+    flex-basis: auto;
+    width: 100%;
   }
 
-  .landing-footer-links {
-    grid-template-columns: 1fr 1fr;
-    gap: 30px 18px;
+  .landing-footer-about > p {
+    margin: 24px 0 28px;
+  }
+
+  .landing-footer-column strong {
+    margin-bottom: 8px;
   }
 }
 
@@ -1460,7 +1772,7 @@ main.landing-page .platform-category-overlay a {
   background: rgba(57, 31, 49, 0.55);
   width: 100%;
 }
-.platform-pdf-detail{
+.platform-pdf-detail {
   width: 100%;
 }
 .platform-pdf-detail h3 {
@@ -1575,11 +1887,71 @@ main.landing-page .platform-category-overlay a {
   padding-block: 45px;
 }
 
-@media (min-width: 601px) { .landing-page .landing-about, .landing-page .platform-categories, .landing-page .platform-free-courses, .landing-page .platform-course-carousel, .landing-page .platform-pdf-carousel, .landing-page .platform-testimonials, .landing-page .platform-essentials, .landing-page .platform-faq, .landing-page .platform-final-cta { padding-block: 55px; } }
-@media (min-width: 992px) { .landing-page .landing-about, .landing-page .platform-categories, .landing-page .platform-free-courses, .landing-page .platform-course-carousel, .landing-page .platform-pdf-carousel, .landing-page .platform-testimonials, .landing-page .platform-essentials, .landing-page .platform-faq, .landing-page .platform-final-cta { padding-block: 65px; } }
-@media (min-width: 1024px) { .landing-page .landing-about, .landing-page .platform-categories, .landing-page .platform-free-courses, .landing-page .platform-course-carousel, .landing-page .platform-pdf-carousel, .landing-page .platform-testimonials, .landing-page .platform-essentials, .landing-page .platform-faq, .landing-page .platform-final-cta { padding-block: 75px; } }
-@media (min-width: 1200px) { .landing-page .landing-about, .landing-page .platform-categories, .landing-page .platform-free-courses, .landing-page .platform-course-carousel, .landing-page .platform-pdf-carousel, .landing-page .platform-testimonials, .landing-page .platform-essentials, .landing-page .platform-faq, .landing-page .platform-final-cta { padding-block: 85px; } }
-@media (min-width: 1400px) { .landing-page .landing-about, .landing-page .platform-categories, .landing-page .platform-free-courses, .landing-page .platform-course-carousel, .landing-page .platform-pdf-carousel, .landing-page .platform-testimonials, .landing-page .platform-essentials, .landing-page .platform-faq, .landing-page .platform-final-cta { padding-block: 100px; } }
+@media (min-width: 601px) {
+  .landing-page .landing-about,
+  .landing-page .platform-categories,
+  .landing-page .platform-free-courses,
+  .landing-page .platform-course-carousel,
+  .landing-page .platform-pdf-carousel,
+  .landing-page .platform-testimonials,
+  .landing-page .platform-essentials,
+  .landing-page .platform-faq,
+  .landing-page .platform-final-cta {
+    padding-block: 55px;
+  }
+}
+@media (min-width: 992px) {
+  .landing-page .landing-about,
+  .landing-page .platform-categories,
+  .landing-page .platform-free-courses,
+  .landing-page .platform-course-carousel,
+  .landing-page .platform-pdf-carousel,
+  .landing-page .platform-testimonials,
+  .landing-page .platform-essentials,
+  .landing-page .platform-faq,
+  .landing-page .platform-final-cta {
+    padding-block: 65px;
+  }
+}
+@media (min-width: 1024px) {
+  .landing-page .landing-about,
+  .landing-page .platform-categories,
+  .landing-page .platform-free-courses,
+  .landing-page .platform-course-carousel,
+  .landing-page .platform-pdf-carousel,
+  .landing-page .platform-testimonials,
+  .landing-page .platform-essentials,
+  .landing-page .platform-faq,
+  .landing-page .platform-final-cta {
+    padding-block: 75px;
+  }
+}
+@media (min-width: 1200px) {
+  .landing-page .landing-about,
+  .landing-page .platform-categories,
+  .landing-page .platform-free-courses,
+  .landing-page .platform-course-carousel,
+  .landing-page .platform-pdf-carousel,
+  .landing-page .platform-testimonials,
+  .landing-page .platform-essentials,
+  .landing-page .platform-faq,
+  .landing-page .platform-final-cta {
+    padding-block: 85px;
+  }
+}
+@media (min-width: 1400px) {
+  .landing-page .landing-about,
+  .landing-page .platform-categories,
+  .landing-page .platform-free-courses,
+  .landing-page .platform-course-carousel,
+  .landing-page .platform-pdf-carousel,
+  .landing-page .platform-testimonials,
+  .landing-page .platform-essentials,
+  .landing-page .platform-faq,
+  .landing-page .platform-final-cta {
+    padding-block: 100px;
+  }
+}
 
 /* Homepage landing typography scale. */
 main.landing-page .landing-hero h1 {
@@ -1608,61 +1980,109 @@ main.landing-page .platform-testimonials-heading > p {
 }
 
 @media (min-width: 768px) {
-  main.landing-page .landing-hero h1 { font-size: 42px; }
+  main.landing-page .landing-hero h1 {
+    font-size: 42px;
+  }
   main.landing-page .landing-about-copy h2,
   main.landing-page .platform-section-intro h2,
   main.landing-page .platform-carousel-heading h2,
   main.landing-page .platform-free-courses-heading h2,
   main.landing-page .platform-pdf-heading h2,
-  main.landing-page .platform-testimonials-heading h2 { font-size: 34px; }
+  main.landing-page .platform-testimonials-heading h2 {
+    font-size: 34px;
+  }
 }
 
 @media (min-width: 1024px) {
-  main.landing-page .landing-hero h1 { font-size: 50px; }
+  main.landing-page .landing-hero h1 {
+    font-size: 50px;
+  }
   main.landing-page .landing-about-copy h2,
   main.landing-page .platform-section-intro h2,
   main.landing-page .platform-carousel-heading h2,
   main.landing-page .platform-free-courses-heading h2,
   main.landing-page .platform-pdf-heading h2,
-  main.landing-page .platform-testimonials-heading h2 { font-size: 40px; }
+  main.landing-page .platform-testimonials-heading h2 {
+    font-size: 40px;
+  }
   main.landing-page .landing-about-copy > p,
   main.landing-page .platform-section-intro > p:last-child,
   main.landing-page .platform-carousel-heading p,
   main.landing-page .platform-free-courses-side p,
-  main.landing-page .platform-testimonials-heading > p { font-size: 18px; }
+  main.landing-page .platform-testimonials-heading > p {
+    font-size: 18px;
+  }
 }
 
 @media (min-width: 1200px) {
-  main.landing-page .landing-hero h1 { font-size: 70px; }
+  main.landing-page .landing-hero h1 {
+    font-size: 70px;
+  }
   main.landing-page .landing-about-copy h2,
   main.landing-page .platform-section-intro h2,
   main.landing-page .platform-carousel-heading h2,
   main.landing-page .platform-free-courses-heading h2,
   main.landing-page .platform-pdf-heading h2,
-  main.landing-page .platform-testimonials-heading h2 { font-size: 50px; }
+  main.landing-page .platform-testimonials-heading h2 {
+    font-size: 50px;
+  }
   main.landing-page .landing-about-copy > p,
   main.landing-page .platform-section-intro > p:last-child,
   main.landing-page .platform-carousel-heading p,
   main.landing-page .platform-free-courses-side p,
-  main.landing-page .platform-testimonials-heading > p { font-size: 20px; }
+  main.landing-page .platform-testimonials-heading > p {
+    font-size: 20px;
+  }
 }
 
 @media (min-width: 1400px) {
-  main.landing-page .landing-hero h1 { font-size: 88px; }
+  main.landing-page .landing-hero h1 {
+    font-size: 88px;
+  }
   main.landing-page .landing-about-copy h2,
   main.landing-page .platform-section-intro h2,
   main.landing-page .platform-carousel-heading h2,
   main.landing-page .platform-free-courses-heading h2,
   main.landing-page .platform-pdf-heading h2,
-  main.landing-page .platform-testimonials-heading h2 { font-size: 60px; }
+  main.landing-page .platform-testimonials-heading h2 {
+    font-size: 60px;
+  }
 }
 
-main.landing-page .platform-final-cta h2 { font-size: 30px; line-height: 1.1; }
-main.landing-page .platform-final-cta > div > p { font-size: 16px; line-height: 1.6; }
-@media (min-width: 768px) { main.landing-page .platform-final-cta h2 { font-size: 34px; } }
-@media (min-width: 1024px) { main.landing-page .platform-final-cta h2 { font-size: 40px; } main.landing-page .platform-final-cta > div > p { font-size: 18px; } }
-@media (min-width: 1200px) { main.landing-page .platform-final-cta h2 { font-size: 50px; } main.landing-page .platform-final-cta > div > p { font-size: 20px; } }
-@media (min-width: 1400px) { main.landing-page .platform-final-cta h2 { font-size: 60px; } }
+main.landing-page .platform-final-cta h2 {
+  font-size: 30px;
+  line-height: 1.1;
+}
+main.landing-page .platform-final-cta > div > p {
+  font-size: 16px;
+  line-height: 1.6;
+}
+@media (min-width: 768px) {
+  main.landing-page .platform-final-cta h2 {
+    font-size: 34px;
+  }
+}
+@media (min-width: 1024px) {
+  main.landing-page .platform-final-cta h2 {
+    font-size: 40px;
+  }
+  main.landing-page .platform-final-cta > div > p {
+    font-size: 18px;
+  }
+}
+@media (min-width: 1200px) {
+  main.landing-page .platform-final-cta h2 {
+    font-size: 50px;
+  }
+  main.landing-page .platform-final-cta > div > p {
+    font-size: 20px;
+  }
+}
+@media (min-width: 1400px) {
+  main.landing-page .platform-final-cta h2 {
+    font-size: 60px;
+  }
+}
 
 /* Keep PDF slider cards within the viewport without fixed minimum heights. */
 .platform-pdf-feature-slide {
@@ -1948,10 +2368,12 @@ main.landing-page {
   overflow-x: clip;
 }
 
-main.landing-page .landing-navbar {
+.landing-navbar {
   position: sticky;
   top: 0;
   z-index: 100;
+  width: 100%;
+  background: #fff;
 }
 
 /* Give every free-course card the same height and keep its footer aligned. */

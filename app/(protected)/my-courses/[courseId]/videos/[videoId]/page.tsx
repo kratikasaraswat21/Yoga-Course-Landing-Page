@@ -1,6 +1,7 @@
 "use client";
 
 import { VideoPlaybackSkeleton } from "@/components/course/course-skeletons";
+import { CourseErrorState } from "@/components/shared/course-error-state";
 import { toast } from "@/components/ui/toast";
 import { useDebounce } from "@/hooks/useDebounce";
 import { multipleApiHandler } from "@/lib/api/multiple.api";
@@ -235,12 +236,7 @@ export default function VideoPlaybackPage() {
 
   if (isLoading) return <VideoPlaybackSkeleton />;
   if (error || !course || !video)
-    return (
-      <div className="courses-status courses-error">
-        <p>{error || "Video not found."}</p>
-        <button onClick={loadPlayback}>Try again</button>
-      </div>
-    );
+    return <CourseErrorState message={error || "Video not found."} onRetry={loadPlayback} />;
 
   return (
     <div className="playback-page">

@@ -1,10 +1,12 @@
+import Image from "next/image"
 import Link from "next/link"
-import { Flower2 } from "lucide-react"
+
+import { logo } from "@/assets/image-assets"
 
 export function Logo() {
   return (
     <Link href="/" className="login-brand" aria-label="Kratika Yoga home">
-      <Flower2 aria-hidden="true" strokeWidth={1.5} className="login-brand-icon" />
+      <Image src={logo} alt="" width={48} height={48} className="login-brand-icon" priority />
       <span>Kratika Yoga</span>
     </Link>
   )
