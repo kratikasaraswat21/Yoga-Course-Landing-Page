@@ -1,7 +1,7 @@
 import { ArrowRight, ExternalLink, ShoppingBag } from "lucide-react";
 import Image from "next/image";
 
-import affiliateFallback from "@/assets/images/auth/login-yoga.png";
+import affiliateFallback from "@/assets/images/auth/login-yoga.webp";
 import type { LandingAffiliateProduct } from "@/types/landing-affiliate-product";
 
 export function AffiliateProductListing({ products, error }: { products: LandingAffiliateProduct[]; error?: string }) {
@@ -21,7 +21,9 @@ export function AffiliateProductListing({ products, error }: { products: Landing
             <span>{products.length} products</span>
           </div>
           {error && <p className="landing-course-message error">{error}</p>}
-          {!error && products.length === 0 && <p className="landing-course-message">No recommended products available right now.</p>}
+          {!error && products.length === 0 && (
+            <p className="landing-course-message">No recommended products available right now.</p>
+          )}
           <div className="pdf-landing-grid affiliate-landing-grid">
             {products.map((product, index) => (
               <article className="pdf-landing-card" key={product.id || `${product.title}-${index}`}>
@@ -37,7 +39,9 @@ export function AffiliateProductListing({ products, error }: { products: Landing
                 <div className="pdf-landing-card-content">
                   <div className="w-full">
                     <div className="pdf-landing-card-meta">
-                      <span><ShoppingBag size={16} /> Wellness essential</span>
+                      <span>
+                        <ShoppingBag size={16} /> Wellness essential
+                      </span>
                     </div>
                     <h3 className="line-clamp-2 w-full">{product.title}</h3>
                     <p className="line-clamp-4 w-full">{product.description}</p>
@@ -47,7 +51,9 @@ export function AffiliateProductListing({ products, error }: { products: Landing
                       {product.buttonTitle} <ExternalLink size={16} />
                     </a>
                   ) : (
-                    <span className="pdf-landing-card-action disabled">Product link unavailable <ArrowRight size={16} /></span>
+                    <span className="pdf-landing-card-action disabled">
+                      Product link unavailable <ArrowRight size={16} />
+                    </span>
                   )}
                 </div>
               </article>

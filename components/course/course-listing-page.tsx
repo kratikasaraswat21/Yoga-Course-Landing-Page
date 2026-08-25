@@ -5,8 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+import loginYoga from "@/assets/images/auth/login-yoga.webp";
 import { CourseListingSkeleton } from "@/components/course/course-skeletons";
-import { loginYoga } from "@/assets/image-assets";
 import { LibraryEmptyState } from "@/components/shared/library-empty-state";
 import { toast } from "@/components/ui/toast";
 import { useDebounce } from "@/hooks/useDebounce";
@@ -24,7 +24,13 @@ const listingContent = {
     switchHref: "/course/explore",
     switchLabel: "Explore courses",
     emptyTitle: "Your yoga journey starts here",
-    emptyDescription: <>You haven&apos;t purchased a course yet. Explore our<br />guided practices and find the right place to begin.</>,
+    emptyDescription: (
+      <>
+        You haven&apos;t purchased a course yet. Explore our
+        <br />
+        guided practices and find the right place to begin.
+      </>
+    ),
     emptyButton: "Explore courses",
   },
   explore: {
@@ -88,8 +94,12 @@ export function CourseListingPage({ mode }: { mode: CourseListingMode }) {
           <p>{content.description}</p>
         </div>
         <div className="courses-hero-actions">
-          <Link className="courses-switch-link" href={content.switchHref}>{content.switchLabel}</Link>
-          <div className="courses-hero-art"><BookOpen size={54} strokeWidth={1} /></div>
+          <Link className="courses-switch-link" href={content.switchHref}>
+            {content.switchLabel}
+          </Link>
+          <div className="courses-hero-art">
+            <BookOpen size={54} strokeWidth={1} />
+          </div>
         </div>
       </div>
 
@@ -109,7 +119,12 @@ export function CourseListingPage({ mode }: { mode: CourseListingMode }) {
           {visibleCourses.map((course) => (
             <article className="catalog-card" key={course.id}>
               <div className="catalog-image">
-                <Image src={course.thumbnailUrl || fallbackImage} alt={course.title} fill sizes="(max-width: 700px) 100vw, 33vw" />
+                <Image
+                  src={course.thumbnailUrl || fallbackImage}
+                  alt={course.title}
+                  fill
+                  sizes="(max-width: 700px) 100vw, 33vw"
+                />
                 <span>{course.videoCount} videos</span>
               </div>
               <div className="catalog-card-copy">
@@ -121,7 +136,9 @@ export function CourseListingPage({ mode }: { mode: CourseListingMode }) {
                 <p>{course.description}</p>
                 <div className="catalog-bottom">
                   <strong>₹{course.price.toLocaleString("en-IN")}</strong>
-                  {mode === "explore" && course.totalPayableAmount > course.price && <del>₹{course.totalPayableAmount.toLocaleString("en-IN")}</del>}
+                  {mode === "explore" && course.totalPayableAmount > course.price && (
+                    <del>₹{course.totalPayableAmount.toLocaleString("en-IN")}</del>
+                  )}
                   <Link className="catalog-button" href={`/course/enrolled/${course.id}`}>
                     {mode === "enrolled" ? "Continue course" : "View course"}
                   </Link>

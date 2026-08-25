@@ -1,11 +1,11 @@
 "use client";
 
-import type { Course, CourseVideo } from "@/types/course";
-import { loginYoga } from "@/assets/image-assets";
+import loginYoga from "@/assets/images/auth/login-yoga.webp";
 import { StarRating } from "@/components/course/star-rating";
-import { formatDuration, formatVideoDuration } from "@/lib/utils";
-import { multipleApiHandler } from "@/lib/api/multiple.api";
 import { toast } from "@/components/ui/toast";
+import { multipleApiHandler } from "@/lib/api/multiple.api";
+import { formatDuration, formatVideoDuration } from "@/lib/utils";
+import type { Course, CourseVideo } from "@/types/course";
 import { Award, CheckCircle2, Clock3, Infinity, Lock, Play, ShieldCheck } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -47,32 +47,54 @@ export function CourseDetailHero({
         </div>
         <small className="payment-copy">One-time payment · Lifetime access</small>
         <div className="detail-stats">
-          <span><Play size={18} /> {course.videoCount} lessons</span>
-          <span><Clock3 size={18} /> {formatDuration(totalSeconds)} total</span>
-          <span><Infinity size={20} /> Lifetime access</span>
+          <span>
+            <Play size={18} /> {course.videoCount} lessons
+          </span>
+          <span>
+            <Clock3 size={18} /> {formatDuration(totalSeconds)} total
+          </span>
+          <span>
+            <Infinity size={20} /> Lifetime access
+          </span>
         </div>
         {course.isAccessRevoked ? (
           <div className="course-access-revoked" role="alert">
             <Lock size={18} aria-hidden="true" />
             You no longer have access to this course.
           </div>
-        ) : !course.isPurchased && paymentStatus !== "confirming" && (
-          <button className="detail-primary" disabled={paymentStatus !== "idle"} onClick={onBuyCourse}>
-            {paymentStatus === "opening" ? "Processing..." : "Buy course"}
-          </button>
+        ) : (
+          !course.isPurchased &&
+          paymentStatus !== "confirming" && (
+            <button className="detail-primary" disabled={paymentStatus !== "idle"} onClick={onBuyCourse}>
+              {paymentStatus === "opening" ? "Processing..." : "Buy course"}
+            </button>
+          )
         )}
-        {!course.isAccessRevoked && <div className="secure-payment">
-          <ShieldCheck size={16} /> Secure payment via Razorpay
-        </div>}
+        {!course.isAccessRevoked && (
+          <div className="secure-payment">
+            <ShieldCheck size={16} /> Secure payment via Razorpay
+          </div>
+        )}
       </div>
     </section>
   );
 }
 
-export function CourseVideoCard({ video, courseId, isPurchased, isAccessRevoked = false }: { video: CourseVideo; courseId: string; isPurchased: boolean; isAccessRevoked?: boolean }) {
+export function CourseVideoCard({
+  video,
+  courseId,
+  isPurchased,
+  isAccessRevoked = false,
+}: {
+  video: CourseVideo;
+  courseId: string;
+  isPurchased: boolean;
+  isAccessRevoked?: boolean;
+}) {
   const canAccessVideo = isPurchased && !isAccessRevoked;
   const card = (
-    <article className={`course-video-card${canAccessVideo ? "" : " course-video-card-locked"}${isAccessRevoked ? " course-video-card-revoked" : ""}`}>
+    <article
+      className={`course-video-card${canAccessVideo ? "" : " course-video-card-locked"}${isAccessRevoked ? " course-video-card-revoked" : ""}`}>
       <div className="video-thumbnail">
         <Image
           src={video.thumbnailUrl || fallbackImage}
@@ -87,7 +109,9 @@ export function CourseVideoCard({ video, courseId, isPurchased, isAccessRevoked 
             <Play size={20} fill="currentColor" />
           </span>
         ) : (
-          <span className="video-lock" title={isAccessRevoked ? "Access to this course has been revoked" : "Purchase this course to watch"}>
+          <span
+            className="video-lock"
+            title={isAccessRevoked ? "Access to this course has been revoked" : "Purchase this course to watch"}>
             <Lock size={15} />
           </span>
         )}
@@ -105,7 +129,9 @@ export function CourseVideoCard({ video, courseId, isPurchased, isAccessRevoked 
     <Link href={`/course/enrolled/${courseId}/videos/${video.id}`} className="course-video-card-link">
       {card}
     </Link>
-  ) : card;
+  ) : (
+    card
+  );
 }
 
 export function CourseVideoSection({ course }: { course: Course }) {
@@ -118,8 +144,14 @@ export function CourseVideoSection({ course }: { course: Course }) {
         </div>
       </div>
       <div className="course-video-grid">
-          {course.courseVideos.map((video) => (
-            <CourseVideoCard key={video.id} video={video} courseId={course.id} isPurchased={course.isPurchased} isAccessRevoked={course.isAccessRevoked} />
+        {course.courseVideos.map((video) => (
+          <CourseVideoCard
+            key={video.id}
+            video={video}
+            courseId={course.id}
+            isPurchased={course.isPurchased}
+            isAccessRevoked={course.isAccessRevoked}
+          />
         ))}
       </div>
     </section>
@@ -160,7 +192,11 @@ export function CourseCompletionSection({ course }: { course: Course }) {
     }
 
     setIsSubmitted(true);
-    toast.add({ title: "Thank you for your review", description: "Your course feedback has been saved.", type: "success" });
+    toast.add({
+      title: "Thank you for your review",
+      description: "Your course feedback has been saved.",
+      type: "success",
+    });
   };
 
   return (
@@ -184,11 +220,20 @@ export function CourseCompletionSection({ course }: { course: Course }) {
             <h3>Rate this course</h3>
             <div className="course-review-average">
               {averageRating > 0 && <StarRating value={averageRating} readOnly label="Course average rating" />}
-              <p>{averageRating > 0 ? `${averageRating.toFixed(1)} average rating · ${totalReviews} reviews` : "No reviews yet"}</p>
+              <p>
+                {averageRating > 0
+                  ? `${averageRating.toFixed(1)} average rating · ${totalReviews} reviews`
+                  : "No reviews yet"}
+              </p>
             </div>
           </div>
-          <div className="course-review-rating"><StarRating value={rating} onChange={setRating} label="Choose a course rating" />{rating > 0 && <span>{rating}/5</span>}</div>
-          <label className="course-review-label" htmlFor="course-review-comment">Your review <span>(optional)</span></label>
+          <div className="course-review-rating">
+            <StarRating value={rating} onChange={setRating} label="Choose a course rating" />
+            {rating > 0 && <span>{rating}/5</span>}
+          </div>
+          <label className="course-review-label" htmlFor="course-review-comment">
+            Your review <span>(optional)</span>
+          </label>
           <textarea
             id="course-review-comment"
             value={review}

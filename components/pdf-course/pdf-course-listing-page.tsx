@@ -5,8 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+import loginYoga from "@/assets/images/auth/login-yoga.webp";
 import { PdfCourseListingSkeleton } from "@/components/pdf-course/pdf-course-listing-skeleton";
-import { loginYoga } from "@/assets/image-assets";
 import { LibraryEmptyState } from "@/components/shared/library-empty-state";
 import { toast } from "@/components/ui/toast";
 import { useDebounce } from "@/hooks/useDebounce";
@@ -27,7 +27,11 @@ export function PdfCourseListingPage({ mode }: { mode: "explore" | "purchased" }
       setIsLoading(true);
       setError("");
       const response = await multipleApiHandler([
-        { endPoint: isPurchasedList ? "/pdf-courses/purchased" : "/pdf-courses/explore", method: "GET", protected: true },
+        {
+          endPoint: isPurchasedList ? "/pdf-courses/purchased" : "/pdf-courses/explore",
+          method: "GET",
+          protected: true,
+        },
       ]);
       const result = response[0]?.data as PdfCoursesResponse | undefined;
       if (!response[0]?.ok || !result?.success) {
@@ -60,13 +64,21 @@ export function PdfCourseListingPage({ mode }: { mode: "explore" | "purchased" }
         <div>
           <span className="eyebrow">PRACTICE, REFLECT, GROW</span>
           <h1>{isPurchasedList ? "My PDF courses" : "Explore PDF courses"}</h1>
-          <p>{isPurchasedList ? "Keep your practice resources close at hand." : "Find thoughtful guides to support your yoga journey."}</p>
+          <p>
+            {isPurchasedList
+              ? "Keep your practice resources close at hand."
+              : "Find thoughtful guides to support your yoga journey."}
+          </p>
         </div>
         <div className="courses-hero-actions">
-          <Link className="courses-switch-link" href={isPurchasedList ? "/pdf-course/explore" : "/pdf-course/purchased"}>
+          <Link
+            className="courses-switch-link"
+            href={isPurchasedList ? "/pdf-course/explore" : "/pdf-course/purchased"}>
             {isPurchasedList ? "Explore PDFs" : "My PDFs"}
           </Link>
-          <div className="courses-hero-art"><BookOpen size={54} strokeWidth={1} /></div>
+          <div className="courses-hero-art">
+            <BookOpen size={54} strokeWidth={1} />
+          </div>
         </div>
       </div>
 
@@ -77,21 +89,39 @@ export function PdfCourseListingPage({ mode }: { mode: "explore" | "purchased" }
       </label>
 
       {error ? (
-        <div className="courses-status courses-error"><p>{error}</p><button onClick={fetchCourses}>Try again</button></div>
+        <div className="courses-status courses-error">
+          <p>{error}</p>
+          <button onClick={fetchCourses}>Try again</button>
+        </div>
       ) : visibleCourses.length ? (
         <div className="catalog-grid">
           {visibleCourses.map((course) => (
             <article className="catalog-card" key={course.id}>
               <div className="catalog-image">
-                <Image src={course.thumbnailUrl || fallbackImage} alt={course.title} fill sizes="(max-width: 700px) 100vw, 33vw" />
+                <Image
+                  src={course.thumbnailUrl || fallbackImage}
+                  alt={course.title}
+                  fill
+                  sizes="(max-width: 700px) 100vw, 33vw"
+                />
                 {course.isAvailableForFree && <span>Free</span>}
               </div>
               <div className="catalog-card-copy">
                 <h2 className="title-case">{course.title}</h2>
                 <p>{course.description}</p>
                 <div className="catalog-bottom">
-                  {!course.isAvailableForFree && (isPurchasedList ? <strong>Purchased</strong> : <><strong>₹{(course.totalPayableAmount ?? course.price ?? 0).toLocaleString("en-IN")}</strong>{(course.discount ?? 0) > 0 && <del>₹{(course.price ?? 0).toLocaleString("en-IN")}</del>}</>)}
-                  <Link className="catalog-button" href={`/pdf-course/${course.id}`}>{isPurchasedList ? "Open PDF" : course.isAvailableForFree ? "Get PDF" : "View course"}</Link>
+                  {!course.isAvailableForFree &&
+                    (isPurchasedList ? (
+                      <strong>Purchased</strong>
+                    ) : (
+                      <>
+                        <strong>₹{(course.totalPayableAmount ?? course.price ?? 0).toLocaleString("en-IN")}</strong>
+                        {(course.discount ?? 0) > 0 && <del>₹{(course.price ?? 0).toLocaleString("en-IN")}</del>}
+                      </>
+                    ))}
+                  <Link className="catalog-button" href={`/pdf-course/${course.id}`}>
+                    {isPurchasedList ? "Open PDF" : course.isAvailableForFree ? "Get PDF" : "View course"}
+                  </Link>
                 </div>
               </div>
             </article>
@@ -101,7 +131,13 @@ export function PdfCourseListingPage({ mode }: { mode: "explore" | "purchased" }
         <LibraryEmptyState
           type="pdfs"
           title={search ? "No PDF courses found" : isPurchasedList ? "No PDF courses yet" : "No PDF courses available"}
-          description={search ? "Try a different search." : isPurchasedList ? "Purchase a guide and it will appear here." : "Check back soon for new practice resources."}
+          description={
+            search
+              ? "Try a different search."
+              : isPurchasedList
+                ? "Purchase a guide and it will appear here."
+                : "Check back soon for new practice resources."
+          }
           showButton
           buttonHref={isPurchasedList ? "/pdf-course/explore" : "/pdf-course/purchased"}
           buttonLabel={isPurchasedList ? "Explore PDF courses" : "My PDF courses"}
