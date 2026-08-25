@@ -105,6 +105,18 @@ export const testimonials: Testimonial[] = [
     content:
       "I stopped worrying about doing every pose perfectly. The course helped me move with much more confidence.",
   },
+  {
+    name: "Priya Nair",
+    course: "Restorative Yoga",
+    rating: 5,
+    content: "The gentle guidance helped me slow down, breathe more deeply and make space for a consistent practice.",
+  },
+  {
+    name: "Arjun Malhotra",
+    course: "Morning Mobility Flow",
+    rating: 4,
+    content: "The sessions are easy to follow and fit naturally into my mornings. I feel more mobile every week.",
+  },
 ];
 
 export const essentialProducts: EssentialProduct[] = [

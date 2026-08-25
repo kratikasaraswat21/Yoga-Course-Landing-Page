@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { ArrowRight, Plus } from "lucide-react";
 
 import { faqQuestions } from "@/data/landing-page";
@@ -7,7 +8,7 @@ import type { LandingPdfCourse } from "@/types/landing-pdf-course";
 import { CourseCarousel } from "./course-carousel";
 import { FreeCourseSwiper } from "./free-course-swiper";
 import { SectionIntro } from "./section-intro";
-import { TestimonialSwiper } from "./testimonial-swiper";
+import { TestimonialsSection, TestimonialsSkeleton } from "./testimonials-section";
 
 function CategoryHighlights() {
   return (
@@ -123,7 +124,9 @@ export function PlatformSections({
   return (
     <>
       <CourseCarousel courses={topCourses} error={error} />
-      <TestimonialSwiper />
+      <Suspense fallback={<TestimonialsSkeleton />}>
+        <TestimonialsSection />
+      </Suspense>
       <CategoryHighlights />
       <FreeCourseSwiper />
 
