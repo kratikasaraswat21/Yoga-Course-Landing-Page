@@ -1,8 +1,8 @@
+import courseEmptyScreen from "@/assets/images/course-empty-screen-img.webp";
 import { ArrowRight, FileText, Leaf } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { courseEmptyScreen } from "@/assets/image-assets";
 
 type LibraryEmptyStateProps = {
   type: "courses" | "pdfs";
@@ -32,8 +32,20 @@ export function LibraryEmptyState({
         </div>
         <div className="empty-state-copy">
           <h3>{title ?? "No PDF courses yet"}</h3>
-          <p>{description ?? <>Discover in-depth guides, workbooks,<br />and practice resources.</>}</p>
-          {showButton && <Link href="#pdf-catalog">Browse PDF courses <ArrowRight size={15} /></Link>}
+          <p>
+            {description ?? (
+              <>
+                Discover in-depth guides, workbooks,
+                <br />
+                and practice resources.
+              </>
+            )}
+          </p>
+          {showButton && (
+            <Link href="#pdf-catalog">
+              Browse PDF courses <ArrowRight size={15} />
+            </Link>
+          )}
         </div>
       </div>
     );
@@ -50,8 +62,20 @@ export function LibraryEmptyState({
       />
       <div className="empty-state-copy">
         <h3>{title ?? "Your yoga journey starts here"}</h3>
-        <p>{description ?? <>You haven&apos;t purchased a course yet. Explore our<br />guided practices and find the right place to begin.</>}</p>
-        {showButton && <Link href={buttonHref}>{buttonLabel} <ArrowRight size={15} /></Link>}
+        <p>
+          {description ?? (
+            <>
+              You haven&apos;t purchased a course yet. Explore our
+              <br />
+              guided practices and find the right place to begin.
+            </>
+          )}
+        </p>
+        {showButton && (
+          <Link href={buttonHref}>
+            {buttonLabel} <ArrowRight size={15} />
+          </Link>
+        )}
       </div>
     </div>
   );

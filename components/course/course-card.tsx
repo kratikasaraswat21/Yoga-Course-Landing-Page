@@ -1,5 +1,5 @@
+import loginYoga from "@/assets/images/auth/login-yoga.webp";
 import { ArrowRight, BookOpen, CheckCircle2 } from "lucide-react";
-import { loginYoga } from "@/assets/image-assets";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -67,7 +67,14 @@ export function PdfCard({
   return (
     <article className="pdf-card">
       <div className={`pdf-cover ${tone}`}>
-        {imageUrl ? <Image src={imageUrl} alt={`${title} cover`} fill sizes="112px" className="pdf-cover-image" /> : <><span>{title}</span><small>{kind}</small></>}
+        {imageUrl ? (
+          <Image src={imageUrl} alt={`${title} cover`} fill sizes="112px" className="pdf-cover-image" />
+        ) : (
+          <>
+            <span>{title}</span>
+            <small>{kind}</small>
+          </>
+        )}
       </div>
       <div className="pdf-details">
         <h3>{title}</h3>

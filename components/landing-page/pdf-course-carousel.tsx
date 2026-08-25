@@ -6,7 +6,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { A11y, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import pdfFallback from "@/assets/images/landing/pdf/pdf-program-dummy.png";
+import pdfFallback from "@/assets/images/landing/pdf/pdf-program-dummy.webp";
 import { formatCurrency } from "@/lib/formatters/currency";
 import type { LandingPdfCourse } from "@/types/landing-pdf-course";
 

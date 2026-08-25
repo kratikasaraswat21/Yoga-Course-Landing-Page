@@ -12,7 +12,7 @@
 
 @media (min-width: 1200px) {
   .kratika-yoga-container {
-    width: min(calc(100% - 150px), 1540px);
+    width: min(calc(100% - 150px), 1540px) !important;
   }
 }
 
@@ -119,13 +119,13 @@
   background: linear-gradient(0deg, rgba(5, 29, 23, 0.88), rgba(5, 29, 23, 0.05) 72%);
 }
 .platform-category-image-video {
-  background-image: url("../images/landing/guided-video-course.png");
+  background-image: url("../images/landing/guided-video-course.webp");
 }
 .platform-category-image-pdf {
-  background-image: url("../images/landing/pdf-yoga-program.png");
+  background-image: url("../images/landing/pdf-yoga-program.webp");
 }
 .platform-category-image-products {
-  background-image: url("../images/landing/yoga-essentials.png");
+  background-image: url("../images/landing/yoga-essentials.webp");
 }
 .platform-category-overlay {
   position: absolute;
@@ -665,7 +665,7 @@
   min-height: 650px;
   background:
     linear-gradient(90deg, rgba(5, 29, 23, 0.1), rgba(5, 29, 23, 0.55)),
-    url("../images/about-us-image.png") center/cover;
+    url("../images/landing/about-us-image.webp") center/cover;
 }
 .platform-instructor-image > div {
   height: 100%;
@@ -851,7 +851,7 @@
 }
 .platform-story-image {
   height: 370px;
-  background: url("../images/about-us-image.png") center/cover;
+  background: url("../images/landing/about-us-image.webp") center/cover;
 }
 .platform-stories-grid article > p,
 .platform-story-list span {
@@ -1321,6 +1321,9 @@
   color: #fff;
   background: var(--landing-forest);
 }
+.platform-course-carousel > .kratika-yoga-container {
+  width: min(calc(100% - 48px), 1230px);
+}
 .platform-carousel-heading {
   display: flex;
   align-items: flex-start;
@@ -1365,7 +1368,8 @@
 }
 .platform-course-feature-slide {
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
+  grid-template-columns: 54% 46%;
+  min-height: 547px;
   height: 100%;
   overflow: hidden;
   border-radius: 10px;
@@ -1400,8 +1404,17 @@
   cursor: pointer;
 }
 .platform-course-feature-copy {
-  padding: 30px 46px;
-  background: #0c342a;
+  padding: 50px 68px 40px;
+  color: var(--landing-forest);
+  background: var(--landing-cream);
+}
+.platform-course-feature-eyebrow {
+  margin: 0 0 12px;
+  color: var(--landing-peach);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 .platform-course-feature-title {
   display: flex;
@@ -1423,23 +1436,34 @@
 .platform-course-feature-copy > p {
   max-width: 620px;
   margin: 28px 0 34px;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--landing-forest);
   font-size: 20px;
   line-height: 1.65;
+}
+.platform-course-feature-copy > .platform-course-feature-eyebrow {
+  max-width: none;
+  margin: 0 0 12px;
+  color: var(--landing-peach);
+  font-size: 16px;
+  line-height: 1.2;
 }
 .platform-course-feature-meta {
   display: flex;
   gap: 30px;
   padding: 18px 0;
-  border-bottom: 1px solid rgba(238, 183, 156, 0.3);
-  border-top: 1px solid rgba(238, 183, 156, 0.3);
+  border-bottom: 1px solid #d8ddd7;
+  border-top: 1px solid #d8ddd7;
 }
 .platform-course-feature-meta span {
   display: inline-flex;
   align-items: center;
   gap: 13px;
-  color: rgba(255, 255, 255, 0.88);
+  color: var(--landing-forest);
   font-size: 17px;
+}
+.platform-course-feature-meta span + span {
+  padding-left: 30px;
+  border-left: 2px solid #aab8b0;
 }
 .platform-course-feature-meta svg {
   color: var(--landing-peach);
@@ -1461,6 +1485,7 @@
 }
 .platform-course-feature-rating small {
   margin-left: 10px;
+  color: var(--landing-forest);
   font-size: 16px;
 }
 .platform-course-feature-price {
@@ -1469,17 +1494,20 @@
   gap: 9px;
 }
 .platform-course-feature-price strong {
+  color: var(--landing-forest);
   font:
     400 38px Georgia,
     serif;
 }
 .platform-course-feature-price small {
-  color: rgba(255, 255, 255, 0.75);
+  color: #53615c;
   font-size: 16px;
 }
 .platform-course-feature-price .landing-button {
   align-self: flex-start;
   margin-top: 18px;
+  color: var(--landing-cream);
+  background: var(--landing-forest);
 }
 .platform-course-carousel-footer {
   display: flex;
@@ -1529,6 +1557,7 @@
   }
   .platform-course-feature-slide {
     grid-template-columns: 1fr;
+    min-height: 0;
   }
   .platform-course-feature-image {
     min-height: 380px;
@@ -1560,6 +1589,11 @@
   .platform-course-feature-meta {
     flex-direction: column;
     gap: 16px;
+  }
+  .platform-course-feature-meta span + span,
+  .platform-course-feature-meta-single span + span {
+    padding-left: 0;
+    border-left: 0;
   }
   .platform-course-carousel-footer {
     gap: 12px;
@@ -1599,7 +1633,7 @@
   width: 290px;
   height: 355px;
   border-radius: 8px;
-  background: url("../images/landing/pdf-yoga-program.png") center/cover;
+  background: url("../images/landing/pdf-yoga-program.webp") center/cover;
   transform: rotate(7deg);
   opacity: 0.8;
   box-shadow: 10px 15px 20px rgba(65, 45, 30, 0.18);

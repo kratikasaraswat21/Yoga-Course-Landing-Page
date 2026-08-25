@@ -26,7 +26,7 @@ export function TestimonialSwiper() {
           breakpoints={{ 700: { slidesPerView: 2 }, 1100: { slidesPerView: 3 } }}>
           {testimonials.map((testimonial) => (
             <SwiperSlide key={testimonial.name}>
-              <article className="platform-testimonial-card">
+              <article className="platform-testimonial-card rounded-lg! md:rounded-xl! lg:rounded-2xl!">
                 <div>
                   <div className="platform-testimonial-rating" aria-label={`${testimonial.rating} out of 5 stars`}>
                     {Array.from({ length: testimonial.rating }, (_, index) => (

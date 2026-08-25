@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import forgotPasswordYoga from "@/assets/images/auth/forgot-password-yoga.webp";
 import { Logo } from "@/components/shared/logo";
-import { forgotPasswordYoga } from "@/assets/image-assets";
 import { ForgotPasswordForm } from "@/features/auth/components/forgot-password-form";
 
 export default function ForgotPasswordPage() {
@@ -50,7 +50,6 @@ export default function ForgotPasswordPage() {
           alt="Woman practicing a seated side stretch in a warm sunlit yoga studio"
           fill
           priority
-          sizes="(max-width: 990px) 0px, 48vw"
         />
         <div className="quote-card">
           <span className="quote-mark" aria-hidden="true">

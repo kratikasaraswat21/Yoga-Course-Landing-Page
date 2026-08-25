@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Logo } from "@/components/shared/logo";
-import { signupYoga } from "@/assets/image-assets";
+import signupYoga from "@/assets/images/auth/signup-yoga.webp";
 import { SignupForm } from "@/features/auth/components/signup-form";
 
 export default async function SignupPage({ searchParams }: { searchParams: Promise<{ returnTo?: string }> }) {
@@ -39,7 +39,7 @@ export default async function SignupPage({ searchParams }: { searchParams: Promi
           alt="Woman practicing yoga in a sunlit room"
           fill
           priority
-          sizes="(max-width: 990px) 0px, 48vw"
+          
         />
         <div className="quote-card">
           <span className="quote-mark" aria-hidden="true">

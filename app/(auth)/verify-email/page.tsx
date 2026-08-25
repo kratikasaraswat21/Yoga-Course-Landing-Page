@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import verifyEmailYoga from "@/assets/images/auth/verify-email-yoga.webp";
 import { Logo } from "@/components/shared/logo";
-import { verifyEmailYoga } from "@/assets/image-assets";
 import { VerifyEmailForm } from "@/features/auth/components/verify-email-form";
 
 export default async function VerifyEmailPage({
@@ -47,9 +47,8 @@ export default async function VerifyEmailPage({
           alt="Woman practicing a calm forward fold in a warm sunlit yoga studio"
           fill
           priority
-          sizes="(max-width: 990px) 0px, 48vw"
         />
-        <div className="quote-card bottom-[80%]!">
+        <div className="quote-card">
           <span className="quote-mark" aria-hidden="true">
             “
           </span>

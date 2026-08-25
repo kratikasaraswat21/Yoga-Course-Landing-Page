@@ -1,12 +1,11 @@
-import { ArrowRight, Play, Plus } from "lucide-react";
+import { ArrowRight, Plus } from "lucide-react";
 
-import { essentialProducts, faqQuestions } from "@/data/landing-page";
+import { faqQuestions } from "@/data/landing-page";
 import type { LandingCourse } from "@/types/landing-course";
 import type { LandingPdfCourse } from "@/types/landing-pdf-course";
 
 import { CourseCarousel } from "./course-carousel";
 import { FreeCourseSwiper } from "./free-course-swiper";
-import { PdfCourseCarousel } from "./pdf-course-carousel";
 import { SectionIntro } from "./section-intro";
 import { TestimonialSwiper } from "./testimonial-swiper";
 
@@ -19,11 +18,8 @@ function CategoryHighlights() {
           description="Choose the kind of support that works for you—from guided video sessions and downloadable programs to thoughtfully selected yoga essentials."
         />
         <div className="platform-category-grid">
-          <article className="platform-category platform-category-video">
+          <article className="platform-category platform-category-video rounded-lg! md:rounded-xl! lg:rounded-2xl! overflow-hidden">
             <div className="platform-category-image platform-category-image-video">
-              <span className="platform-round-play">
-                <Play size={18} fill="currentColor" />
-              </span>
               <div className="platform-category-overlay">
                 <h3>Guided Video Courses</h3>
                 <p>Follow clear, structured sessions and practise whenever it suits you.</p>
@@ -33,7 +29,7 @@ function CategoryHighlights() {
               </div>
             </div>
           </article>
-          <article className="platform-category platform-category-pdf">
+          <article className="platform-category platform-category-pdf rounded-lg! md:rounded-xl! lg:rounded-2xl! overflow-hidden">
             <div className="platform-category-image platform-category-image-pdf">
               <div className="platform-category-overlay">
                 <h3>PDF Yoga Programs</h3>
@@ -44,7 +40,7 @@ function CategoryHighlights() {
               </div>
             </div>
           </article>
-          <article className="platform-category platform-category-products">
+          <article className="platform-category platform-category-products rounded-lg! md:rounded-xl! lg:rounded-2xl! overflow-hidden">
             <div className="platform-category-image platform-category-image-products">
               <div className="platform-category-overlay">
                 <h3>Recommended Essentials</h3>
@@ -56,36 +52,6 @@ function CategoryHighlights() {
             </div>
           </article>
         </div>
-      </div>
-    </section>
-  );
-}
-
-function Essentials() {
-  return (
-    <section className="platform-essentials" id="essentials">
-      <div className="kratika-yoga-container">
-        <SectionIntro
-          title="Essentials for a calmer, more comfortable practice."
-          description="Thoughtfully selected yoga mats, props and wellness essentials to support your home practice."
-        />
-        <div className="platform-products-grid">
-          {essentialProducts.map(({ title, description, action }, index) => (
-            <article key={title}>
-              <div className={`platform-product-image platform-product-image-${index + 1}`} />
-              <div className="platform-product-content">
-                <h3>{title}</h3>
-                <p>{description}</p>
-                <a className="platform-product-button" href="#start">
-                  {action} <ArrowRight size={16} />
-                </a>
-              </div>
-            </article>
-          ))}
-        </div>
-        <a className="landing-button landing-button-dark platform-essentials-cta" href="#start">
-          Explore recommended essentials <ArrowRight size={18} />
-        </a>
       </div>
     </section>
   );
@@ -125,7 +91,7 @@ function Faq() {
 function FinalCta() {
   return (
     <section className="platform-final-cta">
-      <div className="kratika-yoga-container">
+      <div className="kratika-yoga-container rounded-lg! md:rounded-xl! lg:rounded-2xl!">
         <h2>
           Your practice doesn’t need to be perfect.
           <br />
@@ -147,9 +113,7 @@ function FinalCta() {
 
 export function PlatformSections({
   topCourses,
-  topPdfCourses,
   error,
-  pdfError,
 }: {
   topCourses: LandingCourse[];
   topPdfCourses: LandingPdfCourse[];
@@ -158,12 +122,11 @@ export function PlatformSections({
 }) {
   return (
     <>
+      <CourseCarousel courses={topCourses} error={error} />
+      <TestimonialSwiper />
       <CategoryHighlights />
       <FreeCourseSwiper />
-      <CourseCarousel courses={topCourses} error={error} />
-      <PdfCourseCarousel courses={topPdfCourses} error={pdfError} />
-      <TestimonialSwiper />
-      <Essentials />
+
       <Faq />
       <div className="w-full px-4 bg-white">
         <FinalCta />

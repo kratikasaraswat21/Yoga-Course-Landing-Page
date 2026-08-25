@@ -463,6 +463,35 @@ main.landing-page .platform-category-overlay a {
   color: var(--landing-peach);
 }
 
+.platform-course-carousel-multiple .platform-course-feature-slide {
+  grid-template-columns: 54% 46% !important;
+  width: 100%;
+  min-width: 0;
+}
+
+.platform-course-carousel-multiple .platform-course-feature-copy {
+  min-width: 0;
+}
+
+.platform-course-carousel-single .platform-course-swiper .swiper-slide {
+  width: 100% !important;
+}
+
+.platform-course-carousel-single .platform-course-feature-slide {
+  width: 100%;
+  min-width: 0;
+}
+
+/* Keep the metadata separators visible; only the carousel footer is omitted for one course. */
+.platform-course-feature-meta-single {
+  border-top: 1px solid #d8ddd7;
+  border-bottom: 1px solid #d8ddd7;
+}
+.platform-course-feature-meta-single span + span {
+  padding-left: 30px;
+  border-left: 2px solid #aab8b0;
+}
+
 .landing-course-message {
   padding: 22px 0;
   color: #53615c;
@@ -904,7 +933,9 @@ main.landing-page .platform-category-overlay a {
   font-size: 16px;
   font-weight: 600;
   text-decoration: none;
-  transition: color 180ms ease, background 180ms ease;
+  transition:
+    color 180ms ease,
+    background 180ms ease;
 }
 
 .sitemap-page .sitemap-link span {
@@ -1422,13 +1453,13 @@ main.landing-page .platform-category-overlay a {
 .platform-essentials .platform-product-image-2 {
   background:
     linear-gradient(0deg, rgba(23, 56, 46, 0.25), transparent),
-    url("../images/landing/pdf-yoga-program.png") center/cover;
+    url("../images/landing/pdf-yoga-program.webp") center/cover;
 }
 
 .platform-essentials .platform-product-image-3 {
   background:
     linear-gradient(0deg, rgba(23, 56, 46, 0.25), transparent),
-    url("../images/about-us-image.png") center/cover;
+    url("../images/landing/about-us-image.webp") center/cover;
 }
 
 .platform-essentials .platform-product-image-4 {
@@ -1750,15 +1781,15 @@ main.landing-page .platform-category-overlay a {
 }
 .platform-pdf-visual-beginner {
   background-image:
-    linear-gradient(0deg, rgba(45, 27, 41, 0.35), transparent), url("../images/landing/pdf/pdf-program-dummy.png");
+    linear-gradient(0deg, rgba(45, 27, 41, 0.35), transparent), url("../images/landing/pdf/pdf-program-dummy.webp");
 }
 .platform-pdf-visual-mobility {
   background-image:
-    linear-gradient(0deg, rgba(45, 27, 41, 0.35), transparent), url("../images/landing/pdf-yoga-program.png");
+    linear-gradient(0deg, rgba(45, 27, 41, 0.35), transparent), url("../images/landing/pdf-yoga-program.webp");
 }
 .platform-pdf-visual-breathwork {
   background-image:
-    linear-gradient(0deg, rgba(45, 27, 41, 0.35), transparent), url("../images/landing/pdf/pdf-program-dummy.png");
+    linear-gradient(0deg, rgba(45, 27, 41, 0.35), transparent), url("../images/landing/pdf/pdf-program-dummy.webp");
 }
 .platform-pdf-visual .platform-text-link {
   color: var(--landing-peach);

@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import loginYogaImage from "@/assets/images/auth/login-yoga.webp";
 import { Logo } from "@/components/shared/logo";
-import { loginYoga } from "@/assets/image-assets";
 import { LoginForm } from "@/features/auth/components/login-form";
 
 export default async function LoginPage({ searchParams }: { searchParams: Promise<{ returnTo?: string }> }) {
@@ -24,7 +24,9 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
             <div className="signup-prompt">
               <div className="prompt-heading">
                 <p>New to Kratika Yoga?</p>{" "}
-                <Link href={returnTo ? `/signup?returnTo=${encodeURIComponent(returnTo)}` : "/signup"} className="p-0! m-0! signup-link">
+                <Link
+                  href={returnTo ? `/signup?returnTo=${encodeURIComponent(returnTo)}` : "/signup"}
+                  className="p-0! m-0! signup-link">
                   Create an account
                 </Link>{" "}
               </div>
@@ -34,13 +36,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
       </section>
 
       <aside className="login-visual" aria-label="Yoga practice inspiration">
-        <Image
-          src={loginYoga}
-          alt="Woman meditating in a sunlit yoga room"
-          fill
-          priority
-          sizes="(max-width: 767px) 100vw, 48vw"
-        />
+        <Image src={loginYogaImage} alt="Woman meditating in a sunlit yoga room" className="object-center" fill priority />
         <div className="quote-card">
           <span className="quote-mark" aria-hidden="true">
             “

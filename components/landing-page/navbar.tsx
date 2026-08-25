@@ -1,10 +1,11 @@
 "use client";
 
-import Image from "next/image";
-import { ArrowRight } from "lucide-react";
-import { usePathname } from "next/navigation";
-import { logo } from "@/assets/image-assets";
+import logo from "@/assets/images/logo/logo.png";
 import { landingNavLinks } from "@/data/landing-page";
+import { ArrowRight } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export function Navbar() {
   const pathname = usePathname();
@@ -12,16 +13,10 @@ export function Navbar() {
   return (
     <header className="landing-navbar">
       <div className="kratika-yoga-container landing-navbar-inner">
-        <a className="landing-brand" href="/" aria-label="Kratika Yoga home">
-          <Image
-            src={logo}
-            alt=""
-            width={52}
-            height={52}
-            className="landing-brand-mark"
-          />
-          <span>Kratika <em>Yoga</em></span>
-        </a>
+        <Link className="landing-brand" href="/" aria-label="Kratika Yoga home">
+          <Image src={logo} alt="" width={52} height={52} className="landing-brand-mark" />
+          <span>KratikaYoga</span>
+        </Link>
 
         <nav className="landing-nav-links" aria-label="Main navigation">
           {landingNavLinks.map((link) => (
@@ -33,7 +28,9 @@ export function Navbar() {
               {link.label}
             </a>
           ))}
-          <a className="landing-nav-cta" href="/login">Start your practice <ArrowRight aria-hidden="true" size={17} /></a>
+          <a className="landing-nav-cta" href="/login">
+            Start your practice <ArrowRight aria-hidden="true" size={17} />
+          </a>
         </nav>
       </div>
     </header>

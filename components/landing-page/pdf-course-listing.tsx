@@ -1,6 +1,6 @@
 import { ArrowRight, Download, Users } from "lucide-react";
 
-import pdfFallback from "@/assets/images/landing/pdf/pdf-program-dummy.png";
+import pdfFallback from "@/assets/images/landing/pdf/pdf-program-dummy.webp";
 import { formatCurrency } from "@/lib/formatters/currency";
 import type { LandingPdfCourse } from "@/types/landing-pdf-course";
 
@@ -21,7 +21,9 @@ export function PdfCourseListing({ courses, error }: { courses: LandingPdfCourse
             <span>{courses.length} programs</span>
           </div>
           {error && <p className="landing-course-message error">{error}</p>}
-          {!error && courses.length === 0 && <p className="landing-course-message">No PDF courses available right now.</p>}
+          {!error && courses.length === 0 && (
+            <p className="landing-course-message">No PDF courses available right now.</p>
+          )}
           <div className="pdf-landing-grid">
             {courses.map((course, index) => (
               <article className="pdf-landing-card" key={course.id || `${course.title}-${index}`}>
@@ -47,7 +49,11 @@ export function PdfCourseListing({ courses, error }: { courses: LandingPdfCourse
                   <div className="pdf-landing-card-footer w-full">
                     <div>
                       <strong>{formatCurrency(course.totalPayableAmount)}</strong>
-                      {course.discount > 0 && <small>{formatCurrency(course.price)} · {course.discount}% OFF</small>}
+                      {course.discount > 0 && (
+                        <small>
+                          {formatCurrency(course.price)} · {course.discount}% OFF
+                        </small>
+                      )}
                     </div>
                     <a href={`/pdf-course/${course.id}`}>
                       View program <ArrowRight size={16} />

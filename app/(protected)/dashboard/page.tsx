@@ -1,10 +1,10 @@
 "use client";
 
+import dashboardWelcomeBanner from "@/assets/images/dashboard-welcome-banner.webp";
 import { CourseCard, ExploreRow, PdfCard, ProductCard } from "@/components/course/course-card";
-import { dashboardWelcomeBanner } from "@/assets/image-assets";
 import { DashboardSkeleton } from "@/components/dashboard/dashboard-skeleton";
-import { SectionContainer } from "@/components/layout/section-container";
 import { useDashboardSession } from "@/components/layout/dashboard-session";
+import { SectionContainer } from "@/components/layout/section-container";
 import { LibraryEmptyState } from "@/components/shared/library-empty-state";
 import { toast } from "@/components/ui/toast";
 import { multipleApiHandler } from "@/lib/api/multiple.api";
@@ -28,30 +28,34 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-      const responses = await multipleApiHandler([
-        { endPoint: "/courses/my-courses", method: "GET", protected: true },
-        { endPoint: "/courses", method: "GET", protected: true },
-        { endPoint: "/pdf-courses/purchased", method: "GET", protected: true },
-        { endPoint: "/affiliate-products", method: "GET" },
-      ]);
-      const purchased = responses[0]?.data as CoursesResponse | undefined;
-      const explore = responses[1]?.data as CoursesResponse | undefined;
-      const pdf = responses[2]?.data as PdfCoursesResponse | undefined;
-      const affiliate = responses[3]?.data as AffiliateProductsResponse | undefined;
+        const responses = await multipleApiHandler([
+          { endPoint: "/courses/my-courses", method: "GET", protected: true },
+          { endPoint: "/courses", method: "GET", protected: true },
+          { endPoint: "/pdf-courses/purchased", method: "GET", protected: true },
+          { endPoint: "/affiliate-products", method: "GET" },
+        ]);
+        const purchased = responses[0]?.data as CoursesResponse | undefined;
+        const explore = responses[1]?.data as CoursesResponse | undefined;
+        const pdf = responses[2]?.data as PdfCoursesResponse | undefined;
+        const affiliate = responses[3]?.data as AffiliateProductsResponse | undefined;
 
-      if (purchased?.success) setPurchasedCourses(purchased.data?.courses ?? []);
-      if (explore?.success) setExploreCourses(explore.data?.courses ?? []);
-      if (pdf?.success) setPdfCourses(pdf.data?.pdfCourses ?? []);
-      if (affiliate?.success) setProducts((affiliate.data?.products ?? []).sort((a, b) => a.sortOrder - b.sortOrder));
-      if (![purchased, explore, pdf, affiliate].some((result) => result?.success)) {
+        if (purchased?.success) setPurchasedCourses(purchased.data?.courses ?? []);
+        if (explore?.success) setExploreCourses(explore.data?.courses ?? []);
+        if (pdf?.success) setPdfCourses(pdf.data?.pdfCourses ?? []);
+        if (affiliate?.success) setProducts((affiliate.data?.products ?? []).sort((a, b) => a.sortOrder - b.sortOrder));
+        if (![purchased, explore, pdf, affiliate].some((result) => result?.success)) {
+          toast.add({
+            title: "Dashboard data could not be loaded",
+            description: "Please refresh and try again.",
+            type: "error",
+          });
+        }
+      } catch {
         toast.add({
           title: "Dashboard data could not be loaded",
           description: "Please refresh and try again.",
           type: "error",
         });
-      }
-      } catch {
-        toast.add({ title: "Dashboard data could not be loaded", description: "Please refresh and try again.", type: "error" });
       } finally {
         setIsLoading(false);
       }
@@ -94,7 +98,9 @@ export default function DashboardPage() {
     <>
       <SectionContainer className="welcome-card">
         <div className="welcome-copy">
-          <h1>{getTimeGreeting()}, {user?.name ?? "there"}</h1>
+          <h1>
+            {getTimeGreeting()}, {user?.name ?? "there"}
+          </h1>
           <p>
             Welcome back. Continue your practice and
             <br className="desktop-only" /> take one mindful step today.
@@ -147,7 +153,11 @@ export default function DashboardPage() {
                   <ExploreRow {...course} key={course.title} />
                 ))}
               </div>
-              <div className="carousel-dots"><b /><i /><i /></div>
+              <div className="carousel-dots">
+                <b />
+                <i />
+                <i />
+              </div>
             </>
           ) : (
             <LibraryEmptyState

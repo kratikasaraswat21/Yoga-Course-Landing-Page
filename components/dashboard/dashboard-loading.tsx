@@ -1,6 +1,7 @@
 "use client";
 
-import { logo } from "@/assets/image-assets";
+import logo from "@/assets/images/logo/logo.png";
+
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -29,8 +30,12 @@ export function DashboardLoading() {
           <Image src={logo} alt="Kratika Yoga" width={72} height={72} priority />
         </div>
         <p className="dashboard-loading-kicker">KRATIKA YOGA</p>
-        <p className="dashboard-loading-message" key={messageIndex}>{loadingMessages[messageIndex]}</p>
-        <div className="dashboard-loading-progress" aria-hidden="true"><span /></div>
+        <p className="dashboard-loading-message" key={messageIndex}>
+          {loadingMessages[messageIndex]}
+        </p>
+        <div className="dashboard-loading-progress" aria-hidden="true">
+          <span />
+        </div>
         <p className="dashboard-loading-caption">Your practice is worth taking a moment for.</p>
       </div>
     </main>

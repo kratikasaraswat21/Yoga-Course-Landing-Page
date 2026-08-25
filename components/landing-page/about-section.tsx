@@ -1,4 +1,4 @@
-import CourseAboutUsImage from "@/assets/images/about-us-image.png";
+import CourseAboutUsImage from "@/assets/images/landing/about-us-image.webp";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 
@@ -14,8 +14,7 @@ export function AboutSection() {
               src={CourseAboutUsImage}
               alt="Kratika practicing yoga in nature"
               fill
-              sizes="(max-width: 900px) 100vw, 50vw"
-              className="landing-about-image"
+              className="landing-about-image w-full! h-full! object-cover! rounded-lg! md:rounded-xl! lg:rounded-2xl!"
             />
           </div>
           <div className="landing-about-copy">

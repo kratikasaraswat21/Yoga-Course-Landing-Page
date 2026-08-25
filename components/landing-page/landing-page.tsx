@@ -9,12 +9,16 @@ export async function LandingPage() {
     getLandingCourses("top-rated"),
     getLandingPdfCourses("top"),
   ]);
-
   return (
     <main className="landing-page">
       <HeroSection />
       <AboutSection />
-      <PlatformSections topCourses={topCourses.slice(0, 3)} topPdfCourses={topPdfCourses.slice(0, 5)} error={error} pdfError={pdfError} />
+      <PlatformSections
+        topCourses={topCourses.slice(0, 3)}
+        topPdfCourses={topPdfCourses.slice(0, 5)}
+        error={error}
+        pdfError={pdfError}
+      />
     </main>
   );
 }

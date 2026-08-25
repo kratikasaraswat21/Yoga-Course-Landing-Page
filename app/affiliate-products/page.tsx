@@ -8,5 +8,11 @@ export const revalidate = 600;
 export default async function AffiliateProductsPage() {
   const { products, error } = await getLandingAffiliateProducts();
 
-  return <div className="landing-page"><Navbar /><AffiliateProductListing products={products} error={error} /><Footer /></div>;
+  return (
+    <div className="landing-page">
+      <Navbar />
+      <AffiliateProductListing products={products} error={error} />
+      <Footer />
+    </div>
+  );
 }
