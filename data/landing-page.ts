@@ -1,10 +1,4 @@
-import type {
-  EssentialProduct,
-  FooterColumn,
-  FreeCourse,
-  NavLink,
-  Testimonial,
-} from "@/types/landing-content";
+import type { EssentialProduct, FooterColumn, FreeCourse, NavLink, Testimonial } from "@/types/landing-content";
 
 export const landingNavLinks: NavLink[] = [
   { label: "Explore all courses", href: "/courses" },
@@ -58,28 +52,52 @@ export const aboutPrinciples = [
 
 export const freeCourses: FreeCourse[] = [
   {
-    image: "course-main",
-    title: "10-Minute Gentle Morning Flow",
-    description: "Wake up your body with simple movement, energy and calm.",
-    metadata: "10 minutes · Beginner",
+    image: "/free-course/1.webp",
+    title: "12 Min. Mobility Routine for Hips & Spine",
+    description:
+      "Feeling stiff after sitting all day? This 12-minute mobility routine for hips & spine helps release tension and stretch tight muscles — no mat, no equipment needed. A gentle at-home yoga flow to unlock stiffness in your hips and spine, leaving you loose, mobile, and relaxed. Perfect for morning wake-ups, work breaks, or winding down before bed.",
+    metadata: "Release Tension & Stretch Tight Muscles",
+    link: "https://www.youtube.com/watch?v=pVKsAwkGCv0",
   },
   {
-    image: "lesson-warrior",
-    title: "Yoga Foundations for Beginners",
-    description: "Learn essential breathing, alignment and movement principles.",
-    metadata: "4 lessons · 35 minutes",
+    image: "/free-course/2.webp",
+    title: "10 Min. Morning Mobility Routine for All Levels",
+    description: `Morning Mobility Routine | Daily Stretch for Flexibility | Full Body Mobility Flow | At Home Yoga for All Levels
+
+Start your day with this 10 minute morning mobility routine specially designed for beginners to improve flexibility, mobility, posture, and body awareness. This daily stretch for flexibility includes gentle full body stretching, at home yoga, mobility exercises, and relaxing movement to help release tension in the neck, shoulders, spine, hips, hamstrings, and lower back.
+
+This all levels mobility flow is perfect for your morning yoga routine, daily movement practice, or full body stretch at home. Breathe deeply, move mindfully, and enjoy this quick mobility workout to feel more open, energized, and refreshed.`,
+    metadata: "Daily Stretch for Flexibility",
+    link: "https://www.youtube.com/watch?v=UlCFj6vIT40",
   },
   {
-    image: "lesson-meditation",
-    title: "Release Neck and Shoulder Tension",
-    description: "Ease stiffness caused by prolonged sitting and everyday stress.",
-    metadata: "15 minutes · All levels",
+    image: "/free-course/3.webp",
+    title: "15 Minute Lower Body Stretch Routine ",
+    description: `This 15-minute lower body stretch routine is designed to release tension from your hips, hamstrings, glutes, and lower back — a relaxing at-home yoga flow for flexibility and recovery.
+
+Whether you're stretching after a workout, unwinding after a long day of sitting, or just want to improve your hip mobility and lower body flexibility, this gentle yoga stretch routine will help you feel looser, calmer, and more relaxed in just 15 minutes.
+
+This flow includes deep hip openers, hamstring stretches, glute stretches, and gentle twists to release stiffness and improve range of motion — perfect as a post-workout stretch, an evening wind-down routine, or a way to ease tightness from sitting all day.`,
+    metadata: "Release Tension from Hips, Hamstrings & Glutes at Home",
+    link: "https://www.youtube.com/watch?v=Kesu6nARTX4",
   },
   {
-    image: "lesson-rest",
-    title: "Introduction to Breathwork",
-    description: "Discover the power of breath to calm the mind and body.",
-    metadata: "12 minutes · Beginner",
+    image: "/free-course/4.webp",
+    title: "Morning Full Body Stretch for Flexibility & Mobility",
+    description: `15 Min Yoga for Women | Morning Full Body Stretch for Flexibility & Mobility
+Start your morning the right way! This 15-minute yoga routine for women is designed to gently stretch and awaken your entire body — improving flexibility, relieving stiffness, and boosting mobility from head to toe. Whether you're in your 20s, 30s, 40s, or 50s+, this full body morning stretch is perfect for all fitness levels. No equipment needed — just your mat and 15 minutes!
+Do this every morning and feel the difference in how your body moves, feels, and flows throughout the day.`,
+    metadata: "20 Mins Yoga for WOMEN",
+    link: "https://www.youtube.com/watch?v=PPLmMWaDPvo",
+  },
+  {
+    image: "/free-course/5.webp",
+    title: "20 Minute Gentle Neck & Shoulder Stretching Routine",
+    description: `15 Min Yoga for Women | Morning Full Body Stretch for Flexibility & Mobility
+Start your morning the right way! This 15-minute yoga routine for women is designed to gently stretch and awaken your entire body — improving flexibility, relieving stiffness, and boosting mobility from head to toe. Whether you're in your 20s, 30s, 40s, or 50s+, this full body morning stretch is perfect for all fitness levels. No equipment needed — just your mat and 15 minutes!
+Do this every morning and feel the difference in how your body moves, feels, and flows throughout the day.`,
+    metadata: "Release Tension & Feel Better",
+    link: "https://www.youtube.com/watch?v=dOuHTNk6x8Q",
   },
 ];
 

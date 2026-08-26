@@ -2,6 +2,8 @@
 
 import { freeCourses } from "@/data/landing-page";
 import { ArrowRight, Play } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 import "swiper/css";
 import "swiper/css/navigation";
 import { A11y, Navigation } from "swiper/modules";
@@ -39,10 +41,17 @@ export function FreeCourseSwiper() {
             spaceBetween={28}
             slidesPerView={1.08}
             breakpoints={{ 640: { slidesPerView: 2 }, 1024: { slidesPerView: 3 }, 1400: { slidesPerView: 3.35 } }}>
-            {freeCourses.map(({ image, title, description }) => (
+            {freeCourses.map(({ image, title, description, link }) => (
               <SwiperSlide key={title}>
                 <article className="platform-free-card rounded-lg! md:rounded-xl! lg:rounded-2xl!">
-                  <div className={`platform-free-card-image platform-free-card-image-${image}`}>
+                  <div className="platform-free-card-image">
+                    <Image
+                      src={image}
+                      alt={title}
+                      fill
+                      sizes="(max-width: 639px) 92vw, (max-width: 1023px) 46vw, 31vw"
+                      className="platform-free-card-image-media"
+                    />
                     <span className="platform-card-play">
                       <Play size={20} fill="currentColor" />
                     </span>
@@ -51,9 +60,9 @@ export function FreeCourseSwiper() {
                     <h3>{title}</h3>
                     <p>{description}</p>
                     <div className="platform-free-card-meta">
-                      <a href="#free-practice">
+                      <Link target="_blank" href={link}>
                         Start practising <ArrowRight size={16} />
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </article>

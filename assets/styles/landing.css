@@ -998,20 +998,9 @@
 .platform-free-card-image {
   height: 285px;
   position: relative;
-  background-position: center;
-  background-size: cover;
 }
-.platform-free-card-image-course-main {
-  background-image: url("../images/landing/course/course-main.png");
-}
-.platform-free-card-image-lesson-warrior {
-  background-image: url("../images/landing/course/lesson-warrior.png");
-}
-.platform-free-card-image-lesson-meditation {
-  background-image: url("../images/landing/course/lesson-meditation.png");
-}
-.platform-free-card-image-lesson-rest {
-  background-image: url("../images/landing/course/lesson-rest.png");
+.platform-free-card-image-media {
+  object-fit: cover;
 }
 .platform-card-play {
   position: absolute;
