@@ -45,13 +45,7 @@ export function FreeCourseSwiper() {
               <SwiperSlide key={title}>
                 <article className="platform-free-card rounded-lg! md:rounded-xl! lg:rounded-2xl!">
                   <div className="platform-free-card-image">
-                    <Image
-                      src={image}
-                      alt={title}
-                      fill
-                      sizes="(max-width: 639px) 92vw, (max-width: 1023px) 46vw, 31vw"
-                      className="platform-free-card-image-media"
-                    />
+                    <Image src={image} alt={title} width={1920} height={1080} className="aspect-video" />
                     <span className="platform-card-play">
                       <Play size={20} fill="currentColor" />
                     </span>
