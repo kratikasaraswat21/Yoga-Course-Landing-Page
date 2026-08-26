@@ -3,6 +3,12 @@ import { Plus } from "lucide-react";
 import { Footer } from "@/components/landing-page/footer";
 import { Navbar } from "@/components/landing-page/navbar";
 import { faqQuestions } from "@/data/landing-page";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Frequently asked questions",
+  description: "Find answers about Kratika Yoga courses, access, payments, PDF programs and practising across your devices.",
+};
 
 const faqAnswers = [
   "Yes. Our courses are designed to be clear and welcoming for complete beginners, with options to practise at your own pace.",

@@ -1,5 +1,11 @@
 import { Footer } from "@/components/landing-page/footer";
 import { Navbar } from "@/components/landing-page/navbar";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Terms of use",
+  description: "Review the terms that apply to using the Kratika Yoga website, courses, digital programs and related services.",
+};
 
 export default function TermsPage() {
   return (

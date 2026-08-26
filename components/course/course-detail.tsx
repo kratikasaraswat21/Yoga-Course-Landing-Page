@@ -6,7 +6,7 @@ import { toast } from "@/components/ui/toast";
 import { multipleApiHandler } from "@/lib/api/multiple.api";
 import { formatDuration, formatVideoDuration } from "@/lib/utils";
 import type { Course, CourseVideo } from "@/types/course";
-import { Award, CheckCircle2, Clock3, Infinity, Lock, Play, ShieldCheck } from "lucide-react";
+import { Award, CheckCircle2, Clock3, Infinity, Lock, Play, Share2, ShieldCheck } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -23,6 +23,19 @@ export function CourseDetailHero({
   onBuyCourse?: () => void;
 }) {
   const totalSeconds = course.courseVideos.reduce((total, video) => total + video.durationSeconds, 0);
+  const [isCopied, setIsCopied] = useState(false);
+
+  const handleShare = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      setIsCopied(true);
+      toast.add({ title: "Course link copied", description: "You can share it with anyone.", type: "success" });
+      window.setTimeout(() => setIsCopied(false), 2000);
+    } catch {
+      toast.add({ title: "Could not copy link", description: "Please copy the URL from your browser.", type: "error" });
+    }
+  };
+
   return (
     <section className="course-detail-hero">
       <div className="detail-cover">
@@ -34,7 +47,17 @@ export function CourseDetailHero({
         />
       </div>
       <div className="detail-summary">
-        <h1 className="title-case">{course.title}</h1>
+        <div className="detail-title-row">
+          <h1 className="title-case">{course.title}</h1>
+          <button
+            type="button"
+            className="course-share-button"
+            aria-label={isCopied ? "Course link copied" : "Copy course link"}
+            title={isCopied ? "Copied" : "Copy course link"}
+            onClick={() => void handleShare()}>
+            <Share2 size={18} />
+          </button>
+        </div>
         <p>{course.description}</p>
         <div className="detail-price">
           {course.discount > 0 && (

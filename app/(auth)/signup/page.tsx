@@ -4,6 +4,12 @@ import Link from "next/link";
 import { Logo } from "@/components/shared/logo";
 import signupYoga from "@/assets/images/auth/signup-yoga.webp";
 import { SignupForm } from "@/features/auth/components/signup-form";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Create your account",
+  description: "Create your Kratika Yoga account and take the first step towards a more mindful practice.",
+};
 
 export default async function SignupPage({ searchParams }: { searchParams: Promise<{ returnTo?: string }> }) {
   const { returnTo } = await searchParams;

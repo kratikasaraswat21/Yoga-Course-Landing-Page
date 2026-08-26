@@ -14,9 +14,7 @@ export function Footer() {
           <div className="landing-footer-about">
             <Link className="landing-brand landing-footer-brand" href="/" aria-label="Kratika Yoga home">
               <Image src={footerLogo} alt="" width={52} height={52} />
-              <span>
-                Kratika <em>Yoga</em>
-              </span>
+              <span>KratikaYoga</span>
             </Link>
             <p>Thoughtful yoga practices for moving, breathing and reconnecting with yourself.</p>
           </div>

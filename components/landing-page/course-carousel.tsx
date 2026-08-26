@@ -82,7 +82,9 @@ export function CourseCarousel({ courses, error }: { courses: LandingCourse[]; e
                           </div>
                         </div>
                         <div className="platform-course-feature-price">
-                          <Link className="landing-button landing-button-light" href={`/courses/${course.courseId}`}>
+                          <Link
+                            className="landing-button landing-button-light"
+                            href={`/course/enrolled/${course.courseId}`}>
                             View course <ArrowRight size={18} />
                           </Link>
                         </div>

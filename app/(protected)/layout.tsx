@@ -48,7 +48,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <button className="sidebar-overlay" aria-label="Close menu" onClick={() => setIsSidebarOpen(false)} />
         )}
         <main className="dashboard-main">
-          <DashboardHeader onMenuClick={() => setIsSidebarOpen(true)} />
+          <DashboardHeader isMenuOpen={isSidebarOpen} onMenuClick={() => setIsSidebarOpen((isOpen) => !isOpen)} />
           <div className="dashboard-content">{children}</div>
         </main>
       </div>
