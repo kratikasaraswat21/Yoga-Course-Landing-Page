@@ -5,7 +5,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 type LibraryEmptyStateProps = {
-  type: "courses" | "pdfs";
+  type: "courses" | "pdfs" | "products";
   title?: string;
   description?: ReactNode;
   showButton?: boolean;
@@ -56,26 +56,28 @@ export function LibraryEmptyState({
       <Image
         className="course-empty-image"
         src={courseEmptyScreen}
-        alt="Yoga journey illustration"
+        alt={type === "products" ? "Yoga essentials illustration" : "Yoga journey illustration"}
         width={200}
         height={200}
       />
       <div className="empty-state-copy">
-        <h3>{title ?? "Your yoga journey starts here"}</h3>
-        <p>
-          {description ?? (
-            <>
-              You haven&apos;t purchased a course yet. Explore our
-              <br />
-              guided practices and find the right place to begin.
-            </>
+          <h3>{title ?? (type === "products" ? "No recommendations yet" : "Your yoga journey starts here")}</h3>
+          <p>
+            {description ?? (
+              type === "products" ? "New yoga essentials and recommendations will appear here soon." : (
+                <>
+                  You haven&apos;t purchased a course yet. Explore our
+                  <br />
+                  guided practices and find the right place to begin.
+                </>
+              )
+            )}
+          </p>
+          {showButton && (
+            <Link href={type === "products" ? "/affiliate-products" : buttonHref}>
+              {type === "products" ? "Browse products" : buttonLabel} <ArrowRight size={15} />
+            </Link>
           )}
-        </p>
-        {showButton && (
-          <Link href={buttonHref}>
-            {buttonLabel} <ArrowRight size={15} />
-          </Link>
-        )}
       </div>
     </div>
   );

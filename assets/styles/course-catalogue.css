@@ -658,3 +658,32 @@
     width: 80%;
   }
 }
+@media (max-width: 700px) {
+  .courses-hero {
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+    gap: 22px;
+    padding: 28px 24px;
+  }
+  .courses-hero h1 {
+    font-size: 34px;
+    line-height: 1.08;
+  }
+  .courses-hero p {
+    max-width: 100%;
+    font-size: 14px;
+    line-height: 1.45;
+  }
+  .courses-hero-actions {
+    width: 100%;
+  }
+  .courses-switch-link {
+    width: fit-content;
+    min-height: 44px;
+    padding: 0 18px;
+  }
+  .courses-hero-art {
+    display: none;
+  }
+}

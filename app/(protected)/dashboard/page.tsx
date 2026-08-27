@@ -121,9 +121,11 @@ export default function DashboardPage() {
         <SectionContainer className="panel continue-panel">
           <div className="panel-heading">
             <h2>Continue learning</h2>
-            <Link href="/course/enrolled">
-              View all <ChevronRight size={17} />
-            </Link>
+            {courses.length > 0 && (
+              <Link href="/course/enrolled">
+                View all <ChevronRight size={17} />
+              </Link>
+            )}
           </div>
           {courses.length ? (
             <div className="course-grid">
@@ -138,14 +140,16 @@ export default function DashboardPage() {
         <SectionContainer className="panel explore-panel">
           <div className="panel-heading">
             <h2>Explore courses</h2>
-            <div className="carousel-actions">
-              <button aria-label="Previous">
-                <ChevronLeft size={18} />
-              </button>
-              <button aria-label="Next">
-                <ChevronRight size={18} />
-              </button>
-            </div>
+            {exploreRows.length > 0 && (
+              <div className="carousel-actions">
+                <button aria-label="Previous">
+                  <ChevronLeft size={18} />
+                </button>
+                <button aria-label="Next">
+                  <ChevronRight size={18} />
+                </button>
+              </div>
+            )}
           </div>
           {exploreRows.length ? (
             <>
@@ -176,9 +180,11 @@ export default function DashboardPage() {
         <SectionContainer className="panel pdf-panel" id="pdf-courses">
           <div className="panel-heading">
             <h2>Your PDF courses</h2>
-            <Link href="/pdf-course/explore">
-              View all PDFs <ChevronRight size={17} />
-            </Link>
+            {pdfCards.length > 0 && (
+              <Link href="/pdf-course/explore">
+                View all PDFs <ChevronRight size={17} />
+              </Link>
+            )}
           </div>
           {pdfCards.length ? (
             <div className="pdf-grid">
@@ -196,29 +202,44 @@ export default function DashboardPage() {
               <h2>Recommended for your practice</h2>
               <p>Thoughtfully selected products to support your yoga journey.</p>
             </div>
-            <Link href="/affiliate-products" className="panel-heading-link">
-              View all <ChevronRight size={17} />
-            </Link>
-            <div className="carousel-actions">
-              <button aria-label="Previous">
-                <ChevronLeft size={18} />
-              </button>
-              <button aria-label="Next">
-                <ChevronRight size={18} />
-              </button>
+            {products.length > 0 && (
+              <>
+                <Link href="/affiliate-products" className="panel-heading-link">
+                  View all <ChevronRight size={17} />
+                </Link>
+                <div className="carousel-actions">
+                  <button aria-label="Previous">
+                    <ChevronLeft size={18} />
+                  </button>
+                  <button aria-label="Next">
+                    <ChevronRight size={18} />
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+          {products.length ? (
+            <div className="product-grid">
+              {products.slice(0, 2).map((product) => (
+                <ProductCard
+                  key={product.id}
+                  title={product.title}
+                  description={product.description}
+                  href={product.productsLink}
+                  buttonTitle={product.buttonTitle}
+                />
+              ))}
             </div>
-          </div>
-          <div className="product-grid">
-            {products.slice(0, 2).map((product) => (
-              <ProductCard
-                key={product.id}
-                title={product.title}
-                description={product.description}
-                href={product.productsLink}
-                buttonTitle={product.buttonTitle}
-              />
-            ))}
-          </div>
+          ) : (
+            <LibraryEmptyState
+              type="products"
+              title="No recommendations yet"
+              description="New yoga essentials and recommendations will appear here soon."
+              buttonHref="/affiliate-products"
+              buttonLabel="Browse products"
+              showBorder={false}
+            />
+          )}
           <div className="carousel-dots">
             <b />
             <i />
