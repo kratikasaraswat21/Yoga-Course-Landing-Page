@@ -88,6 +88,7 @@ export default function DashboardPage() {
   }));
   const pdfCards = pdfCourses.slice(0, 2).map((pdf, index) => ({
     title: pdf.title,
+    imageUrl: pdf.thumbnailUrl,
     kind: pdf.purchaseType === "FREE" ? "Free guide" : "PDF course",
     pages: "",
     tone: index % 2 === 0 ? ("clay" as const) : ("sage" as const),

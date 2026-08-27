@@ -68,7 +68,7 @@ export function PdfCard({
     <article className="pdf-card">
       <div className={`pdf-cover ${tone}`}>
         {imageUrl ? (
-          <Image src={imageUrl} alt={`${title} cover`} fill sizes="112px" className="pdf-cover-image" />
+          <Image src={imageUrl} alt={title} fill sizes="112px" className="pdf-cover-image" />
         ) : (
           <>
             <span>{title}</span>
