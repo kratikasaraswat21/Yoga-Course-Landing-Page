@@ -444,11 +444,12 @@
 }
 
 .login-page {
-  height: 100svh;
+  height: auto;
   min-height: 100svh;
   display: grid;
   grid-template-columns: 52% 48%;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   background: var(--color-background);
 }
 .login-panel {
@@ -854,10 +855,12 @@
 }
 @media (max-width: 990px) {
   .login-page {
-    height: 100svh;
+    height: auto;
+    min-height: 100svh;
     display: flex;
     flex-direction: column;
     overflow-y: auto;
+    overflow-x: hidden;
     scrollbar-width: none;
   }
   .login-page::-webkit-scrollbar {
@@ -867,15 +870,17 @@
     display: none;
   }
   .login-panel {
-    flex: 1;
+    flex: 0 0 auto;
     width: 100%;
+    min-height: 100svh;
     align-items: center;
     padding: 32px 20px 24px;
   }
   .login-content {
     width: min(100%, 640px);
-    min-height: calc(100svh - 56px);
-    justify-content: center;
+    min-height: 0;
+    height: auto;
+    justify-content: flex-start;
   }
   .login-intro {
     margin: 52px 0 36px;
