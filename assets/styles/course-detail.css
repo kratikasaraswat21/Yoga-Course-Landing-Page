@@ -739,13 +739,15 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
-@media (max-width: 600px) {
+@media (max-width: 950px) {
   .course-detail-page {
     width: 100%;
     max-width: none;
     margin-right: 0;
     margin-left: 0;
   }
+}
+@media (max-width: 600px) {
   .course-completion-summary {
     align-items: flex-start;
     flex-wrap: wrap;

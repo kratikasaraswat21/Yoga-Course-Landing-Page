@@ -24,11 +24,13 @@ export function DashboardSidebar({ isOpen, onClose }: { isOpen: boolean; onClose
         <span>Kratika Yoga</span>
       </Link>
       <nav className="sidebar-nav" aria-label="Main navigation">
-        <Link onClick={onClose} className={pathname === "/dashboard" ? "active" : ""} href="/dashboard">
+        <Link aria-label="Dashboard" title="Dashboard" onClick={onClose} className={pathname === "/dashboard" ? "active" : ""} href="/dashboard">
           <Home size={23} />
           <span>Dashboard</span>
         </Link>
         <Link
+          aria-label="Courses"
+          title="Courses"
           onClick={onClose}
           className={pathname.startsWith("/course/") || pathname === "/my-courses" ? "active" : ""}
           href="/course/enrolled">
@@ -36,6 +38,8 @@ export function DashboardSidebar({ isOpen, onClose }: { isOpen: boolean; onClose
           <span>Courses</span>
         </Link>
         <Link
+          aria-label="PDF Courses"
+          title="PDF Courses"
           onClick={onClose}
           className={pathname.startsWith("/pdf-course/") ? "active" : ""}
           href="/pdf-course/explore">
@@ -43,6 +47,8 @@ export function DashboardSidebar({ isOpen, onClose }: { isOpen: boolean; onClose
           <span>PDF Courses</span>
         </Link>
         <Link
+          aria-label="Affiliate Products"
+          title="Affiliate Products"
           onClick={onClose}
           className={pathname.startsWith("/affiliate-products") ? "active" : ""}
           href="/affiliate-products"
@@ -60,8 +66,8 @@ export function DashboardSidebar({ isOpen, onClose }: { isOpen: boolean; onClose
           <strong>{user?.name ?? "Yoga student"}</strong>
         </div>
       </div>
-      <button className="logout" type="button" onClick={handleLogout}>
-        <LogOut size={23} /> Log out
+      <button className="logout" aria-label="Log out" title="Log out" type="button" onClick={handleLogout}>
+        <LogOut size={23} /> <span>Log out</span>
       </button>
     </aside>
   );
