@@ -240,11 +240,13 @@ export default function DashboardPage() {
               showBorder={false}
             />
           )}
-          <div className="carousel-dots">
-            <b />
-            <i />
-            <i />
-          </div>
+          {products.length > 0 && (
+            <div className="carousel-dots">
+              <b />
+              <i />
+              <i />
+            </div>
+          )}
         </SectionContainer>
       </div>
     </>
