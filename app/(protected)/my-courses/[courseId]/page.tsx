@@ -61,7 +61,11 @@ export default function CourseDetailPage() {
 
     const razorpayWindow = window as WindowWithRazorpay;
     if (!isRazorpayReady || !razorpayWindow.Razorpay) {
-      toast.add({ title: "Payment unavailable", description: "Payment checkout is still loading. Please try again.", type: "error" });
+      toast.add({
+        title: "Payment unavailable",
+        description: "Payment checkout is still loading. Please try again.",
+        type: "error",
+      });
       return;
     }
 
@@ -114,7 +118,11 @@ export default function CourseDetailPage() {
               if (latestCourse.isPurchased) {
                 setPaymentStatus("idle");
                 router.replace(`/course/enrolled/${courseId}`, { scroll: false });
-                toast.add({ title: "Payment successful", description: "You now have lifetime access to this course.", type: "success" });
+                toast.add({
+                  title: "Payment successful",
+                  description: "You now have lifetime access to this course.",
+                  type: "success",
+                });
                 return;
               }
             }
@@ -162,7 +170,7 @@ export default function CourseDetailPage() {
     }
   };
 
-  if (!isLoading) return <CourseDetailSkeleton />;
+  if (isLoading) return <CourseDetailSkeleton />;
   if (error || !course) {
     return <CourseErrorState message={error || "Course not found."} onRetry={fetchCourse} />;
   }
