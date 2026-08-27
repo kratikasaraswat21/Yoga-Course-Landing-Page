@@ -23,6 +23,12 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { type CSSProperties, useEffect, useMemo, useRef, useState } from "react";
 
+type FullscreenVideoElement = HTMLVideoElement & {
+  webkitDisplayingFullscreen?: boolean;
+  webkitEnterFullscreen?: () => void;
+  webkitExitFullscreen?: () => void;
+};
+
 export default function VideoPlaybackPage() {
   const { courseId, videoId } = useParams<{ courseId: string; videoId: string }>();
   const [course, setCourse] = useState<Course | null>(null);
@@ -121,9 +127,20 @@ export default function VideoPlaybackPage() {
   }, [playbackUrl]);
 
   useEffect(() => {
-    const handleFullscreenChange = () => setIsFullscreen(Boolean(document.fullscreenElement));
+    const player = playerRef.current as FullscreenVideoElement | null;
+    const handleFullscreenChange = () => {
+      setIsFullscreen(Boolean(document.fullscreenElement) || Boolean(player?.webkitDisplayingFullscreen));
+    };
+
     document.addEventListener("fullscreenchange", handleFullscreenChange);
-    return () => document.removeEventListener("fullscreenchange", handleFullscreenChange);
+    player?.addEventListener("webkitbeginfullscreen", handleFullscreenChange);
+    player?.addEventListener("webkitendfullscreen", handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+      player?.removeEventListener("webkitbeginfullscreen", handleFullscreenChange);
+      player?.removeEventListener("webkitendfullscreen", handleFullscreenChange);
+    };
   }, []);
 
   const currentIndex = useMemo(
@@ -225,13 +242,40 @@ export default function VideoPlaybackPage() {
   console.log(video)
 
   const toggleFullscreen = async () => {
-    if (!playerWrapRef.current) return;
+    const player = playerRef.current as FullscreenVideoElement | null;
+    const playerWrap = playerWrapRef.current;
+    if (!playerWrap || !player) return;
 
     if (document.fullscreenElement) {
       await document.exitFullscreen();
-    } else {
-      await playerWrapRef.current.requestFullscreen();
+      return;
     }
+
+    if (player.webkitDisplayingFullscreen && player.webkitExitFullscreen) {
+      player.webkitExitFullscreen();
+      return;
+    }
+
+    if (playerWrap.requestFullscreen) {
+      try {
+        await playerWrap.requestFullscreen();
+        return;
+      } catch {
+        // Fall back to iOS's native video fullscreen below.
+      }
+    }
+
+    if (player.webkitEnterFullscreen) {
+      player.webkitEnterFullscreen();
+      setIsFullscreen(true);
+      return;
+    }
+
+    toast.add({
+      title: "Fullscreen unavailable",
+      description: "Fullscreen is not supported by this browser.",
+      type: "error",
+    });
   };
 
   if (isLoading) return <VideoPlaybackSkeleton />;
