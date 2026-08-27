@@ -1,9 +1,20 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
 export function CourseDetailSkeleton() {
-  return <div className="course-detail-skeleton" aria-label="Loading course details" role="status">
+  return <div className="course-detail-page course-detail-skeleton" aria-label="Loading course details" role="status">
     <Skeleton className="skeleton-breadcrumb" />
-    <section className="course-detail-hero skeleton-hero"><Skeleton className="skeleton-detail-cover" /><div className="skeleton-detail-summary"><Skeleton className="skeleton-title" /><Skeleton className="skeleton-line wide" /><Skeleton className="skeleton-line" /><Skeleton className="skeleton-price" /><Skeleton className="skeleton-button" /></div><Skeleton className="skeleton-stats" /></section>
+    <section className="course-detail-hero skeleton-hero">
+      <Skeleton className="skeleton-detail-cover" />
+      <div className="skeleton-detail-summary">
+        <div className="skeleton-title-row"><Skeleton className="skeleton-title" /><Skeleton className="skeleton-share" /></div>
+        <Skeleton className="skeleton-line wide" />
+        <Skeleton className="skeleton-line" />
+        <Skeleton className="skeleton-price" />
+        <Skeleton className="skeleton-stats" />
+        <Skeleton className="skeleton-button" />
+        <Skeleton className="skeleton-secure" />
+      </div>
+    </section>
     <section className="course-video-section skeleton-video-section"><Skeleton className="skeleton-heading" /><Skeleton className="skeleton-subheading" /><div className="skeleton-video-grid">{[1, 2, 3, 4].map((item) => <div className="skeleton-video-card" key={item}><Skeleton className="skeleton-video-image" /><Skeleton className="skeleton-card-line" /><Skeleton className="skeleton-card-line short" /></div>)}</div></section>
   </div>;
 }
