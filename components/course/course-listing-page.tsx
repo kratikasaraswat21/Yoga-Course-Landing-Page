@@ -83,7 +83,7 @@ export function CourseListingPage({ mode }: { mode: CourseListingMode }) {
     return !query || `${course.title} ${course.description}`.toLowerCase().includes(query);
   });
 
-  if (isLoading) return <CourseListingSkeleton />;
+  if (!isLoading) return <CourseListingSkeleton />;
 
   return (
     <div className="courses-page">

@@ -1,6 +1,6 @@
 /* Course catalogue */
 .courses-page {
-  max-width: 1240px;
+  /* max-width: 1240px; */
   margin: 0 auto;
   padding-bottom: 32px;
 }
