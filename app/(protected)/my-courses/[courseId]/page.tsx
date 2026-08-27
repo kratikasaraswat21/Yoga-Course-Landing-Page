@@ -162,7 +162,7 @@ export default function CourseDetailPage() {
     }
   };
 
-  if (isLoading) return <CourseDetailSkeleton />;
+  if (!isLoading) return <CourseDetailSkeleton />;
   if (error || !course) {
     return <CourseErrorState message={error || "Course not found."} onRetry={fetchCourse} />;
   }
