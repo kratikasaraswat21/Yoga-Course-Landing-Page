@@ -164,11 +164,11 @@ export function SignupForm({ returnTo }: { returnTo?: string }) {
           />
           <span>
             I agree to the{" "}
-            <Link href="#terms" id="terms">
+            <Link href="/terms" id="terms">
               Terms of Service
             </Link>{" "}
             and{" "}
-            <Link href="#privacy" id="privacy">
+            <Link href="/privacy-policy" id="privacy">
               Privacy Policy
             </Link>
             .
