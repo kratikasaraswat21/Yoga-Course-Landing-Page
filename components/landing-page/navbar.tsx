@@ -14,7 +14,7 @@ export function Navbar() {
     <header className="landing-navbar">
       <div className="kratika-yoga-container landing-navbar-inner">
         <Link className="landing-brand" href="/" aria-label="Kratika Yoga home">
-          <Image src={logo} alt="" width={52} height={52} className="landing-brand-mark" />
+          <Image src={logo} alt="" width={52} height={52} className="landing-brand-mark hidden sm:block" />
           <span>KratikaYoga</span>
         </Link>
 
