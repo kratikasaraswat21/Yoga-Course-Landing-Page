@@ -73,12 +73,13 @@ export function CourseCarousel({ courses, error }: { courses: LandingCourse[]; e
                             <small>{course.totalStudents} students</small>
                           </div>
                           <div className="platform-course-feature-price">
-                            <strong>₹{course.totalPayableAmount.toLocaleString("en-IN")}</strong>
                             {course.discount > 0 && (
-                              <small>
-                                ₹{course.price.toLocaleString("en-IN")} · {course.discount}% off
-                              </small>
+                              <>
+                                <del>₹{course.price.toLocaleString("en-IN")}</del>
+                                <small>{course.discount}% off</small>
+                              </>
                             )}
+                            <strong>₹{(course.discount > 0 ? course.totalPayableAmount : course.price).toLocaleString("en-IN")}</strong>
                           </div>
                         </div>
                         <div className="platform-course-feature-price">

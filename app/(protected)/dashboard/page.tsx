@@ -81,9 +81,9 @@ export default function DashboardPage() {
   const exploreRows = exploreCourses.slice(0, 2).map((course) => ({
     title: course.title,
     lessons: String(course.videoCount),
-    basePrice: course.totalPayableAmount > course.price ? `₹${course.totalPayableAmount.toLocaleString("en-IN")}` : "",
+    basePrice: course.discount && course.discount > 0 ? `₹${course.price.toLocaleString("en-IN")}` : "",
     discount: course.discount ? `${course.discount}%` : "",
-    price: `₹${course.price.toLocaleString("en-IN")}`,
+    price: `₹${(course.discount && course.discount > 0 ? course.totalPayableAmount : course.price).toLocaleString("en-IN")}`,
     href: `/course/enrolled/${course.id}`,
   }));
   const pdfCards = pdfCourses.slice(0, 2).map((pdf, index) => ({

@@ -512,6 +512,11 @@ main.landing-page .platform-category-overlay a {
   color: #68766f;
   font-size: 12px;
 }
+.paid-course-card-footer del,
+.pdf-landing-card-footer del {
+  color: #68766f;
+  font-size: 12px;
+}
 
 .paid-course-skeleton {
   overflow: hidden;

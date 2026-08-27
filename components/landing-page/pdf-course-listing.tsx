@@ -48,12 +48,13 @@ export function PdfCourseListing({ courses, error }: { courses: LandingPdfCourse
                   </div>
                   <div className="pdf-landing-card-footer w-full">
                     <div>
-                      <strong>{formatCurrency(course.totalPayableAmount)}</strong>
                       {course.discount > 0 && (
-                        <small>
-                          {formatCurrency(course.price)} · {course.discount}% OFF
-                        </small>
+                        <>
+                          <del>{formatCurrency(course.price)}</del>
+                          <small>{course.discount}% OFF</small>
+                        </>
                       )}
+                      <strong>{formatCurrency(course.discount > 0 ? course.totalPayableAmount : course.price)}</strong>
                     </div>
                     <a href={`/pdf-course/${course.id}`}>
                       View program <ArrowRight size={16} />

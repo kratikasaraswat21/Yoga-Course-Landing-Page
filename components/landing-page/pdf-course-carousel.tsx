@@ -60,8 +60,13 @@ export function PdfCourseCarousel({ courses, error }: { courses: LandingPdfCours
                         {course.enrolledStudents} enrolled students
                       </span>
                     </div>
-                    <strong>{formatCurrency(course.totalPayableAmount)}</strong>
-                    {course.discount > 0 && <small>{formatCurrency(course.price)} · {course.discount}% OFF</small>}
+                    {course.discount > 0 && (
+                      <>
+                        <del>{formatCurrency(course.price)}</del>
+                        <small>{course.discount}% OFF</small>
+                      </>
+                    )}
+                    <strong>{formatCurrency(course.discount > 0 ? course.totalPayableAmount : course.price)}</strong>
                     <a className="landing-button landing-button-light" href={`/pdf-course/${course.id}`}>
                       View PDF program <ArrowRight size={18} />
                     </a>

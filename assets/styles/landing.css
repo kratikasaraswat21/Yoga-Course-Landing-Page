@@ -1491,6 +1491,10 @@
   color: #53615c;
   font-size: 16px;
 }
+.platform-course-feature-price del {
+  color: #53615c;
+  font-size: 16px;
+}
 .platform-course-feature-price .landing-button {
   align-self: flex-start;
   margin-top: 18px;

@@ -378,6 +378,12 @@
   color: var(--color-text-secondary);
   font-size: 11px;
 }
+.catalog-bottom em {
+  color: #3f7a5a;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 600;
+}
 .catalog-bottom .catalog-button {
   width: auto;
   padding: 0 14px;
@@ -621,4 +627,3 @@
     width: 80%;
   }
 }
-
