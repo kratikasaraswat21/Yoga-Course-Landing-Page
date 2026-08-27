@@ -262,6 +262,10 @@
   height: calc(100vh - 65px);
   min-height: 0;
   flex: 1;
+  scrollbar-width: none;
+}
+.dashboard-content::-webkit-scrollbar {
+  display: none;
 }
 .dashboard-section {
   min-width: 0;

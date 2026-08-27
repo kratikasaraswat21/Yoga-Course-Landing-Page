@@ -617,6 +617,15 @@
   }
 }
 @media (max-width: 600px) {
+  .courses-page,
+  .course-detail-skeleton,
+  .pdf-course-detail-page,
+  .playback-skeleton {
+    width: 100%;
+    max-width: none;
+    margin-right: 0;
+    margin-left: 0;
+  }
   .skeleton-video-grid {
     grid-template-columns: 1fr;
   }
