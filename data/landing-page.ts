@@ -103,6 +103,13 @@ Do this every morning and feel the difference in how your body moves, feels, and
 
 export const testimonials: Testimonial[] = [
   {
+    name: "Chirag",
+    course: "TTC200 Teacher Training",
+    rating: 5,
+    content:
+      "Yes Ma'am, your videos have helped me a lot. Starting small, making a flow and following yoga inspired me to become a TTC200 teacher in May.",
+  },
+  {
     name: "Ananya Sharma",
     course: "Yoga Foundations for Beginners",
     rating: 5,

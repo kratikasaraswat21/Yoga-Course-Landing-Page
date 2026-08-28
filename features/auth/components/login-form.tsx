@@ -11,7 +11,7 @@ import { toast } from "@/components/ui/toast";
 import { useDebounce } from "@/hooks/useDebounce";
 import { multipleApiHandler } from "@/lib/api/multiple.api";
 import { getDataFromSecureCookie, storeDataInSecureCookie } from "@/lib/helper/hepler";
-import { validateLoginForm } from "@/lib/validation/auth.validation";
+import { validateEmailAddress, validateLoginForm } from "@/lib/validation/auth.validation";
 import type { LoginFormData } from "@/types/user";
 
 const initialValues: LoginFormData = { email: "", password: "" };
@@ -28,7 +28,14 @@ export function LoginForm({ returnTo }: { returnTo?: string }) {
   const updateValue = (field: keyof LoginFormData, value: string) => {
     setValues((current) => ({ ...current, [field]: value }));
     setSubmitted(false);
-    if (errors[field]) setErrors((current) => ({ ...current, [field]: undefined }));
+    if (field === "email") {
+      setErrors((current) => ({
+        ...current,
+        email: value.trim() ? validateEmailAddress(value) : undefined,
+      }));
+    } else if (errors[field]) {
+      setErrors((current) => ({ ...current, [field]: undefined }));
+    }
   };
 
   const submitLogin = useDebounce(async (formValues: LoginFormData) => {

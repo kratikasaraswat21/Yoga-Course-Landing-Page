@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input"
 import { toast } from "@/components/ui/toast"
 import { useDebounce } from "@/hooks/useDebounce"
 import { multipleApiHandler } from "@/lib/api/multiple.api"
-import { validateForgotPasswordForm } from "@/lib/validation/auth.validation"
+import { validateEmailAddress, validateForgotPasswordForm } from "@/lib/validation/auth.validation"
 
 export function ForgotPasswordForm() {
   const [email, setEmail] = useState("")
@@ -65,8 +65,9 @@ export function ForgotPasswordForm() {
           placeholder="Enter your registered email"
           value={email}
           onChange={(event) => {
-            setEmail(event.target.value)
-            setError(undefined)
+            const nextEmail = event.target.value
+            setEmail(nextEmail)
+            setError(nextEmail.trim() ? validateEmailAddress(nextEmail) : undefined)
             setSubmitted(false)
           }}
           aria-invalid={Boolean(error)}

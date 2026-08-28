@@ -7,30 +7,48 @@ import { DashboardSidebar } from "@/components/layout/dashboard-sidebar";
 import { toast } from "@/components/ui/toast";
 import { useDebounce } from "@/hooks/useDebounce";
 import { multipleApiHandler } from "@/lib/api/multiple.api";
+import { clearLocalSessionStorage } from "@/lib/helper/hepler";
 import type { VerifiedUser, VerifyUserResponse } from "@/types/auth";
+import { useRouter } from "next/navigation";
 import { ReactNode, useEffect, useRef, useState } from "react";
 
 export default function RootLayout({ children }: { children: ReactNode }) {
+  const navigator = useRouter();
   const useEffectRef = useRef(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<VerifiedUser | null>(null);
+
+  const redirectToLogin = () => {
+    clearLocalSessionStorage();
+    setUser(null);
+    navigator.replace("/login");
+  };
   const verifySession = useDebounce(async () => {
-    const [response] = await multipleApiHandler([{ endPoint: "/auth/verify/me", method: "GET", protected: true }]);
+    try {
+      const [response] = await multipleApiHandler([{ endPoint: "/auth/verify/me", method: "GET", protected: true }]);
 
-    const payload = response?.data as VerifyUserResponse | undefined;
-    const verifiedUser = payload?.data?.user_info;
+      const payload = response?.data as VerifyUserResponse | undefined;
+      const verifiedUser = payload?.data?.user_info;
 
-    if (!response?.ok || !payload?.success || !verifiedUser) {
-      toast.add({
-        title: "Session could not be verified",
-        description: "Please sign in again and try again.",
-        type: "error",
-      });
+      if (!response?.ok || !payload?.success || !verifiedUser) {
+        toast.add({
+          title: "Session could not be verified",
+          description: "Please sign in again and try again.",
+          type: "error",
+        });
+        redirectToLogin();
+      }
+
+      if (verifiedUser) {
+        setUser(verifiedUser);
+      } else {
+        redirectToLogin();
+      }
+      setIsLoading(false);
+    } catch {
+      redirectToLogin();
     }
-
-    if (verifiedUser) setUser(verifiedUser);
-    setIsLoading(false);
   }, 100);
   useEffect(() => {
     if (useEffectRef.current) return;

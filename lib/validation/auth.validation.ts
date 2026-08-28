@@ -11,13 +11,24 @@ import type {
   ResetPasswordFormErrors,
 } from "@/types/user"
 
+const emailPattern = /^\S+@\S+\.\S+$/
+
+export function validateEmailAddress(value: string): string | undefined {
+  const email = value.trim()
+
+  if (!email) return "Please enter your email address."
+  if (!emailPattern.test(email)) return "Please enter a valid email address."
+
+  return undefined
+}
+
 export function validateLoginForm(values: LoginFormData): LoginFormErrors {
   const errors: LoginFormErrors = {}
   const email = values.email.trim()
   const password = values.password.trim()
 
-  if (!email) errors.email = "Please enter your email address."
-  else if (!/^\S+@\S+\.\S+$/.test(email)) errors.email = "Please enter a valid email address."
+  const emailError = validateEmailAddress(email)
+  if (emailError) errors.email = emailError
 
   if (!password) errors.password = "Please enter your password."
   else if (password.length < 6) errors.password = "Password must be at least 6 characters."
@@ -32,8 +43,8 @@ export function validateSignupForm(values: SignupFormData): SignupFormErrors {
   const password = values.password.trim()
 
   if (!fullName) errors.fullName = "Please enter your full name."
-  if (!email) errors.email = "Please enter your email address."
-  else if (!/^\S+@\S+\.\S+$/.test(email)) errors.email = "Please enter a valid email address."
+  const emailError = validateEmailAddress(email)
+  if (emailError) errors.email = emailError
   if (!password) errors.password = "Please create a password."
   else if (password.length < 6 || password.length > 50) errors.password = "Password must contain 6–50 characters."
   if (!values.acceptedTerms) errors.acceptedTerms = "Please agree to the Terms of Service and Privacy Policy."
@@ -55,8 +66,8 @@ export function validateForgotPasswordForm(values: ForgotPasswordFormData): Forg
   const errors: ForgotPasswordFormErrors = {}
   const email = values.email.trim()
 
-  if (!email) errors.email = "Please enter your email address."
-  else if (!/^\S+@\S+\.\S+$/.test(email)) errors.email = "Please enter a valid email address."
+  const emailError = validateEmailAddress(email)
+  if (emailError) errors.email = emailError
 
   return errors
 }

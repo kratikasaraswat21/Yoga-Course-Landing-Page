@@ -20,7 +20,7 @@ import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/toast";
 import { useDebounce } from "@/hooks/useDebounce";
 import { multipleApiHandler } from "@/lib/api/multiple.api";
-import { validateSignupForm } from "@/lib/validation/auth.validation";
+import { validateEmailAddress, validateSignupForm } from "@/lib/validation/auth.validation";
 import type { SignupFormData } from "@/types/user";
 
 const initialValues: SignupFormData = { fullName: "", email: "", password: "", acceptedTerms: false };
@@ -38,7 +38,14 @@ export function SignupForm({ returnTo }: { returnTo?: string }) {
   const updateValue = <T extends keyof SignupFormData>(field: T, value: SignupFormData[T]) => {
     setValues((current) => ({ ...current, [field]: value }));
     setSubmitted(false);
-    if (errors[field]) setErrors((current) => ({ ...current, [field]: undefined }));
+    if (field === "email" && typeof value === "string") {
+      setErrors((current) => ({
+        ...current,
+        email: value.trim() ? validateEmailAddress(value) : undefined,
+      }));
+    } else if (errors[field]) {
+      setErrors((current) => ({ ...current, [field]: undefined }));
+    }
   };
 
   const submitSignup = useDebounce(async (formValues: SignupFormData) => {
