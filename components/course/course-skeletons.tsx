@@ -79,6 +79,12 @@ export function VideoPlaybackSkeleton() {
             <Skeleton />
             <Skeleton />
           </div>
+          <section className="playback-about-section skeleton-playback-about">
+            <Skeleton className="skeleton-about-title" />
+            <Skeleton className="skeleton-about-line" />
+            <Skeleton className="skeleton-about-line wide" />
+            <Skeleton className="skeleton-about-line" />
+          </section>
         </main>
         <aside className="playback-sidebar skeleton-playback-sidebar">
           <Skeleton className="skeleton-sidebar-title" />

@@ -1,6 +1,6 @@
 "use client";
 
-import { CourseCompletionSection, CourseDetailHero, CourseVideoSection } from "@/components/course/course-detail";
+import { CourseAboutSection, CourseCompletionSection, CourseDetailHero, CourseVideoSection } from "@/components/course/course-detail";
 import { CourseDetailSkeleton } from "@/components/course/course-skeletons";
 import { CourseErrorState } from "@/components/shared/course-error-state";
 import { toast } from "@/components/ui/toast";
@@ -200,6 +200,7 @@ export default function CourseDetailPage() {
           <span className="title-case">{course.title}</span>
         </nav>
         <CourseDetailHero course={course} paymentStatus={paymentStatus} onBuyCourse={handleBuyCourse} />
+        <CourseAboutSection course={course} />
         <CourseCompletionSection course={course} />
         <CourseVideoSection course={course} />
       </div>

@@ -1309,9 +1309,7 @@
   color: #fff;
   background: var(--landing-forest);
 }
-.platform-course-carousel > .kratika-yoga-container {
-  width: min(calc(100% - 48px), 1230px);
-}
+
 .platform-carousel-heading {
   display: flex;
   align-items: flex-start;
@@ -1356,17 +1354,61 @@
 }
 .platform-course-feature-slide {
   display: grid;
-  grid-template-columns: 54% 46%;
-  min-height: 547px;
+  grid-template-columns: minmax(0, 1.15fr) minmax(360px, 0.85fr);
+  min-height: 620px;
   height: 100%;
   overflow: hidden;
   border-radius: 10px;
 }
 .platform-course-feature-image {
-  min-height: 100%;
   position: relative;
+  min-height: 100%;
+  display: grid;
+  place-items: start;
+  overflow: hidden;
+  background: #071e18;
+}
+.platform-course-feature-image-backdrop {
+  position: absolute;
+  inset: -24px;
   background-position: center;
   background-size: cover;
+  filter: blur(20px);
+  opacity: 0.72;
+  transform: scale(1.08);
+}
+.platform-course-feature-image img {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  object-position: top center;
+}
+.platform-course-feature-image-details {
+  position: absolute;
+  right: 24px;
+  bottom: 24px;
+  left: 24px;
+  padding: 0 18px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 14px;
+  color: #fff;
+  background: rgba(5, 29, 23, 0.72);
+  backdrop-filter: blur(12px);
+}
+.platform-course-feature-image-details .platform-course-feature-meta {
+  border-color: rgba(255, 255, 255, 0.24);
+}
+.platform-course-feature-image-details .platform-course-feature-meta span,
+.platform-course-feature-image-details .platform-course-feature-rating small {
+  color: #fff;
+}
+.platform-course-feature-image-details .platform-course-feature-meta span + span {
+  border-color: rgba(255, 255, 255, 0.38);
+}
+.platform-course-feature-image-details .platform-course-feature-rating {
+  padding: 18px 0;
 }
 .platform-course-feature-image-course-main {
   background-image: url("../images/landing/course/course-main.png");
@@ -1392,7 +1434,8 @@
   cursor: pointer;
 }
 .platform-course-feature-copy {
-  padding: 50px 68px 40px;
+  min-width: 0;
+  padding: 50px clamp(32px, 4vw, 68px) 40px;
   color: var(--landing-forest);
   background: var(--landing-cream);
 }
@@ -1549,10 +1592,11 @@
   }
   .platform-course-feature-slide {
     grid-template-columns: 1fr;
-    min-height: 0;
   }
   .platform-course-feature-image {
-    min-height: 380px;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    min-height: 0;
   }
   .platform-course-feature-copy {
     padding: 32px;
@@ -1572,8 +1616,7 @@
     flex-direction: column;
   }
   .platform-course-feature-image {
-    min-height: 300px;
-    aspect-ratio: 1.4;
+    aspect-ratio: 16 / 9;
   }
   .platform-course-feature-copy {
     padding: 26px 22px;

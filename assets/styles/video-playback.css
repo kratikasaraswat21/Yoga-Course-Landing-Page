@@ -217,6 +217,36 @@
   opacity: 0.45;
   pointer-events: none;
 }
+.playback-about-section {
+  margin-top: 18px;
+  padding: 20px 22px 22px;
+  border: 1px solid #d5d9cb;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.28);
+}
+.playback-about-section h2 {
+  margin: 0 0 12px;
+  color: var(--color-primary);
+  font: 500 24px Georgia, serif;
+}
+.playback-about-section .rich-text-description {
+  color: var(--color-text-primary);
+  font-size: 14px;
+  line-height: 1.65;
+}
+.playback-about-section .rich-text-description p,
+.playback-about-section .rich-text-description ul,
+.playback-about-section .rich-text-description ol {
+  margin: 0 0 10px;
+}
+.playback-about-section .rich-text-description ul,
+.playback-about-section .rich-text-description ol {
+  padding-left: 22px;
+}
+.playback-about-section .rich-text-description a {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
 .playback-sidebar {
   overflow: hidden;
   border: 1px solid #d5d9cb;

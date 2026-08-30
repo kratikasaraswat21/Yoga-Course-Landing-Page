@@ -31,20 +31,17 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       const payload = response?.data as VerifyUserResponse | undefined;
       const verifiedUser = payload?.data?.user_info;
 
-      if (!response?.ok || !payload?.success || !verifiedUser) {
+      if (!response?.ok || !payload?.success) {
         toast.add({
           title: "Session could not be verified",
           description: "Please sign in again and try again.",
           type: "error",
         });
         redirectToLogin();
+        return;
       }
 
-      if (verifiedUser) {
-        setUser(verifiedUser);
-      } else {
-        redirectToLogin();
-      }
+      setUser(verifiedUser ?? null);
       setIsLoading(false);
     } catch {
       redirectToLogin();
@@ -56,8 +53,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     verifySession();
   }, []);
   if (isLoading) return <DashboardLoading />;
-  if (!user) return null;
-
   return (
     <DashboardSession user={user}>
       <div className="dashboard-shell overflow-hidden">

@@ -3,9 +3,8 @@
   overflow-x: clip;
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 900px) {
   .landing-about-grid {
-    grid-template-columns: 1fr;
     gap: 45px;
   }
 
@@ -455,8 +454,45 @@ main.landing-page .platform-category-overlay a {
 }
 
 .platform-course-feature-image {
+  height: 100%;
+  min-height: 0;
   background-position: center;
   background-size: cover;
+}
+
+/* The featured course is a two-column card; keep all media information inside the image column. */
+.platform-course-carousel .platform-course-feature-slide {
+  grid-template-columns: minmax(0, 1.15fr) minmax(360px, 0.85fr) !important;
+  min-height: 0;
+  height: auto;
+  border: 1px solid rgba(216, 221, 215, 0.7);
+  box-shadow: 0 18px 45px rgba(5, 29, 23, 0.16);
+}
+
+.platform-course-carousel .platform-course-feature-image-backdrop {
+  z-index: 0;
+}
+
+.platform-course-carousel .platform-course-feature-image img {
+  z-index: 1;
+  height: auto;
+  align-self: start;
+  object-position: top center;
+}
+
+.platform-course-carousel .platform-course-feature-image-details {
+  position: absolute;
+  right: 24px;
+  bottom: 24px;
+  left: 24px;
+  z-index: 2;
+  display: block;
+  padding: 0 18px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 14px;
+  background: rgba(5, 29, 23, 0.72);
+  box-shadow: 0 12px 28px rgba(5, 29, 23, 0.18);
+  backdrop-filter: blur(12px);
 }
 
 .platform-course-feature-rating .course-rating-stars {
@@ -471,6 +507,26 @@ main.landing-page .platform-category-overlay a {
 
 .platform-course-carousel-multiple .platform-course-feature-copy {
   min-width: 0;
+}
+
+.platform-course-feature-copy {
+  padding: 24px;
+}
+
+.platform-course-feature-title h3 {
+  font-size: clamp(28px, 2.45vw, 36px);
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+
+.platform-course-feature-copy > p {
+  margin: 24px 0 28px;
+  font-size: 18px;
+  line-height: 1.55;
+}
+
+.platform-course-feature-action {
+  margin-top: 28px;
 }
 
 .platform-course-carousel-single .platform-course-swiper .swiper-slide {
@@ -608,7 +664,8 @@ main.landing-page .platform-category-overlay a {
 }
 
 .pdf-landing-card-image {
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 9;
+  min-height: 0;
   position: relative;
   background-position: center;
   background-size: cover;
@@ -2263,11 +2320,15 @@ main.landing-page .platform-final-cta > div > p {
 
   main.landing-page .platform-course-feature-image {
     min-height: 0;
-    aspect-ratio: 4 / 3;
+    /* aspect-ratio: 4 / 3; */
+  }
+
+  main.landing-page .platform-course-feature-slide {
+    min-height: 0;
   }
 
   main.landing-page .platform-course-feature-copy {
-    padding: 24px 20px 26px;
+    padding: 18px;
   }
 
   main.landing-page .platform-course-feature-title h3 {
@@ -2559,6 +2620,38 @@ main.landing-page .platform-free-card-meta {
   line-height: 1.1;
 }
 
+/* Rich-text descriptions from the course and product editor. */
+.rich-text-description {
+  color: inherit;
+}
+
+.rich-text-description p,
+.rich-text-description ul,
+.rich-text-description ol {
+  margin: 0 0 0.75em;
+}
+
+.rich-text-description p:last-child,
+.rich-text-description ul:last-child,
+.rich-text-description ol:last-child {
+  margin-bottom: 0;
+}
+
+.rich-text-description ul,
+.rich-text-description ol {
+  padding-left: 1.25em;
+}
+
+.rich-text-description a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.rich-text-description strong,
+.rich-text-description b {
+  font-weight: 700;
+}
+
 .landing-page .landing-hero > div > p:last-child,
 .landing-page .paid-course-hero > div > p:last-child,
 .landing-page .pdf-landing-hero > div > p:last-child {
@@ -2627,5 +2720,42 @@ main.landing-page .platform-free-card-meta {
   .landing-page .paid-course-list-heading h2,
   .landing-page .pdf-landing-list-heading h2 {
     font-size: 60px;
+  }
+}
+
+/* Below 992px, stack the image first and keep one stats block with the course info. */
+.platform-course-feature-copy-details {
+  display: none;
+}
+
+@media (max-width: 991px) {
+  .platform-course-carousel .platform-course-feature-slide,
+  .platform-course-carousel-multiple .platform-course-feature-slide {
+    grid-template-columns: 1fr !important;
+    min-height: 0;
+    height: auto;
+  }
+
+  .platform-course-carousel .platform-course-feature-image {
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 16 / 9;
+  }
+
+  .platform-course-carousel .platform-course-feature-image-details-desktop {
+    display: none;
+  }
+
+  .platform-course-carousel .platform-course-feature-copy-details {
+    display: block;
+    width: 100%;
+    margin-top: 24px;
+  }
+
+  .platform-course-carousel .platform-course-feature-copy-details .platform-course-feature-meta,
+  .platform-course-carousel .platform-course-feature-copy-details .platform-course-feature-rating {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
 }

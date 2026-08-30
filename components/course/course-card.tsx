@@ -31,7 +31,7 @@ export function CourseCard({ course }: { course: Course }) {
       </div>
       <div className="course-card-body">
         <h3 className="title-case">{course.title}</h3>
-        <p className="course-description">{course.description}</p>
+        <div className="course-description rich-text-description" dangerouslySetInnerHTML={{ __html: course.description }} />
         <div className="progress-meta">
           <span>{course.progress}%</span>
           <span>
@@ -121,7 +121,7 @@ export function ProductCard({
       </div>
       <div className="product-info">
         <h3>{title}</h3>
-        {description && <p>{description}</p>}
+        {description && <div className="rich-text-description" dangerouslySetInnerHTML={{ __html: description }} />}
         {href && (
           <Link className="product-action" href={href} target="_blank" rel="noreferrer">
             {buttonTitle} <ArrowRight size={16} />

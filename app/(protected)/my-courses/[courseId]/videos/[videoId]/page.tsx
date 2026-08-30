@@ -282,6 +282,8 @@ export default function VideoPlaybackPage() {
   if (error || !course || !video)
     return <CourseErrorState message={error || "Video not found."} onRetry={loadPlayback} />;
 
+  const currentVideoDescription = course.courseVideos.find((item) => item.id === video.videoId)?.description ?? "";
+
   return (
     <div className="playback-page">
       <nav className="course-breadcrumb">
@@ -374,7 +376,6 @@ export default function VideoPlaybackPage() {
                 Lesson {currentIndex + 1} of {course.videoCount}
               </small>
               <h1 className="title-case">{video.title}</h1>
-              <p>{course.description}</p>
             </div>
           </div>
           <div className="playback-navigation">
@@ -389,6 +390,10 @@ export default function VideoPlaybackPage() {
               Next lesson <ChevronRight size={17} />
             </Link>
           </div>
+          <section className="playback-about-section" aria-labelledby="playback-about-title">
+            <h2 id="playback-about-title">About this video</h2>
+            <div className="rich-text-description" dangerouslySetInnerHTML={{ __html: currentVideoDescription }} />
+          </section>
         </main>
         <aside className="playback-sidebar">
           <h2>Course videos</h2>

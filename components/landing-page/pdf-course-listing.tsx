@@ -44,7 +44,7 @@ export function PdfCourseListing({ courses, error }: { courses: LandingPdfCourse
                       </span>
                     </div>
                     <h3 className="line-clamp-2 w-full">{course.title}</h3>
-                    <p className="line-clamp-4 w-full">{course.description}</p>
+                    <div className="line-clamp-4 w-full rich-text-description" dangerouslySetInnerHTML={{ __html: course.description }} />
                   </div>
                   <div className="pdf-landing-card-footer w-full">
                     <div>

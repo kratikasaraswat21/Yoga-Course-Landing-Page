@@ -563,6 +563,23 @@
   width: 135px;
   height: 36px;
 }
+.skeleton-playback-about {
+  margin-top: 18px;
+  padding: 20px 22px 22px;
+}
+.skeleton-about-title {
+  width: 180px;
+  height: 27px;
+  margin-bottom: 14px;
+}
+.skeleton-about-line {
+  width: 86%;
+  height: 13px;
+  margin-top: 8px;
+}
+.skeleton-about-line.wide {
+  width: 100%;
+}
 .skeleton-playback-sidebar {
   padding: 16px 20px;
 }

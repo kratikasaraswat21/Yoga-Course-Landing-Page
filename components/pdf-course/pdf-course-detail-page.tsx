@@ -194,7 +194,6 @@ export default function PdfCourseDetailPage() {
           <div className="pdf-detail-copy">
             <span className="eyebrow">PDF COURSE</span>
             <h1 className="title-case">{course.title}</h1>
-            <p>{course.description}</p>
             {!course.isPurchased && !course.isAvailableForFree && (
               <div className="pdf-detail-price">
                 {(course.discount ?? 0) > 0 && <del>₹{(course.price ?? 0).toLocaleString("en-IN")}</del>}
@@ -219,6 +218,10 @@ export default function PdfCourseDetailPage() {
               <ShieldCheck size={16} /> Secure access to your PDF
             </div>
           </div>
+        </section>
+        <section className="course-about-section pdf-course-about-section" aria-labelledby="pdf-course-about-title">
+          <h2 id="pdf-course-about-title">About this course</h2>
+          <div className="rich-text-description" dangerouslySetInnerHTML={{ __html: course.description ?? "" }} />
         </section>
         {course.isPurchased && (
           <div className="pdf-access-note">

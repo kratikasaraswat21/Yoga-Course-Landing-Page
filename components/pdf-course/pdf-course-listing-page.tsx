@@ -108,7 +108,7 @@ export function PdfCourseListingPage({ mode }: { mode: "explore" | "purchased" }
               </div>
               <div className="catalog-card-copy">
                 <h2 className="title-case">{course.title}</h2>
-                <p>{course.description}</p>
+                <div className="rich-text-description" dangerouslySetInnerHTML={{ __html: course.description ?? "" }} />
                 <div className="catalog-bottom">
                   {!course.isAvailableForFree &&
                     (isPurchasedList ? (

@@ -133,7 +133,7 @@ export function CourseListingPage({ mode }: { mode: CourseListingMode }) {
                   <span>{course.videoCount} videos</span>
                 </div>
                 <h2 className="title-case">{course.title}</h2>
-                <p>{course.description}</p>
+                <div className="rich-text-description" dangerouslySetInnerHTML={{ __html: course.description }} />
                 <div className="catalog-bottom">
                   {mode === "explore" && (course.discount ?? 0) > 0 && (
                     <>

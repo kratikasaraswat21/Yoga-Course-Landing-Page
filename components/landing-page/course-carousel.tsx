@@ -2,6 +2,7 @@
 
 import courseFallback from "@/assets/images/landing/course/course-main.png";
 import { ArrowLeft, ArrowRight, Clock3, Video } from "lucide-react";
+import Image from "next/image";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -43,36 +44,61 @@ export function CourseCarousel({ courses, error }: { courses: LandingCourse[]; e
               {courses.slice(0, 3).map((course) => (
                 <SwiperSlide key={course.courseId} className="w-full">
                   <article className="platform-course-feature-slide rounded-lg! md:rounded-xl! lg:rounded-2xl!">
-                    <div
-                      className="platform-course-feature-image"
-                      style={{ backgroundImage: `url(${course.thumbnail || courseFallback.src})` }}
-                    />
+                    <div className="platform-course-feature-image">
+                      <div
+                        className="platform-course-feature-image-backdrop"
+                        style={{ backgroundImage: `url(${course.thumbnail || courseFallback.src})` }}
+                      />
+                      <Image
+                        src={course.thumbnail || courseFallback.src}
+                        alt={`${course.title} course thumbnail`}
+                        width={1920}
+                        height={1080}
+                        className="aspect-video"
+                      />
+                      <div className="platform-course-feature-image-details platform-course-feature-image-details-desktop bottom-2! left-2! right-2!">
+                        <div className="platform-course-feature-meta">
+                          <span>
+                            <Video size={23} />
+                            {course.totalVideos} videos
+                          </span>
+                          <span>
+                            <Clock3 size={23} />
+                            {course.totalHours} hours
+                          </span>
+                        </div>
+                        <div className="platform-course-feature-rating">
+                          <b>{course.rating.toFixed(1)}</b>
+                          <CourseRatingStars rating={course.rating} />
+                          <small>{course.totalStudents} students</small>
+                        </div>
+                      </div>
+                    </div>
                     <div className="platform-course-feature-copy">
-                      <div className="w-full h-full flex flex-col items-start justify-between">
+                      <div className="w-full flex flex-col items-start">
                         <div className="w-full flex flex-col items-start justify-start">
                           <div className="platform-course-feature-title">
                             <h3 className="line-clamp-2 capitalize">{course.title}</h3>
                           </div>
-                          <p className="line-clamp-4 py-6 lg:py-10">{course.description}</p>
-                          <div
-                            className={`platform-course-feature-meta flex-row! w-full ${
-                              hasMultipleCourses ? "" : "platform-course-feature-meta-single"
-                            }`}>
-                            <span>
-                              <Video size={23} />
-                              {course.totalVideos} videos
-                            </span>
-                            <span>
-                              <Clock3 size={23} />
-                              {course.totalHours} hours
-                            </span>
+                          <div className="line-clamp-3! pt-3! rich-text-description" dangerouslySetInnerHTML={{ __html: course.description }} />
+                          <div className="platform-course-feature-copy-details">
+                            <div className="platform-course-feature-meta">
+                              <span>
+                                <Video size={23} />
+                                {course.totalVideos} videos
+                              </span>
+                              <span>
+                                <Clock3 size={23} />
+                                {course.totalHours} hours
+                              </span>
+                            </div>
+                            <div className="platform-course-feature-rating">
+                              <b>{course.rating.toFixed(1)}</b>
+                              <CourseRatingStars rating={course.rating} />
+                              <small>{course.totalStudents} students</small>
+                            </div>
                           </div>
-                          <div className="platform-course-feature-rating">
-                            <b>{course.rating.toFixed(1)}</b>
-                            <CourseRatingStars rating={course.rating} />
-                            <small>{course.totalStudents} students</small>
-                          </div>
-                          <div className="platform-course-feature-price">
+                          <div className="platform-course-feature-price flex flex-row! items-center! pt-4!">
                             {course.discount > 0 && (
                               <>
                                 <del>₹{course.price.toLocaleString("en-IN")}</del>
@@ -82,7 +108,7 @@ export function CourseCarousel({ courses, error }: { courses: LandingCourse[]; e
                             <strong>₹{(course.discount > 0 ? course.totalPayableAmount : course.price).toLocaleString("en-IN")}</strong>
                           </div>
                         </div>
-                        <div className="platform-course-feature-price">
+                        <div className="platform-course-feature-price platform-course-feature-action">
                           <Link
                             className="landing-button landing-button-light"
                             href={`/course/enrolled/${course.courseId}`}>

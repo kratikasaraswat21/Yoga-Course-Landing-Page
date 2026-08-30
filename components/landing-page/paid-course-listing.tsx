@@ -39,7 +39,7 @@ export function PaidCourseListing({ courses, error }: { courses: LandingCourse[]
                     <span>course rating</span>
                   </div>
                   <h3 className="line-clamp-2">{course.title}</h3>
-                  <p className="line-clamp-4">{course.description}</p>
+                  <div className="line-clamp-4 rich-text-description" dangerouslySetInnerHTML={{ __html: course.description }} />
                   <div className="paid-course-card-meta">
                     <span>
                       <Video size={17} />

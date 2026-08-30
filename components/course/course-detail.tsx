@@ -58,7 +58,6 @@ export function CourseDetailHero({
             <Share2 size={18} />
           </button>
         </div>
-        <p>{course.description}</p>
         <div className="detail-price">
           {course.discount > 0 && (
             <>
@@ -103,6 +102,15 @@ export function CourseDetailHero({
   );
 }
 
+export function CourseAboutSection({ course }: { course: Course }) {
+  return (
+    <section className="course-about-section" aria-labelledby="course-about-title">
+      <h2 id="course-about-title">About this course</h2>
+      <div className="rich-text-description" dangerouslySetInnerHTML={{ __html: course.description }} />
+    </section>
+  );
+}
+
 export function CourseVideoCard({
   video,
   courseId,
@@ -143,7 +151,7 @@ export function CourseVideoCard({
       <div className="video-copy">
         <small>Lesson {video.sortOrder}</small>
         <h3 className="title-case">{video.title}</h3>
-        <p>{video.description}</p>
+        <div className="rich-text-description line-clamp-4!" dangerouslySetInnerHTML={{ __html: video.description }} />
       </div>
     </article>
   );

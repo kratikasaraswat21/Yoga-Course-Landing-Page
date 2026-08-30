@@ -53,7 +53,7 @@ export function PdfCourseCarousel({ courses, error }: { courses: LandingPdfCours
                 <div className="platform-pdf-feature-copy">
                   <div className="platform-pdf-detail">
                     <h3 className="line-clamp-2">{course.title}</h3>
-                    <p className="line-clamp-4">{course.description}</p>
+                    <div className="line-clamp-4 rich-text-description" dangerouslySetInnerHTML={{ __html: course.description }} />
                     <div className="platform-pdf-meta">
                       <span>
                         <Users size={22} />

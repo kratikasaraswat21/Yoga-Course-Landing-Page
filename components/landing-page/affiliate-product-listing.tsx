@@ -44,7 +44,7 @@ export function AffiliateProductListing({ products, error }: { products: Landing
                       </span>
                     </div>
                     <h3 className="line-clamp-2 w-full">{product.title}</h3>
-                    <p className="line-clamp-4 w-full">{product.description}</p>
+                    <div className="line-clamp-4 w-full rich-text-description" dangerouslySetInnerHTML={{ __html: product.description }} />
                   </div>
                   {product.productsLink ? (
                     <a className="pdf-landing-card-action" href={product.productsLink} target="_blank" rel="noreferrer">
