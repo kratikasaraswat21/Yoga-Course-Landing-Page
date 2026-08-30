@@ -57,7 +57,7 @@ export function CourseCarousel({ courses, error }: { courses: LandingCourse[]; e
                         className="aspect-video"
                       />
                       <div className="platform-course-feature-image-details platform-course-feature-image-details-desktop bottom-2! left-2! right-2!">
-                        <div className="platform-course-feature-meta">
+                        <div className="platform-course-feature-meta border-0!">
                           <span>
                             <Video size={23} />
                             {course.totalVideos} videos

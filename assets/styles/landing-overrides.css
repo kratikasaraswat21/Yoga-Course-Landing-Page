@@ -2759,3 +2759,9 @@ main.landing-page .platform-free-card-meta {
     align-items: center;
   }
 }
+
+@media (min-width: 1400px) {
+  .platform-course-carousel .platform-course-feature-slide {
+    max-height: 420px;
+  }
+}
