@@ -514,7 +514,7 @@ main.landing-page .platform-category-overlay a {
 }
 
 .platform-course-feature-title h3 {
-  font-size: clamp(28px, 2.45vw, 36px);
+  font-size: clamp(28px, 2.45vw, 30px);
   line-height: 1.1;
   letter-spacing: -0.035em;
 }

@@ -9,9 +9,9 @@ import "swiper/css/pagination";
 import { A11y, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
+import { CourseRatingStars } from "@/components/landing-page/course-rating-stars";
 import type { LandingCourse } from "@/types/landing-course";
 import Link from "next/link";
-import { CourseRatingStars } from "./course-rating-stars";
 
 export function CourseCarousel({ courses, error }: { courses: LandingCourse[]; error?: string }) {
   const hasMultipleCourses = courses.length > 1;
@@ -67,11 +67,6 @@ export function CourseCarousel({ courses, error }: { courses: LandingCourse[]; e
                             {course.totalHours} hours
                           </span>
                         </div>
-                        <div className="platform-course-feature-rating">
-                          <b>{course.rating.toFixed(1)}</b>
-                          <CourseRatingStars rating={course.rating} />
-                          <small>{course.totalStudents} students</small>
-                        </div>
                       </div>
                     </div>
                     <div className="platform-course-feature-copy">
@@ -80,19 +75,24 @@ export function CourseCarousel({ courses, error }: { courses: LandingCourse[]; e
                           <div className="platform-course-feature-title">
                             <h3 className="line-clamp-2 capitalize">{course.title}</h3>
                           </div>
-                          <div className="line-clamp-3! pt-3! rich-text-description" dangerouslySetInnerHTML={{ __html: course.description }} />
-                          <div className="platform-course-feature-copy-details">
-                            <div className="platform-course-feature-meta">
-                              <span>
-                                <Video size={23} />
-                                {course.totalVideos} videos
-                              </span>
-                              <span>
-                                <Clock3 size={23} />
-                                {course.totalHours} hours
-                              </span>
+                          <div
+                            className="line-clamp-3! pt-3! rich-text-description"
+                            dangerouslySetInnerHTML={{ __html: course.description }}
+                          />
+                          <div className="w-full">
+                            <div className="platform-course-feature-copy-details w-full">
+                              <div className="platform-course-feature-meta w-full">
+                                <span>
+                                  <Video size={23} />
+                                  {course.totalVideos} videos
+                                </span>
+                                <span>
+                                  <Clock3 size={23} />
+                                  {course.totalHours} hours
+                                </span>
+                              </div>
                             </div>
-                            <div className="platform-course-feature-rating">
+                            <div className="platform-course-feature-rating pb-0!">
                               <b>{course.rating.toFixed(1)}</b>
                               <CourseRatingStars rating={course.rating} />
                               <small>{course.totalStudents} students</small>
@@ -105,7 +105,10 @@ export function CourseCarousel({ courses, error }: { courses: LandingCourse[]; e
                                 <small>{course.discount}% off</small>
                               </>
                             )}
-                            <strong>₹{(course.discount > 0 ? course.totalPayableAmount : course.price).toLocaleString("en-IN")}</strong>
+                            <strong>
+                              ₹
+                              {(course.discount > 0 ? course.totalPayableAmount : course.price).toLocaleString("en-IN")}
+                            </strong>
                           </div>
                         </div>
                         <div className="platform-course-feature-price platform-course-feature-action">
