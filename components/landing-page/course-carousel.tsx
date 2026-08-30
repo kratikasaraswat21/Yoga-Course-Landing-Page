@@ -75,7 +75,7 @@ export function CourseCarousel({ courses, error }: { courses: LandingCourse[]; e
                       </div>
                     </div>
                     <div className="platform-course-feature-copy">
-                      <div className="w-full flex flex-col items-start">
+                      <div className="w-full flex flex-col items-start h-full justify-between">
                         <div className="w-full flex flex-col items-start justify-start">
                           <div className="platform-course-feature-title">
                             <h3 className="line-clamp-2 capitalize">{course.title}</h3>
