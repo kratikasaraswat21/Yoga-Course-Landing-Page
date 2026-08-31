@@ -86,15 +86,6 @@ export function CourseCarousel({ courses, error }: { courses: LandingCourse[]; e
                         <div className="w-full flex flex-col items-start justify-start">
                           <div className="platform-course-feature-title">
                             <h3 className="line-clamp-2 capitalize">{course.title}</h3>
-                            <button
-                              type="button"
-                              className="platform-course-share-button"
-                              aria-label={copiedCourseId === course.courseId ? "Course link copied" : "Copy course link"}
-                              title={copiedCourseId === course.courseId ? "Link copied" : "Copy course link"}
-                              onClick={() => copyCourseLink(course.courseId)}
-                            >
-                              {copiedCourseId === course.courseId ? <Check size={18} /> : <Share2 size={18} />}
-                            </button>
                           </div>
                           <div
                             className="line-clamp-3! pt-3! rich-text-description text-justify"
@@ -132,12 +123,20 @@ export function CourseCarousel({ courses, error }: { courses: LandingCourse[]; e
                             </strong>
                           </div>
                         </div>
-                        <div className="platform-course-feature-price platform-course-feature-action">
+                        <div className="platform-course-feature-price platform-course-feature-action flex flex-row! w-full items-center justify-between">
                           <Link
-                            className="landing-button landing-button-light"
+                            className="landing-button landing-button-light w-fit m-0!"
                             href={`/course/enrolled/${course.courseId}`}>
                             View course <ArrowRight size={18} />
                           </Link>
+                          <button
+                            type="button"
+                            className="platform-course-share-button w-fit"
+                            aria-label={copiedCourseId === course.courseId ? "Course link copied" : "Copy course link"}
+                            title={copiedCourseId === course.courseId ? "Link copied" : "Copy course link"}
+                            onClick={() => copyCourseLink(course.courseId)}>
+                            {copiedCourseId === course.courseId ? <Check size={18} /> : <Share2 size={18} />}
+                          </button>
                         </div>
                       </div>
                     </div>
