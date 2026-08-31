@@ -11,7 +11,7 @@ export function PaidCourseListing({ courses, error }: { courses: LandingCourse[]
         <div className="kratika-yoga-container">
           <p className="platform-eyebrow">The course library</p>
           <h1>Find a practice that grows with you.</h1>
-          <p>
+          <p className="text-justify">
             Explore structured video courses designed to help you move better, breathe deeper and build a practice at
             your own pace.
           </p>

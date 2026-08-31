@@ -1,7 +1,7 @@
 "use client";
 
 import courseFallback from "@/assets/images/landing/course/course-main.png";
-import { ArrowLeft, ArrowRight, Clock3, Video } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Clock3, Share2, Video } from "lucide-react";
 import Image from "next/image";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -12,9 +12,21 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { CourseRatingStars } from "@/components/landing-page/course-rating-stars";
 import type { LandingCourse } from "@/types/landing-course";
 import Link from "next/link";
+import { useState } from "react";
 
 export function CourseCarousel({ courses, error }: { courses: LandingCourse[]; error?: string }) {
   const hasMultipleCourses = courses.length > 1;
+  const [copiedCourseId, setCopiedCourseId] = useState<string | null>(null);
+
+  const copyCourseLink = async (courseId: string) => {
+    try {
+      await navigator.clipboard.writeText(`${window.location.origin}/course/enrolled/${courseId}`);
+      setCopiedCourseId(courseId);
+      window.setTimeout(() => setCopiedCourseId(null), 1800);
+    } catch {
+      setCopiedCourseId(null);
+    }
+  };
 
   return (
     <section
@@ -24,7 +36,7 @@ export function CourseCarousel({ courses, error }: { courses: LandingCourse[]; e
         <div className="platform-carousel-heading">
           <h2>Choose the course that meets you where you are.</h2>
           <div className="platform-carousel-heading-copy">
-            <p>
+            <p className="text-justify">
               Begin with the level and focus that feel right for you. Each course includes clear guidance, structured
               lessons and lifetime access.
             </p>
@@ -74,9 +86,18 @@ export function CourseCarousel({ courses, error }: { courses: LandingCourse[]; e
                         <div className="w-full flex flex-col items-start justify-start">
                           <div className="platform-course-feature-title">
                             <h3 className="line-clamp-2 capitalize">{course.title}</h3>
+                            <button
+                              type="button"
+                              className="platform-course-share-button"
+                              aria-label={copiedCourseId === course.courseId ? "Course link copied" : "Copy course link"}
+                              title={copiedCourseId === course.courseId ? "Link copied" : "Copy course link"}
+                              onClick={() => copyCourseLink(course.courseId)}
+                            >
+                              {copiedCourseId === course.courseId ? <Check size={18} /> : <Share2 size={18} />}
+                            </button>
                           </div>
                           <div
-                            className="line-clamp-3! pt-3! rich-text-description"
+                            className="line-clamp-3! pt-3! rich-text-description text-justify"
                             dangerouslySetInnerHTML={{ __html: course.description }}
                           />
                           <div className="w-full">

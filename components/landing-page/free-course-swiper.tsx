@@ -20,7 +20,7 @@ export function FreeCourseSwiper() {
             that’s completely free.
           </h2>
           <div className="platform-free-courses-side">
-            <p>
+            <p className="text-justify">
               Explore short, beginner-friendly sessions designed to help you experience Kratika’s teaching, understand
               the foundations and begin practising with confidence.
             </p>
@@ -52,7 +52,7 @@ export function FreeCourseSwiper() {
                   </div>
                   <div className="platform-free-card-copy">
                     <h3>{title}</h3>
-                    <p>{description}</p>
+                    <p className="text-justify">{description}</p>
                     <div className="platform-free-card-meta">
                       <Link target="_blank" href={link}>
                         Start practising <ArrowRight size={16} />

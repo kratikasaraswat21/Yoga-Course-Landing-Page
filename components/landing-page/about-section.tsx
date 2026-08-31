@@ -19,12 +19,12 @@ export function AboutSection() {
           </div>
           <div className="landing-about-copy">
             <h2 className="mt-0!">Meet your instructor, and the courses she's built for you.</h2>
-            <p>
+            <p className="text-justify">
               I'm Kratika — a certified 500-Hour Yoga Teacher Training (YTT) graduate and Half Primary Ashtanga yoga
               coach. I've been practicing yoga for 8 years and teaching for the last 5, and every course here comes from
               lessons I've learned on my own mat first.
             </p>
-            <p>
+            <p className="text-justify">
               My approach to teaching yoga is simple: your practice should support your body, not force it into someone
               else's idea of perfect. Each online yoga course is designed to build slowly — clear instruction, honest
               pacing, and room to move at whatever speed feels right for you today. Whether you're just starting out or

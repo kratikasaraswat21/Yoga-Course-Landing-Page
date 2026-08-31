@@ -2723,6 +2723,31 @@ main.landing-page .platform-free-card-meta {
   }
 }
 
+.platform-course-feature-title {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.platform-course-share-button {
+  flex: 0 0 auto;
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(31, 69, 59, 0.35);
+  border-radius: 50%;
+  color: var(--landing-forest);
+  background: transparent;
+  cursor: pointer;
+}
+
+.platform-course-share-button:hover {
+  color: var(--landing-cream);
+  background: var(--landing-forest);
+}
+
 /* Below 992px, stack the image first and keep one stats block with the course info. */
 .platform-course-feature-copy-details {
   display: none;

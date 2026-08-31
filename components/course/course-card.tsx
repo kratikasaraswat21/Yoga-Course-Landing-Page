@@ -18,7 +18,7 @@ export type Course = {
 export function CourseCard({ course }: { course: Course }) {
   return (
     <article className="course-card">
-      <div className="course-image-wrap">
+      <div className="course-image-wrap aspect-video">
         <Image
           src={course.imageUrl || loginYoga}
           alt="Yoga practice in warm natural light"
@@ -66,7 +66,7 @@ export function PdfCard({
 }) {
   return (
     <article className="pdf-card">
-      <div className={`pdf-cover ${tone}`}>
+      <div className={`pdf-cover aspect-video ${tone}`}>
         {imageUrl ? (
           <Image src={imageUrl} alt={title} fill sizes="112px" className="pdf-cover-image" />
         ) : (

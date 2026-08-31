@@ -15,7 +15,7 @@ export function TestimonialSwiper({ reviews, error }: { reviews: LandingReview[]
           <div>
             <h2>What students are saying.</h2>
           </div>
-          <p>Small, steady changes can make a meaningful difference. Here’s what our students are experiencing.</p>
+          <p className="text-justify">Small, steady changes can make a meaningful difference. Here’s what our students are experiencing.</p>
         </div>
         {error && <p className="landing-course-message error">{error}</p>}
         {!error && reviews.length === 0 && <p className="landing-course-message">No reviews available yet.</p>}
@@ -35,7 +35,7 @@ export function TestimonialSwiper({ reviews, error }: { reviews: LandingReview[]
                       <Star key={index} size={18} fill={index < Math.round(review.rating) ? "currentColor" : "none"} />
                     ))}
                   </div>
-                  <blockquote className="line-clamp-4">“{review.comment}”</blockquote>
+                  <blockquote className="line-clamp-4 text-justify">“{review.comment}”</blockquote>
                 </div>
                 <div className="platform-testimonial-author">
                   <strong>{review.userName}</strong>

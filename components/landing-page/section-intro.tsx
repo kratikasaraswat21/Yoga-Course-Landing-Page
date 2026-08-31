@@ -9,7 +9,7 @@ export function SectionIntro({ eyebrow, title, description }: SectionIntroProps)
     <div className="platform-section-intro">
       {eyebrow && <p className="platform-eyebrow">{eyebrow}</p>}
       <h2>{title}</h2>
-      <p>{description}</p>
+      <p className="text-justify">{description}</p>
     </div>
   );
 }

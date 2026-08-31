@@ -36,9 +36,12 @@ export function Footer() {
               <FaInstagram aria-hidden="true" />
               @kratikayoga
             </a>
-            <a href="https://www.youtube.com/@KratikaSaraswat21" target="_blank" rel="noreferrer">
+            <a
+              href="https://www.instagram.com/kratika_saraswat21?igsi=MWg3eG1xNW1yZnBo"
+              target="_blank"
+              rel="noreferrer">
               <FaYoutube aria-hidden="true" />
-              @KratikaSaraswat21
+              @kratika_saraswat21
             </a>
           </div>
         </div>
