@@ -28,7 +28,7 @@ export function PdfCourseListing({ courses, error }: { courses: LandingPdfCourse
             {courses.map((course, index) => (
               <article className="pdf-landing-card" key={course.id || `${course.title}-${index}`}>
                 <div
-                  className="pdf-landing-card-image"
+                  className="pdf-landing-card-image aspect-video"
                   style={{ backgroundImage: `url(${course.thumbnailUrl || pdfFallback.src})` }}
                 />
                 <div className="pdf-landing-card-content">

@@ -118,7 +118,7 @@ export function CourseListingPage({ mode }: { mode: CourseListingMode }) {
         <div className="catalog-grid">
           {visibleCourses.map((course) => (
             <article className="catalog-card" key={course.id}>
-              <div className="catalog-image">
+              <div className="catalog-image aspect-video">
                 <Image
                   src={course.thumbnailUrl || fallbackImage}
                   alt={course.title}
@@ -134,7 +134,7 @@ export function CourseListingPage({ mode }: { mode: CourseListingMode }) {
                 </div>
                 <h2 className="title-case">{course.title}</h2>
                 <div className="rich-text-description" dangerouslySetInnerHTML={{ __html: course.description }} />
-                <div className="catalog-bottom">
+                <div className="catalog-bottom pt-4">
                   {mode === "explore" && (course.discount ?? 0) > 0 && (
                     <>
                       <del>₹{course.price.toLocaleString("en-IN")}</del>

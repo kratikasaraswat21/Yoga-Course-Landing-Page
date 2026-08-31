@@ -97,7 +97,7 @@ export function PdfCourseListingPage({ mode }: { mode: "explore" | "purchased" }
         <div className="catalog-grid">
           {visibleCourses.map((course) => (
             <article className="catalog-card" key={course.id}>
-              <div className="catalog-image">
+              <div className="catalog-image aspect-video">
                 <Image
                   src={course.thumbnailUrl || fallbackImage}
                   alt={course.title}

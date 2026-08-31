@@ -20,7 +20,7 @@ export function CourseCarousel({ courses, error }: { courses: LandingCourse[]; e
 
   const copyCourseLink = async (courseId: string) => {
     try {
-      await navigator.clipboard.writeText(`${window.location.origin}/course/enrolled/${courseId}`);
+      await navigator.clipboard.writeText(`${window.location.origin}/#course-library`);
       setCopiedCourseId(courseId);
       window.setTimeout(() => setCopiedCourseId(null), 1800);
     } catch {

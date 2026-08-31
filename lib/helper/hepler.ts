@@ -8,11 +8,15 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 const getCookieConfig = (): CookieConfigInterface => {
+  const isProduction = process.env.NODE_ENV === "production";
+
   return {
-    secure: true,
+    // Local development runs on http://localhost, where Secure cookies are blocked.
+    secure: isProduction,
     sameSite: "Lax",
     path: "/",
-    domain: "kratikayoga.com",
+    // Let the browser use the current host locally; scope the cookie in production.
+    ...(isProduction ? { domain: "kratikayoga.com" } : {}),
     expires: 30,
   };
 };

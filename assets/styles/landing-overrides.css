@@ -2177,7 +2177,7 @@ main.landing-page .platform-testimonials-heading > p {
   main.landing-page .platform-free-courses-heading h2,
   main.landing-page .platform-pdf-heading h2,
   main.landing-page .platform-testimonials-heading h2 {
-    font-size: 60px;
+    font-size: 50px;
   }
 }
 
@@ -2225,7 +2225,7 @@ main.landing-page .platform-final-cta > div > p {
 
 .platform-pdf-visual {
   min-height: 0;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 9;
 }
 
 .platform-pdf-feature-copy,
@@ -2240,7 +2240,7 @@ main.landing-page .platform-final-cta > div > p {
 
 @media (max-width: 900px) {
   .platform-pdf-visual {
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 16 / 9;
   }
 }
 
@@ -2723,11 +2723,65 @@ main.landing-page .platform-free-card-meta {
   }
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+.platform-course-carousel {
+  scroll-margin-top: 24px;
+}
+
 .platform-course-feature-title {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
+}
+
+/* Course, PDF-course and affiliate titles use the sans-serif brand typeface everywhere. */
+.course-card h3,
+.explore-copy h3,
+.pdf-details h3,
+.product-info h3,
+.catalog-card h2,
+.catalog-card h3,
+.paid-course-card h3,
+.pdf-landing-card h3,
+.platform-course-feature-title h3,
+.platform-pdf-detail h3,
+.course-detail-page h1,
+.course-detail-page h2,
+.pdf-course-detail-page h1,
+.pdf-course-detail-page h2 {
+  font-family: var(--font-montserrat), Arial, sans-serif;
+}
+
+.paid-course-card-image {
+  aspect-ratio: 16 / 9;
+  height: auto;
+}
+
+.pdf-landing-card-image {
+  aspect-ratio: 16 / 9;
+}
+
+.product-image-wrap {
+  aspect-ratio: 16 / 9;
+  height: auto;
+}
+
+.listing-card-image {
+  aspect-ratio: 16 / 9;
+  height: auto;
+}
+
+.detail-title-row h1,
+.pdf-detail-copy h1,
+.course-about-section h2,
+.course-about-section h3,
+.course-video-section h2,
+.course-video-section h3 {
+  font-family: var(--font-montserrat), Arial, sans-serif;
 }
 
 .landing-instagram-feedback {

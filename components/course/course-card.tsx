@@ -108,7 +108,7 @@ export function ProductCard({
 }) {
   return (
     <article className="product-card">
-      <div className="product-image-wrap">
+      <div className="product-image-wrap aspect-video">
         <Image
           src={imageUrl || loginYoga}
           alt={title}
@@ -153,7 +153,7 @@ export function ExploreRow({
 }) {
   return (
     <article className="explore-row">
-      <div className="explore-image">
+      <div className="explore-image aspect-video">
         <Image
           src={imageUrl || loginYoga}
           alt={`${title} course`}

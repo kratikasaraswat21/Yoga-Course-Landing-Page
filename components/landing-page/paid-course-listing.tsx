@@ -29,7 +29,7 @@ export function PaidCourseListing({ courses, error }: { courses: LandingCourse[]
             {courses.map((course) => (
               <article className="paid-course-card" key={course.courseId}>
                 <div
-                  className="paid-course-card-image"
+                  className="paid-course-card-image aspect-video"
                   style={{ backgroundImage: `url(${course.thumbnail || courseFallback.src})` }}
                 />
                 <div className="paid-course-card-content">

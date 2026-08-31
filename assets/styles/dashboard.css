@@ -948,7 +948,7 @@
   font-size: 11px;
 }
 .product-image-wrap {
-  height: 113px;
+  aspect-ratio: 16 / 9;
   position: relative;
   overflow: hidden;
   border-bottom: 1px solid #deded7;

@@ -290,7 +290,7 @@
   box-shadow: 0 8px 24px rgba(33, 61, 52, 0.045);
 }
 .catalog-image {
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 9;
   height: auto;
   position: relative;
   overflow: hidden;
