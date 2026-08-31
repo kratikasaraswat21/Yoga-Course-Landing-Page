@@ -7,6 +7,7 @@ import type { LandingPdfCourse } from "@/types/landing-pdf-course";
 
 import { CourseCarousel } from "./course-carousel";
 import { FreeCourseSwiper } from "./free-course-swiper";
+import { InstagramFeedbackSwiper } from "./instagram-feedback-swiper";
 import { SectionIntro } from "./section-intro";
 import { TestimonialsSection, TestimonialsSkeleton } from "./testimonials-section";
 
@@ -124,6 +125,7 @@ export function PlatformSections({
   return (
     <>
       <CourseCarousel courses={topCourses} error={error} />
+      <InstagramFeedbackSwiper />
       <Suspense fallback={<TestimonialsSkeleton />}>
         <TestimonialsSection />
       </Suspense>

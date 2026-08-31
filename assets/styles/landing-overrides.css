@@ -2730,6 +2730,98 @@ main.landing-page .platform-free-card-meta {
   gap: 16px;
 }
 
+.landing-instagram-feedback {
+  padding: 96px 0;
+  background: var(--landing-cream);
+}
+
+.landing-instagram-feedback-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  align-items: end;
+  gap: clamp(48px, 10vw, 150px);
+  margin-bottom: 42px;
+}
+
+.landing-instagram-feedback-heading h2 {
+  margin: 10px 0 0;
+  color: var(--landing-forest);
+  font-family: Georgia, serif;
+  font-size: clamp(36px, 4vw, 60px);
+  line-height: 1;
+}
+
+.landing-instagram-feedback-heading > p {
+  max-width: 440px;
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+.landing-instagram-feedback-swiper .swiper-slide {
+  height: auto;
+}
+
+.landing-instagram-feedback-card {
+  position: relative;
+  aspect-ratio: 738 / 1599;
+  overflow: hidden;
+  border: 1px solid rgba(23, 56, 46, 0.16);
+  border-radius: 14px;
+  background: #fff;
+}
+
+.landing-instagram-feedback-card img {
+  object-fit: cover;
+}
+
+.landing-instagram-feedback-controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.landing-instagram-feedback-controls button {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border: 1px solid rgba(23, 56, 46, 0.3);
+  border-radius: 50%;
+  color: var(--landing-forest);
+  background: transparent;
+  cursor: pointer;
+}
+
+.landing-instagram-feedback-controls button.swiper-button-disabled {
+  opacity: 0.35;
+}
+
+@media (max-width: 900px) {
+  .landing-instagram-feedback-heading {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 560px) {
+  .landing-instagram-feedback {
+    padding: 64px 0;
+  }
+
+  .landing-instagram-feedback-heading {
+    display: block;
+    margin-bottom: 28px;
+  }
+
+  .landing-instagram-feedback-heading > p {
+    margin-top: 18px;
+    font-size: 15px;
+  }
+}
+
 .platform-course-share-button {
   flex: 0 0 auto;
   width: 46px;
