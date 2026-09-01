@@ -1,7 +1,7 @@
 "use client";
 
 import { getDataFromSecureCookie } from "@/lib/helper/hepler";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ReactNode, Suspense, useEffect, useState } from "react";
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
@@ -14,13 +14,14 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
 
 function AuthSessionGuard({ children }: { children: ReactNode }) {
   const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   const [isCheckingSession, setIsCheckingSession] = useState(true);
 
   useEffect(() => {
     const token = getDataFromSecureCookie("yoga_platform_auth_token");
 
-    if (token) {
+    if (token && pathname !== "/verify-email") {
       const returnTo = searchParams.get("returnTo");
       const destination = returnTo?.startsWith("/") && !returnTo.startsWith("//") ? returnTo : "/dashboard";
       router.replace(destination);
@@ -28,7 +29,7 @@ function AuthSessionGuard({ children }: { children: ReactNode }) {
     }
 
     setIsCheckingSession(false);
-  }, [router, searchParams]);
+  }, [pathname, router, searchParams]);
 
   if (isCheckingSession) return null;
 

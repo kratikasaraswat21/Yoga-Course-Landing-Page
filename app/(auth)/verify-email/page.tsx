@@ -17,6 +17,7 @@ export default async function VerifyEmailPage({
   searchParams: Promise<{ signature?: string; email?: string; returnTo?: string }>;
 }) {
   const { signature = "", email = "", returnTo } = await searchParams;
+  const verificationEmail = signature || email;
 
   return (
     <main className="login-page verify-email-page">
@@ -42,7 +43,7 @@ export default async function VerifyEmailPage({
               </p>
             </div>
 
-            <VerifyEmailForm email={signature} returnTo={returnTo} />
+            <VerifyEmailForm email={verificationEmail} returnTo={returnTo} />
           </div>
         </div>
       </section>

@@ -5,6 +5,78 @@
   background: var(--color-background);
 }
 
+.email-verification-banner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 20px 28px 0;
+  padding: 14px 18px;
+  border: 1px solid #e6c5a9;
+  border-radius: 14px;
+  color: #573b2c;
+  background: #fff6ed;
+}
+
+.email-verification-banner > svg {
+  flex: 0 0 auto;
+  color: #b86d43;
+}
+
+.email-verification-message {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 13px;
+}
+
+.email-verification-message strong {
+  font-size: 14px;
+}
+
+.email-verification-message span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.email-verification-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex: 0 0 auto;
+  padding: 8px 13px;
+  border: 0;
+  border-radius: 9px;
+  color: #fff;
+  background: #213d34;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.email-verification-action:hover {
+  background: #172e27;
+}
+
+.email-verification-action:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+@media (max-width: 600px) {
+  .email-verification-banner {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    margin: 14px 16px 0;
+  }
+
+  .email-verification-action {
+    margin-left: 36px;
+  }
+}
+
 .dashboard-loading {
   min-height: 100dvh;
   display: grid;

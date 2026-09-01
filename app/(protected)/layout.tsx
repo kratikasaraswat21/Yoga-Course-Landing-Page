@@ -1,5 +1,6 @@
 "use client";
 
+import { EmailVerificationBanner } from "@/components/auth/email-verification-banner";
 import { DashboardLoading } from "@/components/dashboard/dashboard-loading";
 import { DashboardHeader } from "@/components/layout/dashboard-header";
 import { DashboardSession } from "@/components/layout/dashboard-session";
@@ -18,6 +19,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<VerifiedUser | null>(null);
+  const [encryptedToken, setEncryptedToken] = useState<string | null>(null);
+  const [isEmailVerified, setIsEmailVerified] = useState(true);
 
   const redirectToLogin = () => {
     clearLocalSessionStorage();
@@ -42,6 +45,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       }
 
       setUser(verifiedUser ?? null);
+      if (payload?.data?.email) {
+        setEncryptedToken(payload?.data?.email);
+      } else {
+        setEncryptedToken(null);
+      }
+      setIsEmailVerified(payload?.data?.is_email_verified ?? true);
       setIsLoading(false);
     } catch {
       redirectToLogin();
@@ -62,6 +71,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         )}
         <main className="dashboard-main">
           <DashboardHeader isMenuOpen={isSidebarOpen} onMenuClick={() => setIsSidebarOpen((isOpen) => !isOpen)} />
+          {!isEmailVerified && (
+            <>{encryptedToken && <EmailVerificationBanner encryptedToken={encryptedToken} email={user?.email} />}</>
+          )}
           <div className="dashboard-content">{children}</div>
         </main>
       </div>
