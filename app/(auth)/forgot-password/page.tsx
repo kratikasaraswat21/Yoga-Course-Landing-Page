@@ -4,12 +4,9 @@ import Link from "next/link";
 import forgotPasswordYoga from "@/assets/images/auth/forgot-password-yoga.webp";
 import { Logo } from "@/components/shared/logo";
 import { ForgotPasswordForm } from "@/features/auth/components/forgot-password-form";
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Forgot password",
-  description: "Request a secure password reset link for your Kratika Yoga account.",
-};
+export const metadata = pageMetadata("Forgot password", "Request a secure password reset link for your Kratika Yoga account.", "/forgot-password");
 
 export default function ForgotPasswordPage() {
   return (

@@ -1,11 +1,8 @@
 import { Footer } from "@/components/landing-page/footer";
 import { Navbar } from "@/components/landing-page/navbar";
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Privacy policy",
-  description: "Read how Kratika Yoga collects, uses and protects information when you use our website, courses and services.",
-};
+export const metadata = pageMetadata("Privacy policy", "Read how Kratika Yoga collects, uses and protects information when you use our website, courses and services.", "/privacy-policy");
 
 export default function PrivacyPolicyPage() {
   return (

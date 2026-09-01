@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import type { ReactNode } from "react";
 import { Toaster } from "@/components/ui/toast";
-import { metaImage } from "@/lib/seo";
+import { metaImage, siteUrl } from "@/lib/seo";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+  metadataBase: new URL(siteUrl),
+  alternates: { canonical: siteUrl },
   title: {
     default: "Kratika Yoga | Come back to yourself",
     template: "%s | Kratika Yoga",

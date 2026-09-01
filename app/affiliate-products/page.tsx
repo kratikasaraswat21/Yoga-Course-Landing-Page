@@ -2,12 +2,9 @@ import { AffiliateProductListing } from "@/components/landing-page/affiliate-pro
 import { Footer } from "@/components/landing-page/footer";
 import { Navbar } from "@/components/landing-page/navbar";
 import { getLandingAffiliateProducts } from "@/lib/api/landing-affiliate-products";
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Yoga essentials and recommendations",
-  description: "Discover thoughtfully selected yoga essentials and wellness products recommended by Kratika Yoga.",
-};
+export const metadata = pageMetadata("Yoga essentials and recommendations", "Discover thoughtfully selected yoga essentials and wellness products recommended by Kratika Yoga.", "/affiliate-products");
 
 export const revalidate = 600;
 

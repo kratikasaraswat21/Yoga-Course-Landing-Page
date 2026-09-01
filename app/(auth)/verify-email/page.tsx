@@ -4,12 +4,9 @@ import Link from "next/link";
 import verifyEmailYoga from "@/assets/images/auth/verify-email-yoga.webp";
 import { Logo } from "@/components/shared/logo";
 import { VerifyEmailForm } from "@/features/auth/components/verify-email-form";
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Verify your email",
-  description: "Verify your email address to finish setting up your Kratika Yoga account.",
-};
+export const metadata = pageMetadata("Verify your email", "Verify your email address to finish setting up your Kratika Yoga account.", "/verify-email");
 
 export default async function VerifyEmailPage({
   searchParams,

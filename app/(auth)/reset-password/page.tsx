@@ -4,12 +4,9 @@ import Link from "next/link";
 import forgotPasswordYoga from "@/assets/images/auth/reset-password.webp";
 import { Logo } from "@/components/shared/logo";
 import { ResetPasswordForm } from "@/features/auth/components/reset-password-form";
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Reset your password",
-  description: "Create a new password to keep your Kratika Yoga account secure.",
-};
+export const metadata = pageMetadata("Reset your password", "Create a new password to keep your Kratika Yoga account secure.", "/reset-password");
 
 export default async function ResetPasswordPage({ searchParams }: { searchParams: Promise<{ token?: string }> }) {
   const { token = "" } = await searchParams;

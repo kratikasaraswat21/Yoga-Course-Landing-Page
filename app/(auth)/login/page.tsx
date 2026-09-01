@@ -4,12 +4,9 @@ import Link from "next/link";
 import loginYogaImage from "@/assets/images/auth/login-yoga.webp";
 import { Logo } from "@/components/shared/logo";
 import { LoginForm } from "@/features/auth/components/login-form";
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Log in",
-  description: "Log in to Kratika Yoga to continue your courses and return to your practice.",
-};
+export const metadata = pageMetadata("Log in", "Log in to Kratika Yoga to continue your courses and return to your practice.", "/login");
 
 export default async function LoginPage({ searchParams }: { searchParams: Promise<{ returnTo?: string }> }) {
   const { returnTo } = await searchParams;
