@@ -8,7 +8,7 @@ import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp
 import { toast } from "@/components/ui/toast";
 import { useDebounce } from "@/hooks/useDebounce";
 import { multipleApiHandler } from "@/lib/api/multiple.api";
-import { getDataFromSecureCookie, storeDataInSecureCookie } from "@/lib/helper/hepler";
+import { getAuthToken, storeDataInSecureCookie } from "@/lib/helper/hepler";
 import { validateVerifyEmailForm } from "@/lib/validation/auth.validation";
 
 export function VerifyEmailForm({ email, returnTo }: { email: string; returnTo?: string }) {
@@ -60,7 +60,7 @@ export function VerifyEmailForm({ email, returnTo }: { email: string; returnTo?:
       }
 
       storeDataInSecureCookie(token, "yoga_platform_auth_token", true);
-      const storedToken = getDataFromSecureCookie("yoga_platform_auth_token");
+      const storedToken = getAuthToken("yoga_platform_auth_token");
       if (storedToken !== token) {
         toast.add({
           title: "Sign-in could not be completed",

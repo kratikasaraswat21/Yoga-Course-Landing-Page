@@ -3,5 +3,5 @@ export interface CookieConfigInterface {
   secure: boolean;
   sameSite: "strict" | "Strict" | "lax" | "Lax" | "none" | "None";
   path: string;
-  expires: number;
+  expires?: number;
 }

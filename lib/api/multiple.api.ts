@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import { EnvConfig } from "@/lib/config/envConfig";
-import { clearLocalSessionStorage, getDataFromSecureCookie } from "@/lib/helper/hepler";
+import { clearLocalSessionStorage, getAuthToken } from "@/lib/helper/hepler";
 import type { ApiReturnInterface, EndpointObject } from "@/types/api";
 
 const BASE_URL = EnvConfig.API_BASE_URL;
@@ -36,7 +36,7 @@ const fetchEndpoint = async (endpoint: EndpointObject, signal?: AbortSignal): Pr
   };
 
   if (endpoint.protected && !headers.Authorization) {
-    const token = getDataFromSecureCookie("yoga_platform_auth_token");
+    const token = getAuthToken("yoga_platform_auth_token");
     if (token) headers.Authorization = `Bearer ${token}`;
     else {
       redirectToLogin();

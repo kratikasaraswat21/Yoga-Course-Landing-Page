@@ -30,7 +30,7 @@ export const getDataFromSecureCookie = (key: string): any | null => {
 
     return JSON.parse(cookieStorageData);
   } catch (error) {
-    console.error(`Error reading from localStorage (key: ${key}):`, error);
+    console.error(`Error reading from cookie (key: ${key}):`, error);
     return null;
   }
 };
@@ -52,6 +52,43 @@ export const storeDataInSecureCookie = (_data: any, key: string, is_persistent: 
 
   Cookies.set(key, dataToStore, cookieConfig);
 };
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const getDataFromSessionStorage = (key: string): any | null => {
+  if (typeof window === "undefined") return null;
+
+  try {
+    const sessionStorageData = sessionStorage.getItem(key);
+    return sessionStorageData ? JSON.parse(sessionStorageData) : null;
+  } catch (error) {
+    console.error(`Error reading from sessionStorage (key: ${key}):`, error);
+    return null;
+  }
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const storeDataInSessionStorage = (_data: any, key: string) => {
+  if (!key || typeof window === "undefined") return;
+
+  try {
+    sessionStorage.setItem(key, JSON.stringify(_data));
+  } catch (error) {
+    console.error(`Error writing to sessionStorage (key: ${key}):`, error);
+  }
+};
+
+export const removeDataFromSecureCookie = (key: string) => {
+  if (!key) return;
+  Cookies.remove(key, getCookieConfig());
+};
+
+export const removeDataFromSessionStorage = (key: string) => {
+  if (!key || typeof window === "undefined") return;
+  sessionStorage.removeItem(key);
+};
+
+export const getAuthToken = (key: string) =>
+  getDataFromSecureCookie(key) ?? getDataFromSessionStorage(key);
 
 export const clearLocalSessionStorage = () => {
   localStorage.clear();

@@ -10,7 +10,13 @@ import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/toast";
 import { useDebounce } from "@/hooks/useDebounce";
 import { multipleApiHandler } from "@/lib/api/multiple.api";
-import { getDataFromSecureCookie, storeDataInSecureCookie } from "@/lib/helper/hepler";
+import {
+  getAuthToken,
+  removeDataFromSecureCookie,
+  removeDataFromSessionStorage,
+  storeDataInSecureCookie,
+  storeDataInSessionStorage,
+} from "@/lib/helper/hepler";
 import { validateEmailAddress, validateLoginForm } from "@/lib/validation/auth.validation";
 import type { LoginFormData } from "@/types/user";
 
@@ -64,8 +70,15 @@ export function LoginForm({ returnTo }: { returnTo?: string }) {
         return;
       }
 
-      storeDataInSecureCookie(token, "yoga_platform_auth_token", rememberMe);
-      if (getDataFromSecureCookie("yoga_platform_auth_token") !== token) {
+      if (rememberMe) {
+        removeDataFromSessionStorage("yoga_platform_auth_token");
+        storeDataInSecureCookie(token, "yoga_platform_auth_token", true);
+      } else {
+        removeDataFromSecureCookie("yoga_platform_auth_token");
+        storeDataInSessionStorage(token, "yoga_platform_auth_token");
+      }
+
+      if (getAuthToken("yoga_platform_auth_token") !== token) {
         toast.add({
           title: "Login failed",
           description: "Your session could not be saved. Please try again.",

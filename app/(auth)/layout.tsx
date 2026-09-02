@@ -1,6 +1,6 @@
 "use client";
 
-import { getDataFromSecureCookie } from "@/lib/helper/hepler";
+import { getAuthToken } from "@/lib/helper/hepler";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ReactNode, Suspense, useEffect, useState } from "react";
 
@@ -19,7 +19,7 @@ function AuthSessionGuard({ children }: { children: ReactNode }) {
   const [isCheckingSession, setIsCheckingSession] = useState(true);
 
   useEffect(() => {
-    const token = getDataFromSecureCookie("yoga_platform_auth_token");
+    const token = getAuthToken("yoga_platform_auth_token");
 
     if (token && pathname !== "/verify-email") {
       const returnTo = searchParams.get("returnTo");
