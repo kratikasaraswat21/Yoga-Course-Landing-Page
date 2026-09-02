@@ -4,6 +4,8 @@ import feedback1 from "@/assets/images/insta-feed-back/insta-feed-back-1.webp";
 import feedback2 from "@/assets/images/insta-feed-back/insta-feed-back-2.webp";
 import feedback3 from "@/assets/images/insta-feed-back/insta-feed-back-3.webp";
 import feedback4 from "@/assets/images/insta-feed-back/insta-feed-back-4.webp";
+import feedback5 from "@/assets/images/insta-feed-back/insta-feed-back-5.webp";
+import feedback6 from "@/assets/images/insta-feed-back/insta-feed-back-6.webp";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import "swiper/css";
@@ -11,7 +13,7 @@ import "swiper/css/navigation";
 import { A11y, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-const feedbackImages = [feedback1, feedback2, feedback3, feedback4];
+const feedbackImages = [feedback1, feedback2, feedback3, feedback4, feedback5, feedback6];
 
 export function InstagramFeedbackSwiper() {
   return (
@@ -21,7 +23,9 @@ export function InstagramFeedbackSwiper() {
           <div>
             <h2>Real practice. Real progress.</h2>
           </div>
-          <p className="text-justify">See how the Kratika Yoga community is making space for movement, breath and a practice that lasts.</p>
+          <p className="text-justify">
+            See how the Kratika Yoga community is making space for movement, breath and a practice that lasts.
+          </p>
         </div>
         <Swiper
           className="landing-instagram-feedback-swiper"
