@@ -6,6 +6,8 @@ import feedback3 from "@/assets/images/insta-feed-back/insta-feed-back-3.webp";
 import feedback4 from "@/assets/images/insta-feed-back/insta-feed-back-4.webp";
 import feedback5 from "@/assets/images/insta-feed-back/insta-feed-back-5.webp";
 import feedback6 from "@/assets/images/insta-feed-back/insta-feed-back-6.webp";
+import feedback7 from "@/assets/images/insta-feed-back/insta-feed-back-7.webp";
+
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import "swiper/css";
@@ -13,7 +15,7 @@ import "swiper/css/navigation";
 import { A11y, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-const feedbackImages = [feedback1, feedback2, feedback3, feedback4, feedback5, feedback6];
+const feedbackImages = [feedback1, feedback2, feedback3, feedback4, feedback5, feedback6, feedback7];
 
 export function InstagramFeedbackSwiper() {
   return (
