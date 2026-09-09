@@ -32,16 +32,16 @@ export function Footer() {
               <Mail size={19} aria-hidden="true" />
               hello@kratikayoga.com
             </a>
-            <a href="https://www.instagram.com/kratikayoga/" target="_blank" rel="noreferrer">
+            <a href="https://www.instagram.com/kratika_saraswat21?stkn=MWg3eG1xNW1yZnBo" target="_blank" rel="noreferrer">
               <FaInstagram aria-hidden="true" />
-              @kratikayoga
+              @kratika_saraswat21
             </a>
             <a
-              href="https://www.instagram.com/kratika_saraswat21?igsi=MWg3eG1xNW1yZnBo"
+              href="https://www.youtube.com/@KratikaSaraswat21"
               target="_blank"
               rel="noreferrer">
               <FaYoutube aria-hidden="true" />
-              @kratika_saraswat21
+              @KratikaSaraswat21
             </a>
           </div>
         </div>
