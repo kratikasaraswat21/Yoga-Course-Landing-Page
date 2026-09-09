@@ -182,5 +182,5 @@
 }
 
 .font-montserrat {
-  font-family: var(--font-montserrat), Arial, sans-serif;
+  font-family: var(--font-montserrat), Arial, sans-serif !important;
 }
