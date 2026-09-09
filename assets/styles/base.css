@@ -180,3 +180,7 @@
     @apply font-sans;
   }
 }
+
+.font-montserrat {
+  font-family: var(--font-montserrat), Arial, sans-serif;
+}

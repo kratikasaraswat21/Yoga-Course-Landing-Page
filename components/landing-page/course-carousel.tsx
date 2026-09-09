@@ -117,7 +117,7 @@ export function CourseCarousel({ courses, error }: { courses: LandingCourse[]; e
                                 <small>{course.discount}% off</small>
                               </>
                             )}
-                            <strong>
+                            <strong className="font-montserrat">
                               ₹
                               {(course.discount > 0 ? course.totalPayableAmount : course.price).toLocaleString("en-IN")}
                             </strong>
