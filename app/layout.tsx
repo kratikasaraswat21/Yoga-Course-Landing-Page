@@ -1,8 +1,8 @@
+import { Toaster } from "@/components/ui/toast";
+import { metaImage, siteUrl } from "@/lib/seo";
 import type { Metadata } from "next";
 import Script from "next/script";
 import type { ReactNode } from "react";
-import { Toaster } from "@/components/ui/toast";
-import { metaImage, siteUrl } from "@/lib/seo";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -12,19 +12,22 @@ export const metadata: Metadata = {
     default: "Kratika Yoga | Come back to yourself",
     template: "%s | Kratika Yoga",
   },
-  description: "Thoughtful yoga practices designed to help you move better, breathe deeper, and reconnect with yourself.",
+  description:
+    "Thoughtful yoga practices designed to help you move better, breathe deeper, and reconnect with yourself.",
   openGraph: {
     type: "website",
     locale: "en_IN",
     siteName: "Kratika Yoga",
     title: "Kratika Yoga | Come back to yourself",
-    description: "Thoughtful yoga practices designed to help you move better, breathe deeper, and reconnect with yourself.",
-    images: [{ url: metaImage, width: 1201, height: 600, alt: "Kratika Yoga" }],
+    description:
+      "Thoughtful yoga practices designed to help you move better, breathe deeper, and reconnect with yourself.",
+    images: [{ url: metaImage, width: 1200, height: 600, alt: "Kratika Yoga" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Kratika Yoga | Come back to yourself",
-    description: "Thoughtful yoga practices designed to help you move better, breathe deeper, and reconnect with yourself.",
+    description:
+      "Thoughtful yoga practices designed to help you move better, breathe deeper, and reconnect with yourself.",
     images: [metaImage],
   },
   icons: {
