@@ -137,11 +137,11 @@ export function CourseListingPage({ mode }: { mode: CourseListingMode }) {
                 <div className="catalog-bottom pt-4">
                   {mode === "explore" && (course.discount ?? 0) > 0 && (
                     <>
-                      <del>₹{course.price.toLocaleString("en-IN")}</del>
+                      <del className="font-montserrat">₹{course.price.toLocaleString("en-IN")}</del>
                       <em>{course.discount}% off</em>
                     </>
                   )}
-                  <strong>
+                  <strong className="font-montserrat">
                     ₹{((mode === "explore" && (course.discount ?? 0) > 0) ? course.totalPayableAmount : course.price).toLocaleString("en-IN")}
                   </strong>
                   <Link className="catalog-button" href={`/course/enrolled/${course.id}`}>

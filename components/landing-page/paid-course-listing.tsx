@@ -55,11 +55,11 @@ export function PaidCourseListing({ courses, error }: { courses: LandingCourse[]
                     <div>
                       {course.discount > 0 && (
                         <>
-                          <del>₹{course.price.toLocaleString("en-IN")}</del>
+                          <del className="font-montserrat">₹{course.price.toLocaleString("en-IN")}</del>
                           <small>{course.discount}% off</small>
                         </>
                       )}
-                      <strong>₹{(course.discount > 0 ? course.totalPayableAmount : course.price).toLocaleString("en-IN")}</strong>
+                      <strong className="font-montserrat">₹{(course.discount > 0 ? course.totalPayableAmount : course.price).toLocaleString("en-IN")}</strong>
                     </div>
                     <a href={`/course/enrolled/${course.courseId}`}>
                       View course <ArrowRight size={16} />

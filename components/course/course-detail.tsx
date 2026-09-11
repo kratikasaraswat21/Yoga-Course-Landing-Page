@@ -61,11 +61,11 @@ export function CourseDetailHero({
         <div className="detail-price">
           {course.discount > 0 && (
             <>
-              <del>₹{course.price.toLocaleString("en-IN")}</del>
+              <del className="font-montserrat">₹{course.price.toLocaleString("en-IN")}</del>
               <span className="discount">{course.discount}% off</span>
             </>
           )}
-          <strong>₹{(course.discount > 0 ? course.totalPayableAmount : course.price).toLocaleString("en-IN")}</strong>
+          <strong className="font-montserrat">₹{(course.discount > 0 ? course.totalPayableAmount : course.price).toLocaleString("en-IN")}</strong>
         </div>
         <small className="payment-copy">One-time payment · Lifetime access</small>
         <div className="detail-stats">

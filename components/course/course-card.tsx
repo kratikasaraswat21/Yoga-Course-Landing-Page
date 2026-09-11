@@ -167,9 +167,9 @@ export function ExploreRow({
         <h3>{title}</h3>
         <span>{lessons} lessons</span>
         <div className="explore-pricing">
-          {basePrice && <del>{basePrice}</del>}
+          {basePrice && <del className="font-montserrat">{basePrice}</del>}
           {discount && <em>{discount} off</em>}
-          <strong>{price}</strong>
+          <strong className="font-montserrat">{price}</strong>
         </div>
         <Link href={href}>
           View course <ArrowRight size={15} />

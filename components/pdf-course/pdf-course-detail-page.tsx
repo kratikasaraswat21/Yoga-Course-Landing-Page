@@ -196,9 +196,9 @@ export default function PdfCourseDetailPage() {
             <h1 className="title-case">{course.title}</h1>
             {!course.isPurchased && !course.isAvailableForFree && (
               <div className="pdf-detail-price">
-                {(course.discount ?? 0) > 0 && <del>₹{(course.price ?? 0).toLocaleString("en-IN")}</del>}
+                {(course.discount ?? 0) > 0 && <del className="font-montserrat">₹{(course.price ?? 0).toLocaleString("en-IN")}</del>}
                 {(course.discount ?? 0) > 0 && <span className="discount">{course.discount}% off</span>}
-                <strong>
+                <strong className="font-montserrat">
                   ₹{(((course.discount ?? 0) > 0 ? course.totalPayableAmount ?? course.price : course.price) ?? 0).toLocaleString("en-IN")}
                 </strong>
               </div>

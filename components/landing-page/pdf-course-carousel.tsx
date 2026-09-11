@@ -62,11 +62,11 @@ export function PdfCourseCarousel({ courses, error }: { courses: LandingPdfCours
                     </div>
                     {course.discount > 0 && (
                       <>
-                        <del>{formatCurrency(course.price)}</del>
+                        <del className="font-montserrat">{formatCurrency(course.price)}</del>
                         <small>{course.discount}% OFF</small>
                       </>
                     )}
-                    <strong>{formatCurrency(course.discount > 0 ? course.totalPayableAmount : course.price)}</strong>
+                    <strong className="font-montserrat">{formatCurrency(course.discount > 0 ? course.totalPayableAmount : course.price)}</strong>
                     <a className="landing-button landing-button-light" href={`/pdf-course/${course.id}`}>
                       View PDF program <ArrowRight size={18} />
                     </a>

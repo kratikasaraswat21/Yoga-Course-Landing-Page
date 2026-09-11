@@ -115,9 +115,9 @@ export function PdfCourseListingPage({ mode }: { mode: "explore" | "purchased" }
                       <strong>Purchased</strong>
                     ) : (
                       <>
-                        {(course.discount ?? 0) > 0 && <del>₹{(course.price ?? 0).toLocaleString("en-IN")}</del>}
+                        {(course.discount ?? 0) > 0 && <del className="font-montserrat">₹{(course.price ?? 0).toLocaleString("en-IN")}</del>}
                         {(course.discount ?? 0) > 0 && <em>{course.discount}% off</em>}
-                        <strong>
+                        <strong className="font-montserrat">
                           ₹{(((course.discount ?? 0) > 0 ? course.totalPayableAmount ?? course.price : course.price) ?? 0).toLocaleString("en-IN")}
                         </strong>
                       </>

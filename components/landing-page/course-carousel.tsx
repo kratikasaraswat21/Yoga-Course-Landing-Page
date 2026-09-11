@@ -113,7 +113,7 @@ export function CourseCarousel({ courses, error }: { courses: LandingCourse[]; e
                           <div className="platform-course-feature-price flex flex-row! items-center! pt-4!">
                             {course.discount > 0 && (
                               <>
-                                <del>₹{course.price.toLocaleString("en-IN")}</del>
+                                <del className="font-montserrat">₹{course.price.toLocaleString("en-IN")}</del>
                                 <small>{course.discount}% off</small>
                               </>
                             )}
