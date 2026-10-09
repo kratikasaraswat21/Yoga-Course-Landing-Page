@@ -10,7 +10,7 @@ import { A11y, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import { CourseRatingStars } from "@/components/landing-page/course-rating-stars";
-import type { LandingCourse } from "@/types/landing-course";
+import { getLandingCourseHref, isPrelaunchPriceActive, type LandingCourse } from "@/types/landing-course";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -20,7 +20,9 @@ export function CourseCarousel({ courses, error }: { courses: LandingCourse[]; e
 
   const copyCourseLink = async (courseId: string) => {
     try {
-      await navigator.clipboard.writeText(`${window.location.origin}/#course-library`);
+      const course = courses.find((item) => item.courseId === courseId);
+      const coursePath = course?.landingPageEnabled && course.slug ? `/courses/${course.slug}` : "/#course-library";
+      await navigator.clipboard.writeText(`${window.location.origin}${coursePath}`);
       setCopiedCourseId(courseId);
       window.setTimeout(() => setCopiedCourseId(null), 1800);
     } catch {
@@ -40,9 +42,9 @@ export function CourseCarousel({ courses, error }: { courses: LandingCourse[]; e
               Begin with the level and focus that feel right for you. Each course includes clear guidance, structured
               lessons and lifetime access.
             </p>
-            <a className="landing-button landing-button-light" href="/courses">
+            <Link className="landing-button landing-button-light" href="/courses">
               Explore all courses <ArrowRight size={18} />
-            </a>
+            </Link>
           </div>
         </div>
         <div className="platform-free-swiper-wrap">
@@ -111,6 +113,9 @@ export function CourseCarousel({ courses, error }: { courses: LandingCourse[]; e
                             </div>
                           </div>
                           <div className="platform-course-feature-price flex flex-row! items-center! pt-4!">
+                            {isPrelaunchPriceActive(course) && (
+                              <span className="course-card-prelaunch-chip">Prelaunch</span>
+                            )}
                             {course.discount > 0 && (
                               <>
                                 <del className="font-montserrat">₹{course.price.toLocaleString("en-IN")}</del>
@@ -126,7 +131,7 @@ export function CourseCarousel({ courses, error }: { courses: LandingCourse[]; e
                         <div className="platform-course-feature-price platform-course-feature-action flex flex-row! w-full items-center justify-between">
                           <Link
                             className="landing-button landing-button-light w-fit m-0!"
-                            href={`/course/enrolled/${course.courseId}`}>
+                            href={getLandingCourseHref(course)}>
                             View course <ArrowRight size={18} />
                           </Link>
                           <button

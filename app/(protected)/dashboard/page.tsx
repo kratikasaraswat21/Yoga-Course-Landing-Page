@@ -10,7 +10,7 @@ import { toast } from "@/components/ui/toast";
 import { multipleApiHandler } from "@/lib/api/multiple.api";
 import { getTimeGreeting } from "@/lib/helper/time";
 import type { AffiliateProduct, AffiliateProductsResponse } from "@/types/affiliate-product";
-import type { ApiCourse, CoursesResponse } from "@/types/course";
+import { getCourseViewHref, type ApiCourse, type CoursesResponse } from "@/types/course";
 import type { PdfCourse, PdfCoursesResponse } from "@/types/pdf-course";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
@@ -84,7 +84,7 @@ export default function DashboardPage() {
     basePrice: course.discount && course.discount > 0 ? `₹${course.price.toLocaleString("en-IN")}` : "",
     discount: course.discount ? `${course.discount}%` : "",
     price: `₹${(course.discount && course.discount > 0 ? course.totalPayableAmount : course.price).toLocaleString("en-IN")}`,
-    href: `/course/enrolled/${course.id}`,
+    href: getCourseViewHref(course),
   }));
   const pdfCards = pdfCourses.slice(0, 2).map((pdf, index) => ({
     title: pdf.title,

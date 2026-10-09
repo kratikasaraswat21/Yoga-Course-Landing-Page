@@ -1,3 +1,4 @@
+import { EnvConfig } from "@/lib/config/envConfig";
 import { CookieConfigInterface } from "@/types/helper.interface";
 import { clsx, type ClassValue } from "clsx";
 import Cookies from "js-cookie";
@@ -8,7 +9,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 const getCookieConfig = (): CookieConfigInterface => {
-  const isProduction = process.env.NODE_ENV === "production";
+  const isProduction = EnvConfig.CURRENT_ENVIRONMENT === "PRODUCTION";
 
   return {
     // Local development runs on http://localhost, where Secure cookies are blocked.

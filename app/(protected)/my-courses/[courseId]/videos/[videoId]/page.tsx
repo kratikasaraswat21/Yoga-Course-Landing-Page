@@ -5,13 +5,16 @@ import { CourseErrorState } from "@/components/shared/course-error-state";
 import { toast } from "@/components/ui/toast";
 import { useDebounce } from "@/hooks/useDebounce";
 import { multipleApiHandler } from "@/lib/api/multiple.api";
+import { formatScheduleDate } from "@/lib/helper/schedule-date";
 import { formatDuration, formatTime } from "@/lib/utils";
 import type { Course, VideoPlayback } from "@/types/course";
 import Hls from "hls.js";
 import {
   ChevronLeft,
+  CalendarClock,
   ChevronRight,
   CircleCheck,
+  Lock,
   Maximize,
   Minimize,
   Pause,
@@ -35,6 +38,10 @@ export default function VideoPlaybackPage() {
   const [video, setVideo] = useState<VideoPlayback | null>(null);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  // Set when this video has a future release date (prelaunch buyers): YYYY-MM-DD it unlocks.
+  const [lockedUntil, setLockedUntil] = useState<string | null>(null);
+  // Set when the course locks videos in order and this one comes after the buyer's next video.
+  const [sequentialLock, setSequentialLock] = useState<{ nextVideoId: string | null } | null>(null);
   const [showEndPopup, setShowEndPopup] = useState(false);
   const [rating, setRating] = useState(0);
   const [isRatingSubmitted, setIsRatingSubmitted] = useState(false);
@@ -53,6 +60,8 @@ export default function VideoPlaybackPage() {
     try {
       setIsLoading(true);
       setError("");
+      setLockedUntil(null);
+      setSequentialLock(null);
       const response = await multipleApiHandler([
         { endPoint: `/courses/${courseId}/videos/${videoId}/others`, method: "GET", protected: true },
         { endPoint: `/courses/${courseId}/videos/${videoId}/playback`, method: "GET", protected: true },
@@ -63,6 +72,18 @@ export default function VideoPlaybackPage() {
         const message = courseRes?.data?.message ?? "Course could not be loaded.";
         setError(message);
         toast.add({ title: "Course could not be loaded", description: message, type: "error" });
+        return;
+      }
+      const lockedPlayback = playbackRes?.data?.data as
+        { code?: string; releaseDate?: string; nextVideoId?: string | null } | undefined;
+      if (playbackRes?.status === 403 && lockedPlayback?.code === "VIDEO_LOCKED_SCHEDULED") {
+        setCourse(courseRes.data.data.course);
+        setLockedUntil(lockedPlayback.releaseDate ?? "");
+        return;
+      }
+      if (playbackRes?.status === 403 && lockedPlayback?.code === "VIDEO_LOCKED_SEQUENTIAL") {
+        setCourse(courseRes.data.data.course);
+        setSequentialLock({ nextVideoId: lockedPlayback.nextVideoId ?? null });
         return;
       }
       if (!playbackRes?.data?.success) {
@@ -147,8 +168,18 @@ export default function VideoPlaybackPage() {
     () => course?.courseVideos.findIndex((item) => item.id === videoId) ?? -1,
     [course, videoId],
   );
-  const previousVideo = currentIndex > 0 ? course?.courseVideos[currentIndex - 1] : undefined;
-  const nextVideo = course && currentIndex >= 0 ? course.courseVideos[currentIndex + 1] : undefined;
+  // Previous/next skip videos that are still locked until their release date.
+  const previousVideo =
+    course && currentIndex > 0
+      ? course.courseVideos
+          .slice(0, currentIndex)
+          .reverse()
+          .find((item) => !item.isLocked)
+      : undefined;
+  const nextVideo =
+    course && currentIndex >= 0
+      ? course.courseVideos.slice(currentIndex + 1).find((item) => !item.isLocked)
+      : undefined;
   const currentVideoThumbnail =
     course?.courseVideos.find((item) => item.id === videoId)?.thumbnailUrl || course?.thumbnailUrl;
 
@@ -193,6 +224,11 @@ export default function VideoPlaybackPage() {
 
     if (response[0]?.data?.success) {
       setVideo((currentVideo) => (currentVideo ? { ...currentVideo, isCompleted: true } : currentVideo));
+      // Reload the lesson list: with "Lock videos in order", finishing this video opens the next one.
+      const others = await multipleApiHandler([
+        { endPoint: `/courses/${courseId}/videos/${videoId}/others`, method: "GET", protected: true },
+      ]);
+      if (others[0]?.data?.success && others[0].data.data?.course) setCourse(others[0].data.data.course);
       return;
     }
 
@@ -204,10 +240,11 @@ export default function VideoPlaybackPage() {
     });
   }, 100);
 
+  // The end popup always offers the next lesson; the rating part is only shown before the course is reviewed.
   const handleVideoEnded = () => {
     completeVideo();
     setIsPlaying(false);
-    setShowEndPopup(video?.hasReviewed !== true);
+    setShowEndPopup(true);
   };
 
   const togglePlay = async () => {
@@ -238,8 +275,6 @@ export default function VideoPlaybackPage() {
     setVolume(value);
     setIsMuted(player.muted);
   };
-
-  console.log(video)
 
   const toggleFullscreen = async () => {
     const player = playerRef.current as FullscreenVideoElement | null;
@@ -279,6 +314,44 @@ export default function VideoPlaybackPage() {
   };
 
   if (isLoading) return <VideoPlaybackSkeleton />;
+  if (course && lockedUntil !== null) {
+    return (
+      <div className="playback-locked-state">
+        <Lock size={40} aria-hidden="true" />
+        <h1>This lesson isn&apos;t available yet</h1>
+        <p>
+          {lockedUntil
+            ? `It unlocks on ${formatScheduleDate(lockedUntil, true)} at 12:00 AM IST. We'll have it ready for you then.`
+            : "It unlocks on its release date."}
+        </p>
+        <Link className="detail-primary" href={`/course/enrolled/${course.id}`}>
+          Back to course
+        </Link>
+      </div>
+    );
+  }
+  if (course && sequentialLock) {
+    const nextLesson = course.courseVideos.find((item) => item.id === sequentialLock.nextVideoId);
+    return (
+      <div className="playback-locked-state">
+        <Lock size={40} aria-hidden="true" />
+        <h1>Complete the previous video first</h1>
+        <p>
+          This course unlocks its videos in order. Finish
+          {nextLesson ? ` “${nextLesson.title}”` : " your next video"} to open this one.
+        </p>
+        {nextLesson ? (
+          <Link className="detail-primary" href={`/course/enrolled/${course.id}/videos/${nextLesson.id}`}>
+            Go to next video
+          </Link>
+        ) : (
+          <Link className="detail-primary" href={`/course/enrolled/${course.id}`}>
+            Back to course
+          </Link>
+        )}
+      </div>
+    );
+  }
   if (error || !course || !video)
     return <CourseErrorState message={error || "Video not found."} onRetry={loadPlayback} />;
 
@@ -401,17 +474,53 @@ export default function VideoPlaybackPage() {
             {currentIndex + 1} of {course.videoCount} lessons
           </p>
           <div className="lesson-list">
-            {course.courseVideos.map((item, index) => (
-              <Link
-                className={item.id === videoId ? "current" : ""}
-                key={item.id}
-                href={`/course/enrolled/${course.id}/videos/${item.id}`}>
-                <span>{item.id === videoId ? <Play size={14} fill="currentColor" /> : <CircleCheck size={16} />}</span>
-                <strong>{index + 1}.</strong>
-                <b>{item.title}</b>
-                <small>{formatDuration(item.durationSeconds)}</small>
-              </Link>
-            ))}
+            {course.courseVideos.map((item, index) => [
+              // Week heading before the first video of each group.
+              ...(course.groups ?? [])
+                .filter((group) => group.videos[0]?.id === item.id)
+                .map((group) => (
+                  <p className="lesson-group-heading" key={`group-${group.id ?? "other"}`}>
+                    {group.title}
+                  </p>
+                )),
+              item.isLocked ? (
+                <div
+                  className="lesson-locked"
+                  key={item.id}
+                  title={
+                    item.lockReason === "SEQUENTIAL"
+                      ? "Complete the previous video to unlock"
+                      : `Available on ${formatScheduleDate(item.releaseDate, true)}`
+                  }>
+                  <span>
+                    <Lock size={14} />
+                  </span>
+                  <strong>{index + 1}.</strong>
+                  <b>{item.title}</b>
+                  <small>
+                    {item.lockReason === "SEQUENTIAL" ? (
+                      "Locked"
+                    ) : (
+                      <>
+                        <CalendarClock size={12} aria-hidden="true" /> {formatScheduleDate(item.releaseDate)}
+                      </>
+                    )}
+                  </small>
+                </div>
+              ) : (
+                <Link
+                  className={item.id === videoId ? "current" : ""}
+                  key={item.id}
+                  href={`/course/enrolled/${course.id}/videos/${item.id}`}>
+                  <span>
+                    {item.id === videoId ? <Play size={14} fill="currentColor" /> : <CircleCheck size={16} />}
+                  </span>
+                  <strong>{index + 1}.</strong>
+                  <b>{item.title}</b>
+                  <small>{formatDuration(item.durationSeconds)}</small>
+                </Link>
+              ),
+            ])}
           </div>
         </aside>
       </div>
@@ -421,53 +530,57 @@ export default function VideoPlaybackPage() {
             <CircleCheck size={42} />
             <h2 id="video-ended-title">Lesson complete</h2>
             <p>You finished “{video.title}”.</p>
-            <div className="lesson-rating" aria-label="Rate this lesson">
-              <span>How was this lesson?</span>
-              <div className="rating-stars" aria-label={`Rating: ${rating || 0} out of 5`}>
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <span className="rating-star" key={star}>
-                    <span
-                      className="rating-star-visual"
-                      style={{
-                        background: `linear-gradient(90deg, #d97745 ${rating >= star ? "100%" : rating >= star - 0.5 ? "50%" : "0%"}, #d8d8d0 ${rating >= star ? "100%" : rating >= star - 0.5 ? "50%" : "0%"})`,
-                      }}>
-                      ★
-                    </span>
+            {video.hasReviewed !== true && (
+              <>
+                <div className="lesson-rating" aria-label="Rate this lesson">
+                  <span>How was this lesson?</span>
+                  <div className="rating-stars" aria-label={`Rating: ${rating || 0} out of 5`}>
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <span className="rating-star" key={star}>
+                        <span
+                          className="rating-star-visual"
+                          style={{
+                            background: `linear-gradient(90deg, #d97745 ${rating >= star ? "100%" : rating >= star - 0.5 ? "50%" : "0%"}, #d8d8d0 ${rating >= star ? "100%" : rating >= star - 0.5 ? "50%" : "0%"})`,
+                          }}>
+                          ★
+                        </span>
+                        <button
+                          type="button"
+                          className="rating-half rating-half-left"
+                          aria-label={`${star - 0.5} stars`}
+                          aria-pressed={rating === star - 0.5}
+                          onClick={() => {
+                            setRating(star - 0.5);
+                            setIsRatingSubmitted(false);
+                          }}
+                        />
+                        <button
+                          type="button"
+                          className="rating-half rating-half-right"
+                          aria-label={`${star} stars`}
+                          aria-pressed={rating === star}
+                          onClick={() => {
+                            setRating(star);
+                            setIsRatingSubmitted(false);
+                          }}
+                        />
+                      </span>
+                    ))}
+                  </div>
+                  {rating > 0 && <small className="rating-value">{rating} / 5</small>}
+                </div>
+                <div className="video-ended-actions">
+                  {!isRatingSubmitted && (
                     <button
-                      type="button"
-                      className="rating-half rating-half-left"
-                      aria-label={`${star - 0.5} stars`}
-                      aria-pressed={rating === star - 0.5}
-                      onClick={() => {
-                        setRating(star - 0.5);
-                        setIsRatingSubmitted(false);
-                      }}
-                    />
-                    <button
-                      type="button"
-                      className="rating-half rating-half-right"
-                      aria-label={`${star} stars`}
-                      aria-pressed={rating === star}
-                      onClick={() => {
-                        setRating(star);
-                        setIsRatingSubmitted(false);
-                      }}
-                    />
-                  </span>
-                ))}
-              </div>
-              {rating > 0 && <small className="rating-value">{rating} / 5</small>}
-            </div>
-            <div className="video-ended-actions">
-              {!isRatingSubmitted && (
-                <button
-                  className="detail-primary rating-submit"
-                  disabled={!rating || isRatingSubmitting}
-                  onClick={() => void submitRating()}>
-                  {isRatingSubmitting ? "Submitting..." : "Submit response"}
-                </button>
-              )}
-            </div>
+                      className="detail-primary rating-submit"
+                      disabled={!rating || isRatingSubmitting}
+                      onClick={() => void submitRating()}>
+                      {isRatingSubmitting ? "Submitting..." : "Submit response"}
+                    </button>
+                  )}
+                </div>
+              </>
+            )}
             <div className="video-ended-actions">
               <button
                 className="detail-secondary"
@@ -478,8 +591,11 @@ export default function VideoPlaybackPage() {
                 Watch again
               </button>
               {nextVideo ? (
-                <Link className="detail-primary" href={`/course/enrolled/${course.id}/videos/${nextVideo.id}`}>
-                  Next lesson <ChevronRight size={17} />
+                <Link
+                  className="detail-primary"
+                  href={`/course/enrolled/${course.id}/videos/${nextVideo.id}`}
+                  title={nextVideo.title}>
+                  Up next: {nextVideo.title} <ChevronRight size={17} />
                 </Link>
               ) : (
                 <button className="detail-primary" onClick={() => setShowEndPopup(false)}>

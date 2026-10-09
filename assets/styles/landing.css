@@ -12,7 +12,7 @@
 
 @media (min-width: 1200px) {
   .kratika-yoga-container {
-    width: min(calc(100% - 150px), 1540px) !important;
+    width: min(calc(100% - 150px), 1440px) !important;
   }
 }
 

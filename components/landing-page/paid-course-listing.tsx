@@ -1,7 +1,7 @@
 import { ArrowRight, Clock3, Video } from "lucide-react";
 
 import courseFallback from "@/assets/images/landing/course/course-main.png";
-import type { LandingCourse } from "@/types/landing-course";
+import { getLandingCourseHref, isPrelaunchPriceActive, type LandingCourse } from "@/types/landing-course";
 import { CourseRatingStars } from "./course-rating-stars";
 
 export function PaidCourseListing({ courses, error }: { courses: LandingCourse[]; error?: string }) {
@@ -53,6 +53,7 @@ export function PaidCourseListing({ courses, error }: { courses: LandingCourse[]
                   </div>
                   <div className="paid-course-card-footer">
                     <div>
+                      {isPrelaunchPriceActive(course) && <span className="course-card-prelaunch-chip">Prelaunch</span>}
                       {course.discount > 0 && (
                         <>
                           <del className="font-montserrat">₹{course.price.toLocaleString("en-IN")}</del>
@@ -61,7 +62,7 @@ export function PaidCourseListing({ courses, error }: { courses: LandingCourse[]
                       )}
                       <strong className="font-montserrat">₹{(course.discount > 0 ? course.totalPayableAmount : course.price).toLocaleString("en-IN")}</strong>
                     </div>
-                    <a href={`/course/enrolled/${course.courseId}`}>
+                    <a href={getLandingCourseHref(course)}>
                       View course <ArrowRight size={16} />
                     </a>
                   </div>

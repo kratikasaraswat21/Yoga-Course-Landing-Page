@@ -1,11 +1,13 @@
 import { Suspense } from "react";
 import { ArrowRight, Plus } from "lucide-react";
+import Link from "next/link";
 
 import { faqQuestions } from "@/data/landing-page";
 import type { LandingCourse } from "@/types/landing-course";
 import type { LandingPdfCourse } from "@/types/landing-pdf-course";
 
 import { CourseCarousel } from "./course-carousel";
+import { getFeedbackImages } from "./feedback-images";
 import { FreeCourseSwiper } from "./free-course-swiper";
 import { InstagramFeedbackSwiper } from "./instagram-feedback-swiper";
 import { SectionIntro } from "./section-intro";
@@ -101,9 +103,9 @@ function FinalCta() {
         </h2>
         <p>Choose a course, take your first gentle step and build a yoga practice that grows with you.</p>
         <div>
-          <a className="landing-button landing-button-light" href="/courses">
+          <Link className="landing-button landing-button-light" href="/courses">
             Explore all courses <ArrowRight size={18} />
-          </a>
+          </Link>
           <a className="landing-button landing-button-secondary" href="#free-practice">
             Start with a free practice <ArrowRight size={17} />
           </a>
@@ -111,6 +113,11 @@ function FinalCta() {
       </div>
     </section>
   );
+}
+
+/** Feedback screenshots from the admin panel (or the built-in ones). */
+async function InstagramFeedbackSection() {
+  return <InstagramFeedbackSwiper images={await getFeedbackImages()} />;
 }
 
 export function PlatformSections({
@@ -125,7 +132,9 @@ export function PlatformSections({
   return (
     <>
       <CourseCarousel courses={topCourses} error={error} />
-      <InstagramFeedbackSwiper />
+      <Suspense fallback={null}>
+        <InstagramFeedbackSection />
+      </Suspense>
       <Suspense fallback={<TestimonialsSkeleton />}>
         <TestimonialsSection />
       </Suspense>

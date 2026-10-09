@@ -1,4 +1,5 @@
 import { ArrowRight, Play } from "lucide-react";
+import Link from "next/link";
 
 export function HeroSection() {
   return (
@@ -24,12 +25,12 @@ export function HeroSection() {
             <a className="landing-button landing-button-light" href="/login">
               Begin your journey <ArrowRight aria-hidden="true" size={19} />
             </a>
-            <a className="landing-button landing-button-outline" href="/courses">
+            <Link className="landing-button landing-button-outline" href="/courses">
               <span className="landing-play">
                 <Play aria-hidden="true" size={14} fill="currentColor" />
               </span>{" "}
               Explore the library
-            </a>
+            </Link>
           </div>
           <p className="landing-hero-meta">
             Beginner-friendly <span>•</span> Practice anywhere <span>•</span> Move at your pace
