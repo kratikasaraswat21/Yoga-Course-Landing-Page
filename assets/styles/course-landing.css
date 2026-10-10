@@ -63,14 +63,41 @@ html:has(.lp) {
 .lp h1 {
   font-size: clamp(2.2rem, 6vw, 3.8rem);
 }
-/* Section titles use the home page scale. */
+/* Section titles and their intro text use the same sizes as the home page sections
+   (landing-overrides.css): titles 30 → 34 → 40 → 50px, intro text 16 → 18 → 20px. */
 .lp h2 {
-  font-size: clamp(42px, 5vw, 68px);
-  line-height: 1.05;
+  font-size: 30px;
+  line-height: 1.1;
 }
-@media (max-width: 600px) {
+.lp .lp-lead {
+  font-size: 16px;
+  line-height: 1.6;
+}
+@media (min-width: 768px) {
   .lp h2 {
-    font-size: 44px;
+    font-size: 34px;
+  }
+}
+@media (min-width: 1024px) {
+  .lp h2 {
+    font-size: 40px;
+  }
+  .lp .lp-lead {
+    font-size: 18px;
+  }
+}
+@media (min-width: 1200px) {
+  .lp h2 {
+    font-size: 50px;
+  }
+  .lp .lp-lead {
+    font-size: 20px;
+  }
+}
+/* The closing section is a little larger, like the home page's final call to action. */
+@media (min-width: 1400px) {
+  .lp .lp-final h2 {
+    font-size: 60px;
   }
 }
 .lp h3 {
@@ -92,33 +119,10 @@ html:has(.lp) {
   color: transparent;
   font-style: italic;
 }
-/* Sections use the site-wide .kratika-yoga-container for their width. */
-.lp-narrow {
-  max-width: 900px;
-  margin: 0 auto;
-}
 .lp-center {
   text-align: center;
 }
-/* Same spacing as the home page sections: 120px top and bottom, 72px on phones. */
-.lp-section,
-.lp-hero {
-  padding: 120px 0;
-}
-@media (max-width: 600px) {
-  .lp-section,
-  .lp-hero {
-    padding: 72px 0;
-  }
-}
-.lp-eyebrow {
-  margin-bottom: 12px !important;
-  color: var(--lp-accent-d);
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
+/* Section padding (top and bottom) comes from COMMON_SECTION_PADDING in lib/constants/layout.ts. */
 .lp-lead {
   max-width: 650px;
   font-size: 20px;
@@ -170,6 +174,19 @@ html:has(.lp) {
   font-size: 1rem;
   text-align: center;
 }
+
+@media only screen and (max-width: 767px) {
+  .lp-ann {
+    font-size: 14px !important;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .lp-ann {
+    font-size: 12px !important;
+  }
+}
+
 .lp-ann em {
   color: #ffc9ae;
   font-weight: 700;
@@ -211,42 +228,19 @@ html:has(.lp) {
   flex: none;
   padding: 11px 22px;
 }
-/* Phones and tablets: the section links move to a row under the logo that scrolls sideways. */
+/* Phones and tablets: only the logo and the Enroll button; the section links are hidden. */
 @media (max-width: 900px) {
-  .lp-nav-inner {
-    flex-wrap: wrap;
-    gap: 0 16px;
-    padding-top: 10px;
-  }
   .lp-nav-links {
-    order: 3;
-    overflow-x: auto;
-    width: 100%;
-    padding: 10px 0 12px;
-    scrollbar-width: none;
+    display: none;
   }
-  .lp-nav-links::-webkit-scrollbar {
+}
+/* Small phones: the brand name crowds the Enroll button, so show only the logo. */
+@media (max-width: 450px) {
+  .lp-nav .landing-brand span {
     display: none;
   }
 }
 
-.lp-hero {
-  padding: 120px 0;
-}
-@media (max-width: 600px) {
-  .lp-section,
-  .lp-hero {
-    padding: 72px 0;
-  }
-}
-.lp-eyebrow {
-  margin-bottom: 12px !important;
-  color: var(--lp-accent-d);
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
 .lp-lead {
   max-width: 650px;
   font-size: 20px;
@@ -303,35 +297,15 @@ html:has(.lp) {
   font-weight: 700;
 }
 
-.lp-nav {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  border-bottom: 1px solid var(--lp-line);
-  background: color-mix(in srgb, var(--lp-bg) 90%, transparent);
-  backdrop-filter: blur(8px);
-}
-.lp-nav .kratika-yoga-container {
-  display: flex;
-  height: 60px;
-  align-items: center;
-  justify-content: space-between;
-}
 .lp-logo {
   color: var(--lp-ink);
   font-family: var(--lp-serif);
   font-size: 1.2rem;
   text-decoration: none;
 }
-.lp-nav .lp-btn {
-  padding: 9px 20px;
-  font-size: 1rem;
-}
 
 .lp-hero {
-  background:
-    radial-gradient(600px 400px at 90% 0, var(--lp-tint), transparent 70%),
-    radial-gradient(500px 300px at 0 100%, color-mix(in srgb, var(--lp-deep2) 14%, transparent), transparent 70%);
+  background: radial-gradient(600px 400px at 90% 0, var(--lp-tint), transparent 70%);
 }
 .lp-hero-grid {
   display: grid;
@@ -409,12 +383,11 @@ html:has(.lp) {
 .lp-media {
   position: relative;
   aspect-ratio: 4 / 5;
-  border-radius: 24px;
   background: linear-gradient(160deg, var(--lp-deep), var(--lp-deep2));
   box-shadow: 0 30px 60px -30px var(--lp-deep);
 }
 .lp-media > img {
-  border-radius: 24px;
+  border-radius: inherit;
   object-fit: cover;
 }
 .lp-chip {
@@ -452,29 +425,18 @@ html:has(.lp) {
   max-width: 1040px;
   margin: 32px auto 0;
   aspect-ratio: 16 / 9;
-  border-radius: 24px;
-  background: linear-gradient(160deg, var(--lp-deep), var(--lp-deep2));
-  box-shadow: 0 30px 60px -30px var(--lp-deep);
+  box-shadow: 0 40px 80px -40px rgba(184, 67, 31, 0.35);
+  /* Makes Safari clip the poster and video to the rounded corners. */
+  isolation: isolate;
 }
 .lp-trailer-section .lp-lead {
   max-width: 640px;
-}
-@media (max-width: 600px) {
-  .lp-trailer-frame {
-    border-radius: 16px;
-  }
-  .lp-play-button {
-    width: 60px;
-    height: 60px;
-  }
 }
 
 .lp-trailer-poster,
 .lp-trailer-player {
   position: absolute;
   inset: 0;
-  overflow: hidden;
-  border-radius: 24px;
 }
 .lp-trailer-poster {
   display: grid;
@@ -486,41 +448,61 @@ html:has(.lp) {
   cursor: pointer;
   place-items: center;
 }
+/* Only without a thumbnail: under one, the orange would show as a thin line at the edges. */
+.lp-trailer-poster-empty {
+  background: linear-gradient(120deg, var(--lp-accent), #e8803f);
+}
+/* 1px past each edge (clipped by the frame), so fractional sizes never leave a gap. */
 .lp-trailer-thumb {
   position: absolute;
-  inset: 0;
+  inset: -1px;
   background-position: center;
   background-size: cover;
-}
-.lp-trailer-poster::after {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, transparent 50%, rgba(0, 0, 0, 0.45));
-  content: "";
 }
 .lp-play-button {
   position: relative;
   z-index: 1;
   display: grid;
-  width: 76px;
-  height: 76px;
-  padding-left: 4px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
   background: #fff;
-  box-shadow: 0 12px 30px -8px #0008;
-  color: var(--lp-deep);
+  box-shadow: 0 12px 30px -8px rgba(184, 67, 31, 0.45);
+  color: var(--lp-accent);
   place-items: center;
   transition: transform 0.2s;
+}
+/* The icon scales with the button. */
+.lp-play-button svg {
+  width: 40%;
+  height: 40%;
+  margin-left: 3px;
 }
 .lp-trailer-poster:hover .lp-play-button {
   transform: scale(1.06);
 }
+/* A pill, so it stays readable on any thumbnail without darkening the image. */
 .lp-trailer-label {
   position: absolute;
   z-index: 1;
   bottom: 22px;
+  padding: 6px 16px;
+  border-radius: 99px;
+  background: linear-gradient(120deg, var(--lp-accent), #e8803f);
   font-size: 1rem;
   font-weight: 600;
+}
+/* After the base rules above, so these win on phones. */
+@media (max-width: 600px) {
+  .lp-play-button {
+    width: 48px;
+    height: 48px;
+  }
+  .lp-trailer-label {
+    bottom: 12px;
+    padding: 4px 12px;
+    font-size: 0.875rem;
+  }
 }
 .lp-trailer-player {
   background: #000;
@@ -572,41 +554,113 @@ html:has(.lp) {
   text-align: center;
 }
 
-/* "At a glance" tiles under the hero buttons: 3 per row, 2 on small phones. */
+/* "Course at a glance" card below the hero grid. Tiles share one row on desktop (however many there
+   are), 3 per row on tablets, 2 on large phones and 1 on small phones, with thin dividers between tiles. */
 .lp-stats {
-  display: grid;
-  overflow: hidden;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1px;
-  margin-top: 32px;
+  margin-top: 48px;
+  padding: 32px 16px;
   border: 1px solid var(--lp-line);
-  border-radius: 18px;
-  background: var(--lp-line);
-}
-@media (min-width: 480px) {
-  .lp-stats {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-.lp-stats div {
-  padding: 18px 8px;
   background: var(--lp-card);
-  line-height: 1.4;
   text-align: center;
 }
-.lp-stats .lp-emoji {
-  margin: 0 auto 8px;
-}
-.lp-stats strong {
-  display: block;
+.lp-stats-title {
   color: var(--lp-accent-d);
-  font-family: var(--lp-serif);
-  font-size: 1.25rem;
+  font-size: 0.875rem;
   font-weight: 600;
-  line-height: 1.25;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
-/* Caption under the tile title only; the title itself also contains spans. */
-.lp-stats > div > span:not(.lp-emoji) {
+/* The gap sits here because `.lp p { margin: 0 }` overrides margins on the title. */
+.lp-stats-grid {
+  display: grid;
+  margin-top: 32px;
+}
+/* Small phones: one tile per row, with a line between tiles. */
+.lp-stat {
+  padding: 20px 12px;
+  line-height: 1.4;
+}
+.lp-stat:first-child {
+  padding-top: 0;
+}
+.lp-stat:last-child {
+  padding-bottom: 0;
+}
+.lp-stat + .lp-stat {
+  border-top: 1px solid var(--lp-line);
+}
+@media (min-width: 480px) {
+  .lp-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 28px;
+  }
+  .lp-stat,
+  .lp-stat:first-child,
+  .lp-stat:last-child {
+    padding: 4px 12px;
+  }
+  .lp-stat + .lp-stat {
+    border-top: 0;
+  }
+  .lp-stat:nth-child(2n) {
+    border-left: 1px solid var(--lp-line);
+  }
+}
+@media (min-width: 600px) {
+  .lp-stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .lp-stat:nth-child(2n) {
+    border-left: 0;
+  }
+  .lp-stat:not(:nth-child(3n + 1)) {
+    border-left: 1px solid var(--lp-line);
+  }
+}
+@media (min-width: 980px) {
+  .lp-stats {
+    padding: 36px 24px;
+  }
+  .lp-stats-grid {
+    grid-auto-columns: 1fr;
+    grid-auto-flow: column;
+    grid-template-columns: none;
+  }
+  .lp-stat + .lp-stat {
+    border-left: 1px solid var(--lp-line);
+  }
+  /* More than 6 tiles: 6 per row, so they never get squeezed. */
+  .lp-stats-grid:has(> .lp-stat:nth-child(7)) {
+    grid-auto-flow: row;
+    grid-template-columns: repeat(6, 1fr);
+    row-gap: 28px;
+  }
+  .lp-stats-grid:has(> .lp-stat:nth-child(7)) > .lp-stat:nth-child(6n + 1) {
+    border-left: 0;
+  }
+}
+.lp-stat .lp-emoji,
+.lp-stat-icon {
+  display: block;
+  width: 32px;
+  height: 32px;
+  margin: 0 auto 10px;
+  object-fit: contain;
+}
+.lp-stat .lp-emoji {
+  display: grid;
+}
+.lp-stat strong {
+  display: block;
+  color: var(--lp-ink);
+  font-family: var(--lp-serif);
+  font-size: clamp(1.35rem, 1.1rem + 0.8vw, 1.75rem);
+  font-weight: 600;
+  line-height: 1.2;
+}
+.lp-stat-text {
+  display: block;
+  margin-top: 8px;
   color: var(--lp-mute);
   font-size: 1rem;
 }
@@ -624,7 +678,6 @@ html:has(.lp) {
 .lp-card {
   padding: 24px;
   border: 1px solid var(--lp-line);
-  border-radius: 18px;
   background: var(--lp-card);
   transition: 0.25s;
 }
@@ -656,6 +709,11 @@ html:has(.lp) {
   background: var(--lp-tint);
   place-items: center;
 }
+.lp-ic-img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
 
 .lp-steps {
   display: grid;
@@ -665,13 +723,13 @@ html:has(.lp) {
 }
 @media (min-width: 760px) {
   .lp-steps {
-    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    /* One row for a few steps; more wrap onto new rows, each step at least 220px wide. */
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   }
 }
 .lp-steps div {
   padding: 24px;
   border: 1px solid var(--lp-line);
-  border-radius: 18px;
   background: var(--lp-card);
 }
 .lp-steps div::before {
@@ -697,9 +755,6 @@ html:has(.lp) {
   background: linear-gradient(160deg, var(--lp-deep), var(--lp-deep2));
   color: #fff;
 }
-.lp-deep .lp-eyebrow {
-  color: #ffc9ae;
-}
 .lp-deep .lp-lead {
   color: #d6e6df;
 }
@@ -707,266 +762,126 @@ html:has(.lp) {
   background: none;
   color: #ffc9ae;
 }
-.lp-deep .lp-tick li::before {
-  color: #ffc9ae;
-}
 .lp-deep .lp-btn {
   background: #fff;
   box-shadow: none;
   color: var(--lp-deep);
 }
-.lp-two {
-  display: grid;
-  gap: 32px;
+/* What you'll get: eyebrow, title, then the benefits in two columns with amber ticks. */
+.lp-gain {
+  background: #f3e9d6;
 }
-@media (min-width: 820px) {
-  .lp-two {
-    grid-template-columns: 1fr 1fr;
-  }
+.lp-gain-eyebrow {
+  text-align: center;
+  color: #b07a2a;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
-.lp-tick {
+.lp-gain h2 {
+  margin-top: 10px !important;
+  color: #1d2b25;
+  font-weight: 600;
+  text-wrap: balance;
+}
+.lp-gain h2 em {
+  background: none;
+  -webkit-text-fill-color: currentColor;
+  color: inherit;
+  font-style: normal;
+}
+.lp-gain .lp-lead {
+  margin-top: 10px !important;
+  color: var(--lp-mute);
+}
+.lp-gain-list {
   display: grid;
-  gap: 12px;
-  margin-top: 20px !important;
+  gap: 14px 48px;
+  margin-top: 28px !important;
   padding: 0;
   list-style: none;
 }
-.lp-tick li {
-  position: relative;
-  padding-left: 30px;
+@media (min-width: 820px) {
+  .lp-gain-list {
+    grid-template-columns: 1fr 1fr;
+  }
 }
-.lp-tick li::before {
-  position: absolute;
-  left: 0;
-  color: var(--lp-accent-d);
-  content: "✓";
-  font-weight: 700;
+.lp-gain-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  color: #2a332e;
+  font-size: 17px;
+  line-height: 1.6;
+}
+.lp-gain-list svg {
+  flex: none;
+  margin-top: 4px;
+  color: #c4893a;
+}
+@media (max-width: 600px) {
+  .lp-gain-list li {
+    font-size: 16px;
+  }
 }
 
-.lp-details {
-  overflow: hidden;
-  margin-top: 12px;
-  border: 1px solid var(--lp-line);
-  border-radius: 16px;
-  background: var(--lp-card);
-}
-.lp-details[open] {
-  border-color: var(--lp-accent);
-}
-.lp-details summary {
-  display: flex;
-  min-height: 64px;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 18px 22px;
-  cursor: pointer;
-  font-weight: 500;
-  list-style: none;
-}
-.lp-details summary::-webkit-details-marker {
-  display: none;
-}
-.lp-details summary::after {
-  flex: none;
-  color: var(--lp-accent-d);
-  content: "+";
-  font-size: 1.3rem;
-  line-height: 1;
-}
-.lp-details[open] summary::after {
-  content: "–";
-}
-.lp-details summary > span {
-  display: flex;
-  align-items: center;
-}
-.lp-details summary small {
-  display: block;
-  color: var(--lp-mute);
-  font-size: 1rem;
-  font-weight: 400;
-}
-.lp-details-body {
-  padding: 0 22px 18px;
-  color: var(--lp-mute);
-  font-size: 1rem;
-}
-.lp-answer {
-  white-space: pre-line;
-}
-/* What's inside: text and figures on the left, the lessons in a card on the right. */
+/* What's inside: title and text, then each week as its own card that opens and closes. */
 .lp-inside {
-  position: relative;
-  overflow: hidden;
-  background: #f1e9df;
+  background: var(--landing-cream);
 }
-/* Soft circle in the top-left corner, as in the design. */
-.lp-inside::before {
-  position: absolute;
-  top: -180px;
-  left: -140px;
-  width: 420px;
-  height: 420px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.35);
-  content: "";
-}
-.lp-inside-grid {
-  position: relative;
-  display: grid;
-  align-items: start;
-  gap: 48px;
-}
-@media (min-width: 960px) {
-  .lp-inside-grid {
-    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-    gap: 72px;
-  }
-  .lp-inside-copy {
-    position: sticky;
-    top: 120px;
-  }
-}
-.lp-inside .lp-eyebrow {
-  color: #9a4527;
+.lp-inside-wrap {
+  max-width: 830px;
+  margin-inline: auto;
 }
 .lp-inside h2 {
-  color: #1d3a30;
-  letter-spacing: -0.03em;
+  color: #1d2b25;
+  font-weight: 600;
   text-wrap: balance;
 }
-/* The highlighted part of the title is plain rust italic, not the gradient used elsewhere. */
+/* The highlighted part of the title is plain ink, as in the design. */
 .lp-inside h2 em {
   background: none;
   -webkit-text-fill-color: currentColor;
-  color: #9a4527;
-  font-style: italic;
+  color: inherit;
+  font-style: normal;
 }
 .lp-inside .lp-lead {
-  max-width: 400px;
-  color: #3d4740;
-  font-size: 1.0625rem;
+  margin-top: 8px !important;
+  color: var(--lp-mute);
+  font-size: 15px;
 }
 .lp-inside-note {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  margin-top: 16px !important;
-  color: #9a4527;
-  font-weight: 600;
+  margin-top: 8px !important;
+  color: var(--lp-mute);
+  font-size: 14px;
 }
-.lp-inside-stats {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
+.lp-inside-list {
   margin-top: 28px;
 }
-.lp-inside-stats div {
-  min-width: 112px;
-  padding: 14px 18px;
-  border-radius: 16px;
-}
-.lp-inside-stats strong {
-  display: block;
-  font-family: var(--lp-serif);
-  font-size: 2rem;
-  font-weight: 400;
-  line-height: 1.1;
-}
-.lp-inside-rating {
-  background: #17382e;
-  color: #fff;
-}
-.lp-inside-students {
-  background: #e0916b;
-  color: #1f2d27;
-}
 
-.lp-lessons {
-  padding: 8px 24px;
-  border: 1px solid #e7dccd;
-  border-radius: 28px;
-  background: #f8f5ef;
-}
-@media (max-width: 600px) {
-  .lp-lessons {
-    padding: 4px 16px;
-    border-radius: 22px;
-  }
-}
-.lp-lesson {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 18px 0;
-  border-top: 1px solid #e7dccd;
-}
-.lp-lessons > .lp-lesson:first-child {
-  border-top: 0;
-}
-.lp-lesson-icon {
+/* One week = one white card; "+" turns into "–" and the border turns orange when open. */
+.lp-weeks {
   display: grid;
-  width: 38px;
-  height: 38px;
-  flex: none;
-  border-radius: 50%;
-  background: #e6e2da;
-  color: #1d3a30;
-  place-items: center;
+  gap: 10px;
 }
-.lp-lesson-icon svg {
-  margin-left: 2px;
-}
-.lp-lesson.is-upcoming .lp-lesson-icon svg {
-  margin-left: 0;
-}
-.lp-lesson-copy {
-  display: flex;
-  min-width: 0;
-  flex: 1;
-  flex-direction: column;
-}
-.lp-lesson-no {
-  color: #9a4527;
-  font-size: 1rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  line-height: 1.3;
-  text-transform: uppercase;
-}
-.lp-lesson-title {
-  color: #1d2b25;
-  font-family: var(--lp-serif);
-  font-size: 1.25rem;
-  line-height: 1.3;
-}
-.lp-lesson.is-upcoming .lp-lesson-title {
-  color: var(--lp-mute);
-}
-.lp-lesson-soon {
-  color: #9a4527;
-  font-size: 1rem;
-}
-.lp-lesson-time {
-  flex: none;
-  color: #3d4740;
-  font-size: 1rem;
-  font-variant-numeric: tabular-nums;
-}
-
-/* Weeks: one block each, opened and closed by tapping its heading. */
 .lp-week {
-  border-top: 1px solid #e7dccd;
+  border: 1px solid #efe5d6;
+  background: var(--lp-card);
+  transition: border-color 0.2s;
 }
-.lp-week:first-child {
-  border-top: 0;
+.lp-week[open] {
+  border-color: #e3a689;
 }
 .lp-week summary {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 20px 0;
+  gap: 14px;
+  padding: 16px 18px;
   cursor: pointer;
   list-style: none;
 }
@@ -974,63 +889,130 @@ html:has(.lp) {
   display: none;
 }
 .lp-week summary::after {
-  display: grid;
-  width: 32px;
-  height: 32px;
   flex: none;
-  border: 1px solid #e7dccd;
-  border-radius: 50%;
-  color: #9a4527;
+  color: #d98a3d;
   content: "+";
-  font-size: 1.25rem;
+  font-size: 1.375rem;
+  font-weight: 500;
   line-height: 1;
-  place-items: center;
 }
 .lp-week[open] summary::after {
+  color: #c4502c;
   content: "–";
+}
+/* "W1", "W2"… */
+.lp-week-badge {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  flex: none;
+  border-radius: 10px;
+  background: #fde8dc;
+  color: #c4502c;
+  font-size: 12px;
+  font-weight: 700;
+  place-items: center;
 }
 .lp-week-copy {
   display: flex;
   min-width: 0;
   flex: 1;
   flex-direction: column;
+  gap: 2px;
 }
 .lp-week-title {
   color: #1d2b25;
-  font-family: var(--lp-serif);
-  font-size: 1.5rem;
-  line-height: 1.25;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
 }
-.lp-week-focus {
+.lp-week-meta {
+  color: var(--lp-mute);
+  font-size: 12px;
+}
+.lp-week-body {
+  padding: 0 18px 8px;
+}
+
+/* Lessons: inside an open week, or in one white card when there are no weeks.
+   One row each: "Lesson 3" pill, title, then the length on the right. */
+.lp-lessons {
+  padding: 4px 18px;
+  border: 1px solid #efe5d6;
+  background: var(--lp-card);
+}
+.lp-lesson {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 0;
+  border-top: 1px solid #f3ebdf;
+}
+.lp-lessons > .lp-lesson:first-child,
+.lp-week-body > .lp-lesson:first-child {
+  border-top: 0;
+}
+.lp-lesson-no {
+  flex: none;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: #fde8dc;
+  color: #c4502c;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+.lp-lesson-copy {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+}
+.lp-lesson-title {
+  color: #1d2b25;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.lp-lesson.is-upcoming .lp-lesson-title {
   color: var(--lp-mute);
 }
-.lp-week .lp-lesson {
-  padding-left: 8px;
+.lp-lesson-soon {
+  color: #b8431f;
+  font-size: 12px;
+}
+.lp-lesson-time {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 5px;
+  color: var(--lp-mute);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
 }
 @media (max-width: 600px) {
-  .lp-lesson {
-    gap: 12px;
-  }
   .lp-week summary {
-    flex-wrap: wrap;
-    gap: 4px 12px;
+    gap: 12px;
+    padding: 14px 16px;
   }
-  .lp-week summary .lp-lesson-time {
-    order: 3;
-    width: 100%;
+  .lp-week-body {
+    padding: 0 16px 6px;
   }
-  .lp-week .lp-lesson {
-    padding-left: 0;
+  .lp-lessons {
+    padding: 4px 16px;
+  }
+  .lp-lesson {
+    gap: 10px;
   }
 }
 
 /* "Show all N lessons" for long lists without weeks. */
 .lp-more {
-  border-top: 1px solid #e7dccd;
+  border-top: 1px solid #f3ebdf;
 }
 .lp-more summary {
-  padding: 18px 0;
-  color: #9a4527;
+  padding: 14px 0;
+  color: #d98a3d;
   cursor: pointer;
   font-weight: 600;
   list-style: none;
@@ -1053,7 +1035,7 @@ html:has(.lp) {
 }
 .lp-more[open] summary {
   order: 2;
-  border-top: 1px solid #e7dccd;
+  border-top: 1px solid #f3ebdf;
 }
 .lp-more .lp-lesson:first-of-type {
   border-top: 0;
@@ -1064,19 +1046,26 @@ html:has(.lp) {
   position: relative;
   overflow: hidden;
 }
-.lp-buy::before {
-  position: absolute;
-  top: 300px;
-  left: 50%;
-  width: min(980px, 140vw);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: radial-gradient(circle, #fbeadf 0%, #f8e8dc 60%, rgba(248, 232, 220, 0) 72%);
-  content: "";
-  transform: translateX(-50%);
-}
+/* Soft glow centred behind the price card, fading out evenly on every side. */
 .lp-buy > .kratika-yoga-container {
   position: relative;
+  z-index: 0;
+}
+/* The title block sits above the glow, which is big enough to reach up behind it. */
+.lp-buy > .kratika-yoga-container:first-child {
+  z-index: 1;
+}
+.lp-buy > .kratika-yoga-container:last-child::before {
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  left: 50%;
+  width: min(1100px, 160vw);
+  aspect-ratio: 1;
+  background: radial-gradient(closest-side, #f6dccb 0%, rgba(248, 228, 214, 0.6) 55%, rgba(255, 248, 241, 0) 100%);
+  content: "";
+  pointer-events: none;
+  transform: translate(-50%, -50%);
 }
 .lp-buy .lp-lead {
   max-width: 460px;
@@ -1088,7 +1077,6 @@ html:has(.lp) {
   margin: 48px auto 0;
   padding: 32px;
   border: 1px solid #f0e2d6;
-  border-radius: 28px;
   background: var(--lp-card);
   box-shadow: 0 40px 80px -40px rgba(184, 67, 31, 0.35);
 }
@@ -1096,7 +1084,6 @@ html:has(.lp) {
   .lp-price {
     margin-top: 40px;
     padding: 26px 20px;
-    border-radius: 24px;
   }
 }
 .lp-price-top {
@@ -1204,7 +1191,6 @@ html:has(.lp) {
   margin-top: 24px;
   padding: 18px 20px;
   border: 1px solid #f6d9c7;
-  border-radius: 18px;
   background: #fdf3ec;
 }
 /* Steps stacked vertically, joined by a dashed line running down between the numbers. */
@@ -1253,74 +1239,20 @@ html:has(.lp) {
   font-weight: 700;
 }
 
-.lp-included {
-  margin-top: 24px;
-}
-.lp-included .lp-card-label {
-  color: #3d4740;
-}
-.lp-included ul {
-  display: grid;
-  gap: 10px 24px;
-  padding: 0;
-  list-style: none;
-}
-@media (min-width: 640px) {
-  .lp-included ul {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-.lp-included li {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  line-height: 1.5;
-  color: #1d2b25;
-}
-.lp-included .lp-check {
-  display: grid;
-  width: 22px;
-  height: 22px;
-  flex: none;
-  margin-top: 1px;
-  border-radius: 50%;
-  background: #e5efe9;
-  color: #17382e;
-  place-items: center;
-}
-
 .lp-btn.lp-price-btn {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
+  display: block;
   margin-top: 28px;
-  padding: 14px 12px 14px 24px;
-  box-shadow: 0 18px 32px -16px var(--lp-accent);
+  padding: 18px 24px;
+  box-shadow: none;
   font-size: 1.0625rem;
+  text-align: center;
 }
-.lp-price-btn-end {
-  display: inline-flex;
-  flex: none;
-  align-items: center;
-  gap: 10px;
-  font-size: 1.0625rem;
-}
-.lp-price-btn-end i {
-  display: grid;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.22);
-  place-items: center;
-}
-@media (max-width: 480px) {
+/* Phones: a slimmer button, about 46px tall instead of 62px. */
+@media (max-width: 600px) {
   .lp-btn.lp-price-btn {
-    padding: 12px 10px 12px 20px;
-    font-size: 1rem;
-  }
-  .lp-price-btn-end {
-    font-size: 1rem;
+    margin-top: 22px;
+    padding: 12px 20px;
+    font-size: 0.9375rem;
   }
 }
 .lp-secure {
@@ -1345,7 +1277,6 @@ html:has(.lp) {
 .lp-teacher {
   display: grid;
   overflow: hidden;
-  border-radius: 28px;
   background: #e6dac8;
   color: #2e3a33;
 }
@@ -1357,32 +1288,68 @@ html:has(.lp) {
     grid-template-columns: 1fr;
   }
 }
+/* The photo is uploaded at 4:5 (the admin rejects other ratios) and shown at 4:5. On desktop it fills
+   the card's height; on tablets the height is capped. Any crop comes from the bottom, not the face. */
 .lp-teacher-photo {
   position: relative;
-  min-height: 320px;
-  aspect-ratio: 4 / 3;
+  /* An explicit width keeps max-height from shrinking the width to hold the ratio. */
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  max-height: 560px;
 }
+/* Desktop: the photo is at least 4:5 (the ::before spacer) and stretches to the full card height when
+   the text column is taller, so it always reaches the bottom of the card. */
 @media (min-width: 820px) {
   .lp-teacher-photo {
     aspect-ratio: auto;
+    max-height: none;
+  }
+  .lp-teacher-photo::before {
+    content: "";
+    display: block;
+    padding-top: 125%;
   }
 }
 .lp-teacher-photo img {
   object-fit: cover;
+  object-position: center 25%;
+}
+.lp-teacher-availability {
+  position: absolute;
+  z-index: 1;
+  bottom: 20px;
+  left: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: calc(100% - 40px);
+  padding: 9px 16px 9px 12px;
+  border-radius: 10px;
+  background: rgba(255, 250, 244, 0.9);
+  box-shadow: 0 6px 18px -10px rgba(0, 0, 0, 0.35);
+  color: #2e3a33;
+  font-size: 0.95rem;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+.lp-teacher-availability-dot {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #2f8a5b;
+  box-shadow: 0 0 0 4px rgba(47, 138, 91, 0.2);
 }
 .lp-teacher-copy {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 36px 28px;
+  padding: 36px 24px;
 }
 @media (min-width: 820px) {
   .lp-teacher-copy {
-    padding: 52px 56px;
+    padding: 64px 56px;
   }
-}
-.lp-teacher .lp-eyebrow {
-  color: #9a4527;
 }
 .lp-teacher h2 {
   color: #1d3a30;
@@ -1395,7 +1362,7 @@ html:has(.lp) {
   font-style: italic;
 }
 .lp-teacher-bio {
-  max-width: 620px;
+  max-width: 680px;
   margin-top: 16px !important;
   color: #3d4740;
   font-size: 1rem;
@@ -1405,9 +1372,9 @@ html:has(.lp) {
 .lp-teacher-stats {
   display: flex;
   flex-wrap: wrap;
-  gap: 18px 40px;
-  margin: 22px 0 0;
-  padding-top: 22px;
+  gap: 18px 44px;
+  margin: 24px 0 0;
+  padding-top: 24px;
   border-top: 1px solid rgba(46, 58, 51, 0.16);
 }
 .lp-teacher-stats dt {
@@ -1420,6 +1387,104 @@ html:has(.lp) {
   margin: 4px 0 0;
   color: #3d4740;
   font-size: 1rem;
+}
+.lp-teacher-teaches {
+  margin-top: 28px;
+}
+.lp-teacher-teaches-label {
+  margin: 0 0 12px !important;
+  color: #5d655f;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.lp-teacher-teaches ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.lp-teacher-teaches li {
+  padding: 7px 16px;
+  border: 1px solid rgba(46, 58, 51, 0.2);
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.3);
+  color: #2e3a33;
+  font-size: 0.95rem;
+}
+/* ".lp-teacher" in front: the page reset (.lp figure { margin: 0 }) would otherwise remove the gap. */
+.lp-teacher .lp-teacher-quote {
+  margin: 28px 0 0;
+  padding: 20px 24px;
+  border-left: 4px solid #9a4527;
+  border-radius: 4px 14px 14px 4px;
+  background: rgba(255, 255, 255, 0.4);
+}
+.lp-teacher-quote blockquote {
+  margin: 0;
+  color: #1f2d27;
+  font-family: var(--lp-serif);
+  font-size: 1.2rem;
+  font-style: italic;
+  line-height: 1.55;
+}
+.lp-teacher-quote figcaption {
+  margin-top: 10px;
+  color: #5d655f;
+  font-size: 0.95rem;
+}
+.lp-teacher-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 16px;
+  margin-top: 32px;
+}
+.lp-teacher-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 12px 28px;
+  border: 1.5px solid #1d3a30;
+  border-radius: 10px;
+  background: #1d3a30;
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: 0.2s;
+}
+.lp-teacher-btn:hover {
+  background: #14291f;
+  transform: translateY(-2px);
+}
+.lp-teacher-btn-outline {
+  background: transparent;
+  color: #1d3a30;
+}
+.lp-teacher-btn-outline:hover {
+  background: rgba(29, 58, 48, 0.08);
+}
+.lp-teacher-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #4a544d;
+  font-size: 0.95rem;
+}
+/* Phones: full-width buttons, stacked. */
+@media (max-width: 559px) {
+  .lp-teacher-btn {
+    width: 100%;
+  }
+  .lp-teacher-quote blockquote {
+    font-size: 1.1rem;
+  }
 }
 
 .lp-alt {
@@ -1445,7 +1510,6 @@ html:has(.lp) {
   width: auto;
   height: 420px;
   border: 1px solid var(--lp-line);
-  border-radius: 16px;
   background: var(--lp-card);
 }
 @media (max-width: 600px) {
@@ -1489,7 +1553,6 @@ html:has(.lp) {
 .lp-quotes blockquote {
   padding: 24px;
   border: 1px solid var(--lp-line);
-  border-radius: 18px;
   background: var(--lp-card);
   font-size: 1rem;
 }
@@ -1519,41 +1582,6 @@ html:has(.lp) {
   margin-top: 24px;
 }
 
-.lp-bar {
-  position: fixed;
-  z-index: 30;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
-  border-top: 1px solid var(--lp-line);
-  background: var(--lp-card);
-}
-.lp-bar strong {
-  display: block;
-}
-.lp-bar small {
-  color: var(--lp-mute);
-}
-.lp-bar .lp-btn {
-  padding: 11px 22px;
-}
-@media (min-width: 820px) {
-  .lp-bar {
-    display: none;
-  }
-}
-/* Room for the fixed phone bar so it never covers the footer. */
-@media (max-width: 819px) {
-  .lp {
-    padding-bottom: 76px;
-  }
-}
-
 /* Scroll-in animation; only once JavaScript has added .lp-js, so content is never hidden without it. */
 .lp-js .lp-rv {
   opacity: 0;
@@ -1579,4 +1607,35 @@ html:has(.lp) {
   html:has(.lp) {
     scroll-behavior: auto;
   }
+}
+
+/* FAQ: the home page layout (.platform-faq* in landing.css). The page reset above (.lp h2, .lp p)
+   would remove its spacing, so it is restored here; headings keep this page's serif font. */
+.lp .lp-faq .platform-section-intro h2 {
+  margin: 0 0 22px;
+  color: var(--landing-forest);
+  letter-spacing: -0.03em;
+}
+.lp .lp-faq .platform-section-intro p {
+  margin-top: 0 !important;
+  color: #53615c;
+  font-size: 16px;
+  line-height: 1.6;
+}
+@media (min-width: 1024px) {
+  .lp .lp-faq .platform-section-intro p {
+    font-size: 18px;
+  }
+}
+@media (min-width: 1200px) {
+  .lp .lp-faq .platform-section-intro p {
+    font-size: 20px;
+  }
+}
+.lp .lp-faq .platform-faq-list summary {
+  font-family: var(--lp-serif);
+}
+.lp .lp-faq .platform-faq-list p {
+  margin: -5px 0 22px;
+  white-space: pre-line;
 }

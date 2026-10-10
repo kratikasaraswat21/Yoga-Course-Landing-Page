@@ -1925,10 +1925,20 @@
   object-fit: contain;
   mix-blend-mode: multiply;
 }
+/* Logo on the left, links in the middle, the two buttons together on the right. */
 .landing-nav-links {
   display: flex;
+  flex: 1;
   align-items: center;
+  justify-content: center;
   gap: clamp(20px, 2.4vw, 43px);
+  padding: 0 24px;
+}
+.landing-nav-actions {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 12px;
 }
 .landing-nav-links a {
   color: var(--landing-forest);
@@ -1950,11 +1960,34 @@
   border: 1px solid #70877d;
   border-radius: 999px;
   padding: 12px 18px;
+  color: var(--landing-forest);
+  font-size: 16px;
+  text-decoration: none;
+  white-space: nowrap;
 }
 .landing-nav-cta:hover {
   background: var(--landing-forest);
   border-color: var(--landing-forest);
   color: #fff !important;
+}
+/* "Book a call": the orange pill of the course page's "Enroll now". */
+.landing-nav-book {
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 22px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #d4532c, #e8803f);
+  box-shadow: 0 8px 20px -8px #d4532c;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: 0.2s;
+}
+.landing-nav-book:hover {
+  background: linear-gradient(135deg, #b8431f, #d4532c);
+  transform: translateY(-2px);
 }
 .landing-nav-cta svg,
 .landing-button > svg,
@@ -2218,7 +2251,8 @@
   .landing-nav-links {
     gap: 15px;
   }
-  .landing-nav-links > a:not(.landing-nav-cta) {
+  /* Tablets and phones: only the logo and the two buttons. */
+  .landing-nav-links {
     display: none;
   }
   .landing-hero {
@@ -2253,6 +2287,20 @@
     border-bottom: 0;
   }
 }
+/* Small phones: logo plus both navbar buttons on one row. */
+@media (max-width: 480px) {
+  .landing-nav-actions {
+    gap: 8px;
+  }
+  .landing-nav-actions .landing-nav-cta,
+  .landing-nav-actions .landing-nav-book {
+    padding: 9px 11px;
+    font-size: 14px !important;
+  }
+  .landing-nav-cta svg {
+    display: none;
+  }
+}
 @media (max-width: 600px) {
   .landing-navbar {
     height: 68px;
@@ -2264,7 +2312,8 @@
     width: 40px;
     height: 40px;
   }
-  .landing-nav-cta {
+  .landing-nav-cta,
+  .landing-nav-book {
     gap: 6px;
     padding: 10px 13px;
     font-size: 16px !important;

@@ -81,7 +81,11 @@ export function TrailerPlayer({ trailer, title }: { trailer: CourseTrailer; titl
 
   if (!hasStarted) {
     return (
-      <button type="button" className="lp-trailer-poster" onClick={start} aria-label={`Play the ${title} trailer`}>
+      <button
+        type="button"
+        className={trailer.posterUrl ? "lp-trailer-poster" : "lp-trailer-poster lp-trailer-poster-empty"}
+        onClick={start}
+        aria-label={`Play the ${title} trailer`}>
         {trailer.posterUrl && (
           // A background image never shows a broken-image icon if the thumbnail fails to load.
           <span

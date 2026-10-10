@@ -22,6 +22,10 @@ export interface LandingCourse {
 export const getLandingCourseHref = (course: LandingCourse) =>
   course.landingPageEnabled && course.slug ? `/courses/${course.slug}` : `/course/enrolled/${course.courseId}`;
 
+/** Where "Enroll" / "Buy course" goes: the existing course page with its Razorpay checkout (login first if needed). */
+export const getCheckoutHref = (courseId: string) =>
+  `/login?returnTo=${encodeURIComponent(`/course/enrolled/${courseId}`)}`;
+
 export const isPrelaunchPriceActive = (course: LandingCourse) => course.pricing?.offerType === "PRELAUNCH";
 
 export interface LandingCoursesResponse {

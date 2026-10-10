@@ -1,39 +1,28 @@
 "use client";
 
-import courseFallback from "@/assets/images/landing/course/course-main.png";
-import { ArrowLeft, ArrowRight, Check, Clock3, Share2, Video } from "lucide-react";
-import Image from "next/image";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import { A11y, Navigation } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
-
-import { CourseRatingStars } from "@/components/landing-page/course-rating-stars";
-import { getLandingCourseHref, isPrelaunchPriceActive, type LandingCourse } from "@/types/landing-course";
+import { ArrowRight, ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
-export function CourseCarousel({ courses, error }: { courses: LandingCourse[]; error?: string }) {
-  const hasMultipleCourses = courses.length > 1;
-  const [copiedCourseId, setCopiedCourseId] = useState<string | null>(null);
+import { CourseCard } from "@/components/landing-page/course-card";
+import { BOOK_A_CALL_URL } from "@/lib/constants/links";
+import type { LandingCourse } from "@/types/landing-course";
 
-  const copyCourseLink = async (courseId: string) => {
-    try {
-      const course = courses.find((item) => item.courseId === courseId);
-      const coursePath = course?.landingPageEnabled && course.slug ? `/courses/${course.slug}` : "/#course-library";
-      await navigator.clipboard.writeText(`${window.location.origin}${coursePath}`);
-      setCopiedCourseId(courseId);
-      window.setTimeout(() => setCopiedCourseId(null), 1800);
-    } catch {
-      setCopiedCourseId(null);
-    }
-  };
+
+// Courses shown at first, and how many more each "Load more courses" click adds.
+const COURSES_PER_PAGE = 6;
+
+/**
+ * Home page course cards in a grid: 3 per row on desktop, 2 on tablets, 1 on phones.
+ * The first 6 show; "Load more courses" adds 6 more at a time until all are shown.
+ */
+export function CourseCarousel({ courses, error }: { courses: LandingCourse[]; error?: string }) {
+  const [visibleCount, setVisibleCount] = useState(COURSES_PER_PAGE);
+  const visibleCourses = courses.slice(0, visibleCount);
+  const hasMore = courses.length > visibleCount;
 
   return (
-    <section
-      className={`platform-course-carousel ${hasMultipleCourses ? "platform-course-carousel-multiple" : "platform-course-carousel-single"}`}
-      id="course-library">
+    <section className="platform-course-carousel" id="course-library">
       <div className="kratika-yoga-container">
         <div className="platform-carousel-heading">
           <h2>Choose the course that meets you where you are.</h2>
@@ -47,128 +36,42 @@ export function CourseCarousel({ courses, error }: { courses: LandingCourse[]; e
             </Link>
           </div>
         </div>
-        <div className="platform-free-swiper-wrap">
-          {courses.length > 0 && (
-            <Swiper
-              modules={[Navigation, A11y]}
-              navigation={{ nextEl: ".free-course-next", prevEl: ".free-course-prev" }}
-              spaceBetween={hasMultipleCourses ? 28 : 0}
-              slidesPerView={courses?.length == 1 ? 1 : 1.1}
-              breakpoints={{ 640: { slidesPerView: 1 }, 1024: { slidesPerView: 1 } }}>
-              {courses.slice(0, 3).map((course) => (
-                <SwiperSlide key={course.courseId} className="w-full">
-                  <article className="platform-course-feature-slide rounded-lg! md:rounded-xl! lg:rounded-2xl!">
-                    <div className="platform-course-feature-image">
-                      <div
-                        className="platform-course-feature-image-backdrop"
-                        style={{ backgroundImage: `url(${course.thumbnail || courseFallback.src})` }}
-                      />
-                      <Image
-                        src={course.thumbnail || courseFallback.src}
-                        alt={`${course.title} course thumbnail`}
-                        width={1920}
-                        height={1080}
-                        className="aspect-video"
-                      />
-                      <div className="platform-course-feature-image-details platform-course-feature-image-details-desktop bottom-2! left-2! right-2!">
-                        <div className="platform-course-feature-meta border-0!">
-                          <span>
-                            <Video size={23} />
-                            {course.totalVideos} videos
-                          </span>
-                          <span>
-                            <Clock3 size={23} />
-                            {course.totalHours} hours
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="platform-course-feature-copy">
-                      <div className="w-full flex flex-col items-start h-full justify-between">
-                        <div className="w-full flex flex-col items-start justify-start">
-                          <div className="platform-course-feature-title">
-                            <h3 className="line-clamp-2 capitalize">{course.title}</h3>
-                          </div>
-                          <div
-                            className="line-clamp-3! pt-3! rich-text-description text-justify"
-                            dangerouslySetInnerHTML={{ __html: course.description }}
-                          />
-                          <div className="w-full">
-                            <div className="platform-course-feature-copy-details w-full">
-                              <div className="platform-course-feature-meta w-full">
-                                <span>
-                                  <Video size={23} />
-                                  {course.totalVideos} videos
-                                </span>
-                                <span>
-                                  <Clock3 size={23} />
-                                  {course.totalHours} hours
-                                </span>
-                              </div>
-                            </div>
-                            <div className="platform-course-feature-rating pb-0!">
-                              <b>{course.rating.toFixed(1)}</b>
-                              <CourseRatingStars rating={course.rating} />
-                              <small>{course.totalStudents} students</small>
-                            </div>
-                          </div>
-                          <div className="platform-course-feature-price flex flex-row! items-center! pt-4!">
-                            {isPrelaunchPriceActive(course) && (
-                              <span className="course-card-prelaunch-chip">Prelaunch</span>
-                            )}
-                            {course.discount > 0 && (
-                              <>
-                                <del className="font-montserrat">₹{course.price.toLocaleString("en-IN")}</del>
-                                <small>{course.discount}% off</small>
-                              </>
-                            )}
-                            <strong className="font-montserrat">
-                              ₹
-                              {(course.discount > 0 ? course.totalPayableAmount : course.price).toLocaleString("en-IN")}
-                            </strong>
-                          </div>
-                        </div>
-                        <div className="platform-course-feature-price platform-course-feature-action flex flex-row! w-full items-center justify-between">
-                          <Link
-                            className="landing-button landing-button-light w-fit m-0!"
-                            href={getLandingCourseHref(course)}>
-                            View course <ArrowRight size={18} />
-                          </Link>
-                          <button
-                            type="button"
-                            className="platform-course-share-button w-fit"
-                            aria-label={copiedCourseId === course.courseId ? "Course link copied" : "Copy course link"}
-                            title={copiedCourseId === course.courseId ? "Link copied" : "Copy course link"}
-                            onClick={() => copyCourseLink(course.courseId)}>
-                            {copiedCourseId === course.courseId ? <Check size={18} /> : <Share2 size={18} />}
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </article>
-                </SwiperSlide>
+
+        {courses.length > 0 && (
+          <div className="home-courses">
+            <div className="home-courses-grid">
+              {visibleCourses.map((course) => (
+                <CourseCard course={course} key={course.courseId} />
               ))}
-            </Swiper>
-          )}
-        </div>
-        {error && <p className="landing-course-message error">{error}</p>}
-        {!error && courses.length === 0 && <p className="landing-course-message">No courses available right now.</p>}
-        {hasMultipleCourses && (
-          <div className="platform-course-carousel-footer">
-            <span className="course-carousel-pagination" />
-            <div className="platform-course-progress">
-              <span />
             </div>
-            <div className="platform-course-carousel-controls">
-              <button className="course-carousel-prev" aria-label="Previous course">
-                <ArrowLeft size={23} />
-              </button>
-              <button className="course-carousel-next" aria-label="Next course">
-                <ArrowRight size={23} />
-              </button>
-            </div>
+            {hasMore && (
+              <div className="home-courses-more">
+                <button
+                  className="landing-button landing-button-light"
+                  type="button"
+                  onClick={() => setVisibleCount((count) => count + COURSES_PER_PAGE)}>
+                  Load more courses <ChevronDown size={18} />
+                </button>
+              </div>
+            )}
           </div>
         )}
+        {error && <p className="landing-course-message error">{error}</p>}
+        {!error && courses.length === 0 && <p className="landing-course-message">No courses available right now.</p>}
+
+        <div className="home-consultation">
+          <div>
+            <p className="home-consultation-eyebrow">Not sure where to begin?</p>
+            <h3>Talk to Kratika before you choose.</h3>
+            <p>
+              Book a one-on-one consultation. Share your experience, goals and any health considerations, and Kratika will
+              recommend the course that fits you best.
+            </p>
+          </div>
+          <a className="landing-button landing-button-light" href={BOOK_A_CALL_URL} target="_blank" rel="noopener noreferrer">
+            Book a consultation <ArrowRight size={18} />
+          </a>
+        </div>
       </div>
     </section>
   );

@@ -1,6 +1,7 @@
-import { ArrowRight, Check, ListOrdered, Lock, LockKeyhole, Play, Tag } from "lucide-react";
+import { ArrowRight, Check, Clock, ListOrdered, Lock, LockKeyhole, Plus, Tag } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import type { ReactNode } from "react";
 
 import courseFallback from "@/assets/images/landing/course/course-main.png";
 import logo from "@/assets/images/logo/logo.png";
@@ -8,10 +9,13 @@ import { formatTotalDuration } from "@/lib/helper/landing-text";
 import { formatScheduleDate } from "@/lib/helper/schedule-date";
 import type { FeedbackImage } from "@/components/landing-page/feedback-images";
 import type { CourseCurriculumItem, CourseLandingPage } from "@/types/course-landing";
+import { getCheckoutHref } from "@/types/landing-course";
+import { COMMON_BORDER_RADIUS, COMMON_SECTION_PADDING } from "@/lib/constants/layout";
+import { cn } from "@/lib/utils";
 import { FeedbackScreenshots } from "./feedback-screenshots";
 import { LandingCountdown } from "./landing-countdown";
-import { LandingPrice, PayableAmount, PriceCountdown, PricingSteps } from "./landing-price";
-import { Txt, WhenOffer, WhenPhaseText } from "./landing-text";
+import { LandingPrice, PriceCountdown, PricingSteps } from "./landing-price";
+import { AnnouncementText, Txt, WhenOffer, WhenPhaseText } from "./landing-text";
 import { TrailerPlayer } from "./trailer-player";
 
 type Page = CourseLandingPage;
@@ -36,28 +40,19 @@ function EmojiIcon({ icon }: { icon?: string | null }) {
   );
 }
 
-/** Where "Enroll" goes: the existing course page with its Razorpay checkout (login first if needed). */
-export const getCheckoutHref = (courseId: string) =>
-  `/login?returnTo=${encodeURIComponent(`/course/enrolled/${courseId}`)}`;
+/** The uploaded icon when there is one (it wins over the emoji), otherwise the emoji. */
+function ItemIcon({ icon, iconUrl, className }: { icon?: string | null; iconUrl?: string | null; className: string }) {
+  if (iconUrl) {
+    // Plain <img>: admin-uploaded icons are often SVG, which next/image blocks by default.
+    return <img alt="" aria-hidden="true" className={className} height={32} src={iconUrl} width={32} />;
+  }
+  return <EmojiIcon icon={icon} />;
+}
 
-function SectionHeading({
-  eyebrow,
-  title,
-  text,
-  id,
-}: {
-  eyebrow?: string;
-  title?: string;
-  text?: string;
-  id?: string;
-}) {
+/** Section title and its description, always centred. */
+function SectionHeading({ title, text, id }: { title?: string; text?: string; id?: string }) {
   return (
-    <>
-      {hasText(eyebrow) && (
-        <p className="lp-eyebrow">
-          <Txt text={eyebrow} />
-        </p>
-      )}
+    <div className="lp-center">
       {hasText(title) && (
         <h2 id={id}>
           <Txt text={title} />
@@ -68,7 +63,7 @@ function SectionHeading({
           <Txt text={text} />
         </p>
       )}
-    </>
+    </div>
   );
 }
 
@@ -76,7 +71,7 @@ export function LandingAnnouncement({ page }: { page: Page }) {
   return (
     <WhenPhaseText value={page?.content?.announcement}>
       <div className="lp-ann" role="region" aria-label="Course announcement">
-        <Txt phase={page?.content?.announcement} />
+        <AnnouncementText value={page?.content?.announcement} />
       </div>
     </WhenPhaseText>
   );
@@ -126,26 +121,37 @@ export function LandingNav({ page }: { page: Page }) {
   );
 }
 
-/** "At a glance" tiles in the hero's left column, 3 per row (2 on small phones). */
-function HeroStats({ stats }: { stats?: Page["content"]["stats"] }) {
+/** "Course at a glance" card below the hero grid: one row on desktop, 3 per row on tablets, 2 on large phones, 1 on small phones. */
+function HeroStats({ title, stats }: { title?: string; stats?: Page["content"]["stats"] }) {
   if (!stats?.length) return null;
+  const showTitle = hasText(title);
 
   return (
-    <div className="lp-stats" aria-label="Course at a glance" role="group">
-      {stats.map((stat, index) => (
-        <div key={index}>
-          <EmojiIcon icon={stat?.icon} />
-          <strong>
-            <Txt text={stat?.title} />
-          </strong>
-          {stat?.text && (
-            <span>
-              <Txt text={stat.text} />
-            </span>
-          )}
-        </div>
-      ))}
-    </div>
+    <section
+      className={cn("lp-stats", COMMON_BORDER_RADIUS)}
+      aria-label={showTitle ? undefined : "Course at a glance"}
+      aria-labelledby={showTitle ? "lp-stats-title" : undefined}>
+      {showTitle && (
+        <p className="lp-stats-title" id="lp-stats-title">
+          <Txt text={title} />
+        </p>
+      )}
+      <div className="lp-stats-grid">
+        {stats.map((stat, index) => (
+          <div className="lp-stat" key={index}>
+            <ItemIcon className="lp-stat-icon" icon={stat?.icon} iconUrl={stat?.iconUrl} />
+            <strong>
+              <Txt text={stat?.title} />
+            </strong>
+            {stat?.text && (
+              <span className="lp-stat-text">
+                <Txt text={stat.text} />
+              </span>
+            )}
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -155,7 +161,7 @@ export function LandingHero({ page }: { page: Page }) {
   const coverImage = hero?.coverImageUrl || page?.course?.thumbnailUrl || courseFallback;
 
   return (
-    <header className="lp-hero">
+    <header className={cn("lp-hero", COMMON_SECTION_PADDING)}>
       <div className="kratika-yoga-container lp-hero-grid">
         <div>
           <WhenPhaseText value={hero?.badge}>
@@ -182,9 +188,8 @@ export function LandingHero({ page }: { page: Page }) {
               </a>
             )}
           </div>
-          <HeroStats stats={page?.content?.stats} />
         </div>
-        <div className="lp-media">
+        <div className={cn("lp-media", COMMON_BORDER_RADIUS)}>
           {hero?.chips?.[0] && (
             <span className="lp-chip lp-chip-a">
               <Txt text={hero?.chips?.[0]} />
@@ -197,6 +202,9 @@ export function LandingHero({ page }: { page: Page }) {
             </span>
           )}
         </div>
+      </div>
+      <div className="kratika-yoga-container">
+        <HeroStats stats={page?.content?.stats} title={page?.content?.statsTitle} />
       </div>
     </header>
   );
@@ -211,15 +219,14 @@ export function LandingTrailer({ page }: { page: Page }) {
   const courseTitle = page?.course?.title ?? "";
 
   return (
-    <section className="lp-section lp-trailer-section" id="trailer" aria-labelledby="lp-trailer-title">
+    <section className={cn("lp-section lp-trailer-section", COMMON_SECTION_PADDING)} id="trailer" aria-labelledby="lp-trailer-title">
       <div className="kratika-yoga-container lp-center">
         <SectionHeading
-          eyebrow={section?.eyebrow}
           id="lp-trailer-title"
           text={section?.text}
           title={hasText(section?.title) ? section?.title : `Watch the ${courseTitle} trailer`}
         />
-        <div className="lp-trailer-frame lp-rv">
+        <div className={cn("lp-trailer-frame lp-rv", COMMON_BORDER_RADIUS)}>
           <TrailerPlayer trailer={trailer} title={courseTitle} />
         </div>
       </div>
@@ -233,15 +240,15 @@ export function LandingPainPoints({ page }: { page: Page }) {
   if (items.length === 0) return null;
 
   return (
-    <section className="lp-section" aria-labelledby="lp-pain-title">
+    <section className={cn("lp-section", COMMON_SECTION_PADDING)} aria-labelledby="lp-pain-title">
       <div className="kratika-yoga-container">
-        <SectionHeading eyebrow={painPoints?.eyebrow} id="lp-pain-title" title={painPoints?.title} />
+        <SectionHeading id="lp-pain-title" text={painPoints?.text} title={painPoints?.title} />
         <div className="lp-cards">
           {items.map((item, index) => (
-            <div className="lp-card lp-rv" key={index}>
-              {item?.icon && (
+            <div className={cn("lp-card lp-rv", COMMON_BORDER_RADIUS)} key={index}>
+              {(item?.iconUrl || item?.icon) && (
                 <div className="lp-ic">
-                  <EmojiIcon icon={item.icon} />
+                  <ItemIcon className="lp-ic-img" icon={item.icon} iconUrl={item.iconUrl} />
                 </div>
               )}
               <h3>
@@ -266,12 +273,12 @@ export function LandingHowItWorks({ page }: { page: Page }) {
   if (steps.length === 0) return null;
 
   return (
-    <section className="lp-section" aria-labelledby="lp-how-title">
+    <section className={cn("lp-section", COMMON_SECTION_PADDING)} aria-labelledby="lp-how-title">
       <div className="kratika-yoga-container lp-rv">
-        <SectionHeading eyebrow={howItWorks?.eyebrow} id="lp-how-title" title={howItWorks?.title} />
+        <SectionHeading id="lp-how-title" text={howItWorks?.text} title={howItWorks?.title} />
         <div className="lp-steps">
           {steps.map((step, index) => (
-            <div key={index}>
+            <div className={COMMON_BORDER_RADIUS} key={index}>
               <h3>
                 <Txt text={step?.title} />
               </h3>
@@ -294,21 +301,18 @@ export function LandingBenefits({ page }: { page: Page }) {
   if (items.length === 0 && !hasText(benefits?.title)) return null;
 
   return (
-    <section className="lp-section lp-deep" aria-labelledby="lp-gain-title">
-      <div className="kratika-yoga-container lp-two lp-rv">
-        <div>
-          <SectionHeading
-            eyebrow={benefits?.eyebrow}
-            id="lp-gain-title"
-            text={benefits?.text}
-            title={benefits?.title}
-          />
-        </div>
+    <section className={cn("lp-section lp-gain", COMMON_SECTION_PADDING)} aria-labelledby="lp-gain-title">
+      <div className="kratika-yoga-container lp-rv">
+        <p className="lp-gain-eyebrow">What you&apos;ll get</p>
+        <SectionHeading id="lp-gain-title" text={benefits?.text} title={benefits?.title} />
         {items.length > 0 && (
-          <ul className="lp-tick">
+          <ul className="lp-gain-list">
             {items.map((item, index) => (
               <li key={index}>
-                <Txt text={item} />
+                <Check aria-hidden="true" size={20} strokeWidth={2.25} />
+                <span>
+                  <Txt text={item} />
+                </span>
               </li>
             ))}
           </ul>
@@ -327,56 +331,56 @@ const formatLessonDuration = (seconds?: number | null) => {
   return hours > 0 ? `${hours}:${String(minutes).padStart(2, "0")}:${rest}` : `${minutes}:${rest}`;
 };
 
-const lessonCountLabel = (count: number) => `${count} ${count === 1 ? "lesson" : "lessons"}`;
-
 // Without groups, long lists show this many lessons and a "Show all" toggle for the rest.
 const FLAT_LESSONS_SHOWN = 6;
 
 function LessonRow({ lesson }: { lesson: CourseCurriculumItem }) {
   return (
     <div className={`lp-lesson${lesson?.isUpcoming ? " is-upcoming" : ""}`}>
-      <span className="lp-lesson-icon" aria-hidden="true">
-        {lesson?.isUpcoming ? <Lock size={15} strokeWidth={1.8} /> : <Play size={14} fill="currentColor" />}
-      </span>
+      <span className="lp-lesson-no">Lesson {lesson?.lessonNumber}</span>
       <span className="lp-lesson-copy">
-        <span className="lp-lesson-no">Lesson {String(lesson?.lessonNumber ?? "").padStart(2, "0")}</span>
         <span className="lp-lesson-title">{lesson?.title}</span>
         {lesson?.isUpcoming && lesson?.releaseDate && (
           <span className="lp-lesson-soon">Opens {formatScheduleDate(lesson.releaseDate)}</span>
         )}
       </span>
-      <span className="lp-lesson-time">{formatLessonDuration(lesson?.durationSeconds)}</span>
+      <span className="lp-lesson-time">
+        {lesson?.isUpcoming && <Lock aria-label="Not open yet" size={13} strokeWidth={1.8} />}
+        {formatLessonDuration(lesson?.durationSeconds)}
+      </span>
     </div>
   );
 }
 
-/** Lessons by week when the admin grouped them (each week opens and closes); otherwise one list. */
+/** Lessons by week when the admin grouped them (each week is a card that opens and closes); otherwise one list. */
 function LessonList({ lessons, groups }: { lessons: CourseCurriculumItem[]; groups: Page["groups"] }) {
   if ((groups?.length ?? 0) > 0) {
     return (
-      <div className="lp-lessons">
+      <div className="lp-weeks">
         {groups.map((group, index) => {
           const groupLessons = group?.videos ?? [];
           const first = groupLessons[0]?.lessonNumber;
           const last = groupLessons[groupLessons.length - 1]?.lessonNumber;
           const seconds = groupLessons.reduce((total, lesson) => total + (Number(lesson?.durationSeconds) || 0), 0);
           return (
-            <details className="lp-week" key={group?.id ?? "other"} open={index === 0}>
+            <details className={cn("lp-week", COMMON_BORDER_RADIUS)} key={group?.id ?? "other"}>
               <summary>
-                <span className="lp-week-copy">
-                  <span className="lp-lesson-no">
-                    {first === last ? `Lesson ${first}` : `Lessons ${first}–${last}`}
-                  </span>
-                  <span className="lp-week-title">{group?.title}</span>
-                  {group?.description && <span className="lp-week-focus">{group.description}</span>}
+                <span className="lp-week-badge" aria-hidden="true">
+                  W{index + 1}
                 </span>
-                <span className="lp-lesson-time">
-                  {lessonCountLabel(groupLessons.length)} · {formatTotalDuration(seconds)}
+                <span className="lp-week-copy">
+                  <span className="lp-week-title">{group?.title}</span>
+                  <span className="lp-week-meta">
+                    {first === last ? `Lesson ${first}` : `Lessons ${first}–${last}`} · {formatTotalDuration(seconds)}
+                    {group?.description && ` · ${group.description}`}
+                  </span>
                 </span>
               </summary>
-              {groupLessons.map((lesson) => (
-                <LessonRow key={lesson?.id} lesson={lesson} />
-              ))}
+              <div className="lp-week-body">
+                {groupLessons.map((lesson) => (
+                  <LessonRow key={lesson?.id} lesson={lesson} />
+                ))}
+              </div>
             </details>
           );
         })}
@@ -388,7 +392,7 @@ function LessonList({ lessons, groups }: { lessons: CourseCurriculumItem[]; grou
   const rest = lessons.slice(shown.length);
 
   return (
-    <div className="lp-lessons">
+    <div className={cn("lp-lessons", COMMON_BORDER_RADIUS)}>
       {shown.map((lesson) => (
         <LessonRow key={lesson?.id} lesson={lesson} />
       ))}
@@ -407,64 +411,43 @@ function LessonList({ lessons, groups }: { lessons: CourseCurriculumItem[]; grou
   );
 }
 
-/** Text, rating and students on the left; the lessons in a card on the right. */
+/** Title and text on top, then the weeks (or lessons) as a column of cards. */
 export function LandingCurriculum({ page }: { page: Page }) {
   const curriculum = page?.content?.curriculum;
   const lessons = page?.curriculum ?? [];
   if (lessons.length === 0) return null;
 
-  const rating = page?.stats?.totalReviews ? Number(page.stats.averageRating) || 0 : 0;
-  const students = Number(page?.stats?.totalStudents) || 0;
-
   return (
-    <section className="lp-section lp-inside" id="curriculum" aria-labelledby="lp-curriculum-title">
-      <div className="kratika-yoga-container lp-inside-grid">
-        <div className="lp-inside-copy">
+    <section className={cn("lp-section lp-inside", COMMON_SECTION_PADDING)} id="curriculum" aria-labelledby="lp-curriculum-title">
+      <div className="kratika-yoga-container">
+        <div className="lp-inside-wrap">
           <SectionHeading
-            eyebrow={curriculum?.eyebrow}
             id="lp-curriculum-title"
             text={curriculum?.text}
             title={hasText(curriculum?.title) ? curriculum?.title : "{lessonCount} lessons. *{totalDuration} total.*"}
           />
           {page?.course?.sequentialUnlock && (
             <p className="lp-inside-note">
-              <ListOrdered aria-hidden="true" size={18} strokeWidth={1.8} /> Videos unlock in order, one after another.
+              <ListOrdered aria-hidden="true" size={16} strokeWidth={1.8} /> Videos unlock in order, one after another.
             </p>
           )}
-          {(rating > 0 || students > 0) && (
-            <div className="lp-inside-stats">
-              {rating > 0 && (
-                <div className="lp-inside-rating">
-                  <strong>{rating.toFixed(1)}</strong>
-                  <span>course rating</span>
-                </div>
-              )}
-              {students > 0 && (
-                <div className="lp-inside-students">
-                  <strong>{students.toLocaleString("en-IN")}</strong>
-                  <span>{students === 1 ? "student enrolled" : "students enrolled"}</span>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-        <div className="lp-rv">
-          <LessonList groups={page?.groups ?? []} lessons={lessons} />
+          <div className="lp-inside-list lp-rv">
+            <LessonList groups={page?.groups ?? []} lessons={lessons} />
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
-/** One card: offer badge and countdown, the price, the steps, everything included and the Enroll button. */
+/** One card: offer badge and countdown, the price, the steps and the Enroll button. */
 export function LandingPricing({ page }: { page: Page }) {
   const pricing = page?.content?.pricing;
-  const includes = pricing?.includes ?? [];
 
   return (
-    <section className="lp-section lp-buy" id="buy" aria-labelledby="lp-buy-title">
+    <section className={cn("lp-section lp-buy", COMMON_SECTION_PADDING)} id="buy" aria-labelledby="lp-buy-title">
       <div className="kratika-yoga-container lp-center">
-        <SectionHeading eyebrow={pricing?.eyebrow} id="lp-buy-title" title={pricing?.title} />
+        <SectionHeading id="lp-buy-title" title={pricing?.title} />
         <WhenPhaseText value={pricing?.text}>
           <p className="lp-lead">
             <Txt phase={pricing?.text} />
@@ -472,7 +455,7 @@ export function LandingPricing({ page }: { page: Page }) {
         </WhenPhaseText>
       </div>
       <div className="kratika-yoga-container">
-        <div className="lp-price lp-rv">
+        <div className={cn("lp-price lp-rv", COMMON_BORDER_RADIUS)}>
           <div className="lp-price-top">
             <WhenOffer>
               <WhenPhaseText value={pricing?.badge}>
@@ -491,33 +474,8 @@ export function LandingPricing({ page }: { page: Page }) {
             </p>
           )}
           <PricingSteps steps={pricing?.steps} title={pricing?.stepsTitle} />
-          {includes.length > 0 && (
-            <div className="lp-included">
-              <p className="lp-card-label">Everything included</p>
-              <ul>
-                {includes.map((item, index) => (
-                  <li key={index}>
-                    <span className="lp-check" aria-hidden="true">
-                      <Check size={13} strokeWidth={2.5} />
-                    </span>
-                    <span>
-                      <Txt text={item} />
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
           <a className="lp-btn lp-price-btn" href={getCheckoutHref(page?.course?.id ?? "")}>
-            <span>
-              <Txt text={hasText(pricing?.button) ? pricing?.button : "Enroll in the course"} />
-            </span>
-            <span className="lp-price-btn-end">
-              <PayableAmount />
-              <i aria-hidden="true">
-                <ArrowRight size={15} strokeWidth={2} />
-              </i>
-            </span>
+            <Txt text={hasText(pricing?.button) ? pricing?.button : "Enroll in the course"} />
           </a>
           <p className="lp-secure">
             <LockKeyhole aria-hidden="true" size={14} strokeWidth={1.8} /> Secure payment
@@ -531,16 +489,57 @@ export function LandingPricing({ page }: { page: Page }) {
   );
 }
 
-/** Teacher card: photo on the left; name, bio and a few figures (e.g. "8 yrs · of practice") on the right. */
+// Same rule the backend checks; anything else (e.g. "javascript:") never becomes a link.
+const SAFE_LINK = /^(https?:\/\/|\/(?!\/)|#|mailto:|tel:)/i;
+
+type TeacherButton = { label?: string | null; url?: string | null } | null | undefined;
+
+const getTeacherLink = (button: TeacherButton) => {
+  const label = (button?.label ?? "").trim();
+  const url = (button?.url ?? "").trim();
+  if (!label || !SAFE_LINK.test(url)) return null;
+  return { label, url, isExternal: /^https?:\/\//i.test(url) };
+};
+
+// Outside links (e.g. a booking page) open in a new tab; links on this site don't.
+function TeacherLink({
+  link,
+  className,
+  children,
+}: {
+  link: { url: string; isExternal: boolean };
+  className: string;
+  children: ReactNode;
+}) {
+  return (
+    <a className={className} href={link.url} {...(link.isExternal && { target: "_blank", rel: "noopener noreferrer" })}>
+      {children}
+    </a>
+  );
+}
+
+/**
+ * Teacher card: 4:5 photo (with an optional availability label) on the left; name, bio, figures,
+ * "She teaches" tags, a quote and up to two buttons on the right. Every part hides when it is empty.
+ */
 export function LandingInstructor({ page }: { page: Page }) {
   const instructor = page?.content?.instructor;
   const figures = instructor?.stats ?? [];
+  const teaches = (instructor?.teaches ?? []).filter(hasText);
+  const primaryLink = getTeacherLink(instructor?.primaryButton);
+  const secondaryLink = getTeacherLink(instructor?.secondaryButton);
+  // The page adds the quote marks and the dash, so ones typed by the admin are removed to avoid doubles.
+  const quoteText = (instructor?.quote?.text ?? "")
+    .trim()
+    .replace(/^["“”'‘’]+|["“”'‘’]+$/g, "")
+    .trim();
+  const quoteAuthor = (instructor?.quote?.author ?? "").trim().replace(/^[—–-]+\s*/, "");
   if (!hasText(instructor?.bio) && !hasText(instructor?.title)) return null;
 
   return (
-    <section className="lp-section" id="teacher" aria-labelledby="lp-instructor-title">
+    <section className={cn("lp-section", COMMON_SECTION_PADDING)} id="teacher" aria-labelledby="lp-instructor-title">
       <div className="kratika-yoga-container">
-        <div className={`lp-teacher lp-rv${instructor?.imageUrl ? "" : " lp-teacher-no-photo"}`}>
+        <div className={cn("lp-teacher lp-rv", !instructor?.imageUrl && "lp-teacher-no-photo", COMMON_BORDER_RADIUS)}>
           {instructor?.imageUrl && (
             <div className="lp-teacher-photo">
               <Image
@@ -549,14 +548,15 @@ export function LandingInstructor({ page }: { page: Page }) {
                 fill
                 sizes="(max-width: 820px) 100vw, 40vw"
               />
+              {hasText(instructor?.availability) && (
+                <span className="lp-teacher-availability">
+                  <span className="lp-teacher-availability-dot" aria-hidden="true" />
+                  {instructor?.availability}
+                </span>
+              )}
             </div>
           )}
           <div className="lp-teacher-copy">
-            {hasText(instructor?.eyebrow) && (
-              <p className="lp-eyebrow">
-                <Txt text={instructor?.eyebrow} />
-              </p>
-            )}
             {hasText(instructor?.title) && (
               <h2 id="lp-instructor-title">
                 <Txt text={instructor?.title} />
@@ -577,6 +577,43 @@ export function LandingInstructor({ page }: { page: Page }) {
                 ))}
               </dl>
             )}
+            {teaches.length > 0 && (
+              <div className="lp-teacher-teaches">
+                {hasText(instructor?.teachesLabel) && (
+                  <p className="lp-teacher-teaches-label">{instructor?.teachesLabel}</p>
+                )}
+                <ul>
+                  {teaches.map((item, index) => (
+                    <li key={index}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {hasText(quoteText) && (
+              <figure className="lp-teacher-quote">
+                <blockquote>“{quoteText}”</blockquote>
+                {hasText(quoteAuthor) && <figcaption>— {quoteAuthor}</figcaption>}
+              </figure>
+            )}
+            {(primaryLink || secondaryLink || hasText(instructor?.buttonNote)) && (
+              <div className="lp-teacher-actions">
+                {primaryLink && (
+                  <TeacherLink className="lp-teacher-btn" link={primaryLink}>
+                    {primaryLink.label} <ArrowRight size={18} aria-hidden="true" />
+                  </TeacherLink>
+                )}
+                {secondaryLink && (
+                  <TeacherLink className="lp-teacher-btn lp-teacher-btn-outline" link={secondaryLink}>
+                    {secondaryLink.label}
+                  </TeacherLink>
+                )}
+                {hasText(instructor?.buttonNote) && (
+                  <span className="lp-teacher-note">
+                    <Clock size={17} aria-hidden="true" /> {instructor?.buttonNote}
+                  </span>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -585,6 +622,11 @@ export function LandingInstructor({ page }: { page: Page }) {
 }
 
 /** `feedbackImages`: the admin's feedback screenshots (or the built-in ones), shown when switched on. */
+// With at least this many written reviews, the course shows them instead of the admin's quotes.
+const REAL_REVIEWS_NEEDED = 3;
+// How many reviews are shown (the newest first).
+const REVIEWS_SHOWN = 3;
+
 export function LandingTestimonials({ page, feedbackImages }: { page: Page; feedbackImages: FeedbackImage[] }) {
   const testimonials = page?.content?.testimonials;
   const adminQuotes = testimonials?.quotes ?? [];
@@ -592,17 +634,20 @@ export function LandingTestimonials({ page, feedbackImages }: { page: Page; feed
   const showScreenshots = testimonials?.showScreenshots === true;
   if (!showScreenshots && adminQuotes.length === 0 && reviews.length === 0) return null;
 
-  // Admin quotes first; real course reviews fill in when there are none.
-  const quotes =
-    adminQuotes.length > 0
-      ? adminQuotes
-      : reviews.slice(0, 3).map((review) => ({ text: review?.comment ?? "", name: review?.userName ?? "" }));
+  // Real reviews win once the course has enough of them; until then the admin's quotes show
+  // (or whatever real reviews there are, when the admin added no quotes).
+  const useReviews = reviews.length >= REAL_REVIEWS_NEEDED || adminQuotes.length === 0;
+  const quotes = useReviews
+    ? reviews.slice(0, REVIEWS_SHOWN).map((review) => ({
+        text: review?.comment ?? "",
+        name: review?.userName ?? "",
+      }))
+    : adminQuotes;
 
   return (
-    <section className="lp-section lp-alt" id="reviews" aria-labelledby="lp-love-title">
+    <section className={cn("lp-section lp-alt", COMMON_SECTION_PADDING)} id="reviews" aria-labelledby="lp-love-title">
       <div className="kratika-yoga-container">
         <SectionHeading
-          eyebrow={testimonials?.eyebrow}
           id="lp-love-title"
           title={hasText(testimonials?.title) ? testimonials?.title : "What students say"}
         />
@@ -610,7 +655,7 @@ export function LandingTestimonials({ page, feedbackImages }: { page: Page; feed
         {quotes.length > 0 && (
           <div className="lp-quotes">
             {quotes.map((quote, index) => (
-              <blockquote key={index}>
+              <blockquote className={COMMON_BORDER_RADIUS} key={index}>
                 “<Txt text={quote?.text} />”{quote?.name && <cite>{quote.name}</cite>}
               </blockquote>
             ))}
@@ -621,27 +666,36 @@ export function LandingTestimonials({ page, feedbackImages }: { page: Page; feed
   );
 }
 
+/** Same layout as the home page FAQ: title on the left (sticky), questions that open with a "+" on the right. */
 export function LandingFaq({ page }: { page: Page }) {
   const faq = page?.content?.faq;
   const questions = faq?.items ?? [];
   if (questions.length === 0) return null;
 
   return (
-    <section className="lp-section" id="faq" aria-labelledby="lp-faq-title">
-      <div className="kratika-yoga-container">
-        <div className="lp-narrow">
-          <SectionHeading
-            eyebrow={faq?.eyebrow}
-            id="lp-faq-title"
-            title={hasText(faq?.title) ? faq?.title : "Questions before you begin?"}
-          />
+    <section className={cn("platform-faq lp-faq", COMMON_SECTION_PADDING)} id="faq" aria-labelledby="lp-faq-title">
+      <div className="kratika-yoga-container platform-faq-grid">
+        <div className="platform-section-intro">
+          <h2 id="lp-faq-title">
+            <Txt text={hasText(faq?.title) ? faq?.title : "Questions before you begin?"} />
+          </h2>
+          <p className="lp-lead">
+            <Txt text={hasText(faq?.text) ? faq?.text : "A few helpful answers to make your first step feel simple."} />
+          </p>
+        </div>
+        <div className="platform-faq-list">
           {questions.map((item, index) => (
-            <details className="lp-details lp-rv" key={index}>
+            <details key={index}>
               <summary>
                 <Txt text={item?.question} />
+                <Plus size={21} aria-hidden="true" />
               </summary>
-              <div className="lp-details-body lp-answer">
-                <Txt text={item?.answer} />
+              <div className="platform-faq-answer">
+                <div>
+                  <p>
+                    <Txt text={item?.answer} />
+                  </p>
+                </div>
               </div>
             </details>
           ))}
@@ -655,7 +709,7 @@ export function LandingFinalCta({ page }: { page: Page }) {
   const finalCta = page?.content?.finalCta;
 
   return (
-    <section className="lp-section lp-deep lp-final" aria-labelledby="lp-final-title">
+    <section className={cn("lp-section lp-deep lp-final", COMMON_SECTION_PADDING)} aria-labelledby="lp-final-title">
       <div className="kratika-yoga-container">
         <h2 id="lp-final-title">
           <Txt text={hasText(finalCta?.title) ? finalCta?.title : `Start ${page?.course?.title ?? "today"}.`} />

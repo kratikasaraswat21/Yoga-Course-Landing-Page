@@ -71,6 +71,18 @@ export function WhenOffer({ children }: { children: ReactNode }) {
   return pricing.offerType !== "NONE" ? <>{children}</> : null;
 }
 
+/**
+ * The announcement bar text for the current phase. While a discount is running after launch, the
+ * discount is added (" · Now *50% off*") unless the admin's text already mentions {discount}.
+ */
+export function AnnouncementText({ value }: { value?: PhaseText | null }) {
+  const { isPrelaunch, pricing } = useLandingText();
+  const text = (value ? pickPhase(value, isPrelaunch) : "") ?? "";
+  const addDiscount = !isPrelaunch && pricing.discountPercent > 0 && !text.includes("{discount}");
+
+  return <Txt text={addDiscount ? `${text.trim()} · Now *{discount}% off*` : text} />;
+}
+
 export function WhenPhaseText({ value, children }: { value?: PhaseText | null; children: ReactNode }) {
   const { isPrelaunch } = useLandingText();
   return value && (pickPhase(value, isPrelaunch) ?? "").trim() ? <>{children}</> : null;

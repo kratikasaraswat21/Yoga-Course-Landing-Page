@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 import type { FeedbackImage } from "@/components/landing-page/feedback-images";
+import { COMMON_BORDER_RADIUS } from "@/lib/constants/layout";
 
 /** Horizontal strip of feedback screenshots; tap one to see it large. */
 export function FeedbackScreenshots({ images }: { images: FeedbackImage[] }) {
@@ -28,7 +29,7 @@ export function FeedbackScreenshots({ images }: { images: FeedbackImage[] }) {
             onClick={() => setOpenImage(image)}
             aria-label={`Enlarge student feedback ${index + 1}`}>
             {/* Shown 420px tall; each screenshot keeps its own width (width: auto in course-landing.css). */}
-            <Image src={image.src} alt={image.alt} width={236} height={420} sizes="240px" />
+            <Image className={COMMON_BORDER_RADIUS} src={image.src} alt={image.alt} width={236} height={420} sizes="240px" />
           </button>
         ))}
       </div>

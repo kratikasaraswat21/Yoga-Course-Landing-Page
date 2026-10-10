@@ -1,6 +1,8 @@
 "use client";
 
+import { COMMON_BORDER_RADIUS } from "@/lib/constants/layout";
 import { formatCurrency } from "@/lib/formatters/currency";
+import { cn } from "@/lib/utils";
 import { Txt, useLandingText } from "./landing-text";
 
 const pad = (value: number) => String(value).padStart(2, "0");
@@ -21,12 +23,6 @@ export function LandingPrice() {
       )}
     </div>
   );
-}
-
-/** Just the price right now, e.g. inside the Enroll button. */
-export function PayableAmount() {
-  const { pricing } = useLandingText();
-  return <>{formatCurrency(pricing.payableAmount)}</>;
 }
 
 /** "Ends in 01d 02h 17m 24s" while the prelaunch offer runs. */
@@ -68,7 +64,7 @@ export function PricingSteps({
   if (items.length === 0) return null;
 
   return (
-    <div className="lp-how">
+    <div className={cn("lp-how", COMMON_BORDER_RADIUS)}>
       {title && (
         <p className="lp-card-label">
           <Txt text={title} />
@@ -84,23 +80,6 @@ export function PricingSteps({
           </li>
         ))}
       </ol>
-    </div>
-  );
-}
-
-/** Bar fixed to the bottom on phones: price, a short label and an Enroll button. */
-export function MobileEnrollBar({ subtitle, courseTitle }: { subtitle?: string; courseTitle?: string }) {
-  const { pricing } = useLandingText();
-
-  return (
-    <div className="lp-bar">
-      <div>
-        <strong>{formatCurrency(pricing.payableAmount)}</strong>
-        <small>{subtitle?.trim() ? <Txt text={subtitle} /> : courseTitle}</small>
-      </div>
-      <a className="lp-btn" href="#buy">
-        Enroll now
-      </a>
     </div>
   );
 }

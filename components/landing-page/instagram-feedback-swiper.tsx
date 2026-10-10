@@ -10,6 +10,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import type { FeedbackImage } from "./feedback-images";
 
 export function InstagramFeedbackSwiper({ images }: { images: FeedbackImage[] }) {
+  // Wide screens: 6 per row when there are at least 6 screenshots, otherwise 4 so they don't look tiny.
+  const desktopSlidesPerView = images.length >= 6 ? 6 : 4;
+
   return (
     <section className="landing-instagram-feedback" aria-label="Instagram feedback">
       <div className="kratika-yoga-container">
@@ -27,7 +30,7 @@ export function InstagramFeedbackSwiper({ images }: { images: FeedbackImage[] })
           navigation={{ nextEl: ".instagram-feedback-next", prevEl: ".instagram-feedback-prev" }}
           spaceBetween={24}
           slidesPerView={1}
-          breakpoints={{ 640: { slidesPerView: 2 }, 1100: { slidesPerView: 4 } }}>
+          breakpoints={{ 640: { slidesPerView: 2 }, 1100: { slidesPerView: desktopSlidesPerView } }}>
           {images.map((image) => (
             <SwiperSlide key={image.key}>
               <div className="landing-instagram-feedback-card">
@@ -35,7 +38,7 @@ export function InstagramFeedbackSwiper({ images }: { images: FeedbackImage[] })
                   src={image.src}
                   alt={image.alt}
                   fill
-                  sizes="(max-width: 639px) 100vw, (max-width: 1099px) 50vw, 25vw"
+                  sizes={`(max-width: 639px) 100vw, (max-width: 1099px) 50vw, ${Math.ceil(100 / desktopSlidesPerView)}vw`}
                 />
               </div>
             </SwiperSlide>

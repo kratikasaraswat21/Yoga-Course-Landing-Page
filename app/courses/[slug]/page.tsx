@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { MobileEnrollBar } from "@/components/course-landing/landing-price";
 import {
   LandingAnnouncement,
   LandingBenefits,
@@ -51,18 +50,28 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!page) return { title: "Course not found", robots: { index: false } };
 
   const values = getPlaceholderValues(page, page.pricing);
+  const seo = page.content?.seo;
+  // The admin's SEO fields win; empty ones fall back to the course title, intro text and cover image.
+  const seoTitle = (seo?.title ?? "").trim();
+  const title = seoTitle || page.course.title;
   const description = (
-    toPlainText(page.content?.hero?.subtitle ?? "", values) || stripHtml(page.course?.description ?? null)
+    (seo?.description ?? "").trim() ||
+    toPlainText(page.content?.hero?.subtitle ?? "", values) ||
+    stripHtml(page.course?.description ?? null)
   ).slice(0, 160);
-  const image = page.content?.hero?.coverImageUrl || page.trailer?.posterUrl || page.course?.thumbnailUrl || metaImage;
+  const seoImage = (seo?.imageUrl ?? "").trim();
+  const image = seoImage
+    ? { url: seoImage, width: 1200, height: 630, alt: title }
+    : { url: page.content?.hero?.coverImageUrl || page.trailer?.posterUrl || page.course?.thumbnailUrl || metaImage };
   const url = `${siteUrl}/courses/${page.course.slug}`;
 
   return {
-    title: page.course.title,
+    // A meta title written by the admin is used as is, without the " | Kratika Yoga" suffix.
+    title: seoTitle ? { absolute: seoTitle } : page.course.title,
     description,
     alternates: { canonical: url },
-    openGraph: { type: "website", url, title: page.course.title, description, images: [{ url: image }] },
-    twitter: { card: "summary_large_image", title: page.course.title, description, images: [image] },
+    openGraph: { type: "website", url, title, description, images: [image] },
+    twitter: { card: "summary_large_image", title, description, images: [image.url] },
   };
 }
 
@@ -121,7 +130,6 @@ export default async function CourseLandingPage({ params }: { params: Promise<{ 
           <LandingFinalCta page={page} />
         </main>
         <Footer />
-        <MobileEnrollBar courseTitle={course?.title} subtitle={content?.mobileBar?.subtitle} />
         <RevealOnScroll />
       </div>
     </LandingTextProvider>
