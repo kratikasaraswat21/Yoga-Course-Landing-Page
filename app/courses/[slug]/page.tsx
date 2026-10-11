@@ -81,7 +81,7 @@ export default async function CourseLandingPage({ params }: { params: Promise<{ 
   if (!page) notFound();
 
   const { course, content, pricing, stats } = page;
-  const feedbackImages = content?.testimonials?.showScreenshots ? await getFeedbackImages() : [];
+  const feedbackImages = content?.testimonials?.showScreenshots ? await getFeedbackImages(course?.id) : [];
   const values = getPlaceholderValues(page, pricing);
   const structuredData = {
     "@context": "https://schema.org",

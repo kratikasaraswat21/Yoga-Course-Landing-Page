@@ -14,12 +14,16 @@ export interface InstagramFeedbackImage {
   altText: string | null;
 }
 
-/** Feedback screenshots managed in the admin panel, in their order. Empty when there are none or on error. */
-export async function getInstagramFeedbackImages(): Promise<InstagramFeedbackImage[]> {
+/**
+ * Feedback screenshots managed in the admin panel, in their order. With `courseId`: that course's own
+ * screenshots, or the global ones when it has none. Empty when there are none or on error.
+ */
+export async function getInstagramFeedbackImages(courseId?: string): Promise<InstagramFeedbackImage[]> {
   if (!EnvConfig.API_BASE_URL) return [];
 
   try {
-    const response = await fetch(FEEDBACK_URL, {
+    const url = courseId ? `${FEEDBACK_URL}?courseId=${encodeURIComponent(courseId)}` : FEEDBACK_URL;
+    const response = await fetch(url, {
       next: { revalidate: 86_400, tags: [INSTAGRAM_FEEDBACK_CACHE_TAG] },
     });
     if (!response.ok) return [];

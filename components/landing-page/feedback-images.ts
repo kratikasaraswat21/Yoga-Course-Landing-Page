@@ -26,9 +26,12 @@ const BUILT_IN_FEEDBACK_IMAGES: FeedbackImage[] = [
   feedback7,
 ].map((image, index) => ({ key: image.src, src: image, alt: `Student feedback ${index + 1}` }));
 
-/** The admin's feedback screenshots, or the built-in ones when none are uploaded (or the API is down). */
-export async function getFeedbackImages(): Promise<FeedbackImage[]> {
-  const images = await getInstagramFeedbackImages();
+/**
+ * The admin's feedback screenshots (a course's own ones first, when `courseId` is given), or the built-in
+ * ones when none are uploaded (or the API is down).
+ */
+export async function getFeedbackImages(courseId?: string): Promise<FeedbackImage[]> {
+  const images = await getInstagramFeedbackImages(courseId);
   if (images.length === 0) return BUILT_IN_FEEDBACK_IMAGES;
 
   return images.map((image, index) => ({

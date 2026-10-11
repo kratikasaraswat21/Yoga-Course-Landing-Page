@@ -795,34 +795,201 @@ html:has(.lp) {
   margin-top: 10px !important;
   color: var(--lp-mute);
 }
-.lp-gain-list {
+/* Roadmap: header on the left; week cards (one open) beside the open week's 16:9 image. */
+.lp-roadmap-head {
+  max-width: 720px;
+}
+.lp-roadmap-head .lp-gain-eyebrow {
+  text-align: left;
+}
+.lp-roadmap-head h2 {
+  margin-top: 10px !important;
+}
+.lp-roadmap-head .lp-lead {
+  margin-top: 10px !important;
+  color: var(--lp-mute);
+}
+.lp-roadmap-body {
   display: grid;
-  gap: 14px 48px;
-  margin-top: 28px !important;
+  gap: 24px 40px;
+  max-width: 760px;
+  margin-top: 36px;
+}
+.lp-roadmap-with-photo {
+  max-width: none;
+}
+@media (min-width: 900px) {
+  .lp-roadmap-body {
+    margin-top: 48px;
+  }
+  .lp-roadmap-with-photo {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+.lp-roadmap-weeks {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.lp-roadmap-card {
+  border: 1px solid var(--lp-line);
+  background: var(--lp-card);
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+.lp-roadmap-card.is-open {
+  border-color: #c4893a;
+  box-shadow: 0 18px 40px -28px rgba(176, 122, 42, 0.55);
+}
+.lp-roadmap-card h3 {
+  margin: 0;
+}
+.lp-roadmap-card button {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 20px;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+.lp-roadmap-card-head {
+  display: grid;
+  gap: 4px;
+}
+.lp-roadmap-card-title {
+  color: #1d2b25;
+  font-family: var(--lp-serif);
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.lp-roadmap-card-title em {
+  color: inherit;
+}
+.lp-roadmap-card-text {
+  color: var(--lp-mute);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+}
+.lp-roadmap-card-icon {
+  flex: none;
+  color: #c4893a;
+}
+/* Opens by animating the row height from 0 to its content (no measuring, no jump). */
+.lp-roadmap-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease;
+}
+.lp-roadmap-card.is-open .lp-roadmap-panel {
+  grid-template-rows: 1fr;
+}
+.lp-roadmap-panel > div {
+  overflow: hidden;
+  padding: 0 20px;
+}
+.lp-roadmap-card.is-open .lp-roadmap-panel > div {
+  padding-bottom: 20px;
+}
+.lp-roadmap-label {
+  margin-bottom: 6px !important;
+  color: #1d2b25;
+  font-weight: 700;
+}
+.lp-roadmap-panel ul {
+  display: grid;
+  gap: 10px;
+  margin: 0;
   padding: 0;
   list-style: none;
 }
-@media (min-width: 820px) {
-  .lp-gain-list {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-.lp-gain-list li {
+.lp-roadmap-panel li {
   display: flex;
   align-items: flex-start;
-  gap: 14px;
+  gap: 12px;
   color: #2a332e;
-  font-size: 17px;
-  line-height: 1.6;
+  line-height: 1.5;
 }
-.lp-gain-list svg {
+.lp-roadmap-panel svg {
   flex: none;
-  margin-top: 4px;
+  margin-top: 2px;
   color: #c4893a;
 }
-@media (max-width: 600px) {
-  .lp-gain-list li {
-    font-size: 16px;
+.lp-btn.lp-roadmap-btn {
+  display: block;
+  margin-top: 12px;
+  text-align: center;
+}
+/* The images sit on top of each other and cross-fade, so the box never changes size. */
+.lp-roadmap-photo {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  background: #e6dac8;
+  order: -1;
+}
+@media (min-width: 900px) {
+  .lp-roadmap-photo {
+    position: sticky;
+    top: 96px;
+    order: 0;
+  }
+}
+.lp-roadmap-photo img {
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.03);
+  transition:
+    opacity 0.5s ease,
+    transform 0.8s ease;
+}
+.lp-roadmap-photo img.is-shown {
+  opacity: 1;
+  transform: scale(1);
+}
+.lp-roadmap-caption {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  max-width: calc(100% - 28px);
+  padding: 6px 14px;
+  border-radius: 99px;
+  background: rgba(20, 28, 24, 0.72);
+  color: #fff;
+  font-size: 1rem;
+  animation: lp-roadmap-caption-in 0.4s ease;
+}
+.lp-roadmap-caption em {
+  color: inherit;
+}
+@keyframes lp-roadmap-caption-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+.lp-roadmap-note {
+  margin-top: 28px !important;
+  color: var(--lp-mute);
+  font-size: 1rem;
+}
+@media (prefers-reduced-motion: reduce) {
+  .lp-roadmap-card,
+  .lp-roadmap-panel,
+  .lp-roadmap-photo img {
+    transition: none;
+  }
+  .lp-roadmap-caption {
+    animation: none;
   }
 }
 
@@ -1044,7 +1211,7 @@ html:has(.lp) {
 /* Pricing: one card on a soft circle. */
 .lp-buy {
   position: relative;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 /* Soft glow centred behind the price card, fading out evenly on every side. */
 .lp-buy > .kratika-yoga-container {
@@ -1072,205 +1239,119 @@ html:has(.lp) {
   color: #3d4740;
   font-size: 1.0625rem;
 }
+/* Narrow centred card with an accent border: price, badge, steps, ticked list and the button. */
 .lp-price {
-  max-width: 640px;
+  max-width: 400px;
   margin: 48px auto 0;
-  padding: 32px;
-  border: 1px solid #f0e2d6;
+  padding: 36px 28px 28px;
+  border: 1.5px solid var(--lp-accent);
   background: var(--lp-card);
-  box-shadow: 0 40px 80px -40px rgba(184, 67, 31, 0.35);
+  box-shadow: 0 30px 60px -30px rgba(212, 83, 44, 0.45);
+  text-align: center;
 }
 @media (max-width: 600px) {
   .lp-price {
     margin-top: 40px;
-    padding: 26px 20px;
+    padding: 30px 20px 24px;
   }
 }
-.lp-price-top {
+.lp-price-row {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  gap: 10px;
+}
+.lp-price-was {
+  color: var(--lp-mute);
+  font-size: 1rem;
+}
+.lp-amt {
+  color: #1d2b25;
+  font-size: clamp(40px, 9vw, 48px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
 }
 .lp-offer {
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  margin-top: 16px;
   padding: 4px 14px;
   border-radius: 99px;
-  background: linear-gradient(135deg, var(--lp-accent), #e8803f);
-  color: #fff;
+  background: var(--lp-tint);
+  color: var(--lp-accent-d);
   font-size: 1rem;
   font-weight: 600;
 }
 .lp-offer em {
   color: inherit;
 }
-.lp-price-count {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-left: auto;
-  color: var(--lp-mute);
-}
-.lp-price-count span {
-  margin-right: 2px;
-}
-.lp-price-count b {
-  min-width: 40px;
-  padding: 1px 6px;
-  border-radius: 7px;
-  background: #17382e;
-  color: #fff;
-  font-family: var(--lp-serif);
-  font-size: 1rem;
-  font-variant-numeric: tabular-nums;
-  font-weight: 400;
-  text-align: center;
-}
-.lp-price-count b:last-child {
-  color: #ffc9ae;
-}
-@media (max-width: 480px) {
-  .lp-price-count {
-    margin-left: 0;
-  }
-  .lp-price-count b {
-    min-width: 40px;
-    padding: 2px 6px;
-  }
-}
-.lp-price-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px 16px;
-  margin-top: 20px;
-}
-.lp-amt {
-  color: #1d2b25;
-  font-family: var(--lp-serif);
-  font-size: clamp(40px, 9vw, 50px);
-  letter-spacing: -0.04em;
-  line-height: 1;
-}
-.lp-price-was {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 4px;
-}
-.lp-price-was s {
-  color: var(--lp-mute);
-  font-size: 1.0625rem;
-}
-.lp-price-was span {
-  padding: 2px 10px;
-  border-radius: 99px;
-  background: #e5efe9;
-  color: #17382e;
-  font-size: 1rem;
-  font-weight: 600;
-}
 .lp-price-note {
-  margin-top: 10px !important;
+  margin-top: 12px !important;
   color: #3d4740;
 }
 .lp-card-label {
-  margin-bottom: 12px !important;
-  color: var(--lp-accent-d);
+  margin-bottom: 8px !important;
+  color: #1d2b25;
   font-size: 1rem;
   font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
 }
 
-/* "How it works" steps in a row, joined by dashed lines. */
+/* "How it works": a plain numbered list in a soft peach box. */
 .lp-how {
-  margin-top: 24px;
-  padding: 18px 20px;
-  border: 1px solid #f6d9c7;
-  background: #fdf3ec;
+  margin-top: 28px;
+  padding: 18px 16px;
+  background: var(--lp-tint);
+  text-align: left;
 }
-/* Steps stacked vertically, joined by a dashed line running down between the numbers. */
 .lp-how ol {
   display: grid;
-  gap: 20px;
-  padding: 0;
-  list-style: none;
-}
-.lp-how li {
-  position: relative;
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-}
-.lp-how li:not(:last-child)::after {
-  position: absolute;
-  top: 30px;
-  bottom: -18px;
-  left: 12px;
-  border-left: 1.5px dashed #e3c3ae;
-  content: "";
-}
-.lp-how li > span {
-  display: grid;
-  width: 26px;
-  height: 26px;
-  flex: none;
-  border-radius: 50%;
-  background: #17382e;
-  color: #fff;
-  font-size: 1rem;
-  font-weight: 700;
-  line-height: 1;
-  place-items: center;
-}
-.lp-how li:last-child > span {
-  background: linear-gradient(135deg, var(--lp-accent), #e8803f);
-}
-.lp-how li p {
-  padding-top: 1px;
+  gap: 6px;
+  margin: 0;
+  padding-left: 1.25em;
+  list-style: decimal;
   color: #1d2b25;
   line-height: 1.5;
 }
 .lp-how em {
+  color: inherit;
   font-weight: 700;
+}
+
+/* What the price includes, each line with an accent tick. */
+.lp-price-list {
+  display: grid;
+  gap: 14px;
+  margin-top: 24px !important;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+}
+.lp-price-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  color: #1d2b25;
+  line-height: 1.5;
+}
+.lp-price-list svg {
+  flex: none;
+  margin-top: 3px;
+  color: var(--lp-accent);
 }
 
 .lp-btn.lp-price-btn {
   display: block;
   margin-top: 28px;
-  padding: 18px 24px;
-  box-shadow: none;
-  font-size: 1.0625rem;
+  padding: 14px 24px;
+  font-size: 1rem;
   text-align: center;
 }
-/* Phones: a slimmer button, about 46px tall instead of 62px. */
-@media (max-width: 600px) {
-  .lp-btn.lp-price-btn {
-    margin-top: 22px;
-    padding: 12px 20px;
-    font-size: 0.9375rem;
-  }
-}
 .lp-secure {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
   margin-top: 14px !important;
   color: var(--lp-mute);
-}
-.lp-secure span {
-  padding: 0 8px;
-  border: 1px solid #f0e0d0;
-  border-radius: 7px;
-  background: #fdf8f3;
-  color: #3d4740;
-  font-weight: 600;
+  font-size: 1rem;
 }
 
 /* Teacher card */
@@ -1541,16 +1622,14 @@ html:has(.lp) {
   border-radius: 12px;
 }
 .lp-quotes {
-  display: grid;
-  gap: 16px;
   margin-top: 32px;
 }
-@media (min-width: 760px) {
-  .lp-quotes {
-    grid-template-columns: repeat(3, 1fr);
-  }
+/* Every card in a row as tall as the tallest. */
+.lp-quotes .swiper-slide {
+  height: auto;
 }
 .lp-quotes blockquote {
+  height: 100%;
   padding: 24px;
   border: 1px solid var(--lp-line);
   background: var(--lp-card);
@@ -1569,6 +1648,35 @@ html:has(.lp) {
   font-size: 1rem;
   font-style: normal;
   font-weight: 600;
+}
+.lp-quotes-controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+/* Swiper locks both arrows when every quote fits; then the row goes too. */
+.lp-quotes-controls:has(.swiper-button-lock) {
+  display: none;
+}
+.lp-quotes-controls button {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border: 1px solid rgba(23, 56, 46, 0.3);
+  border-radius: 50%;
+  background: var(--lp-card);
+  color: var(--landing-forest);
+  cursor: pointer;
+  transition: 0.2s;
+}
+.lp-quotes-controls button:hover {
+  border-color: var(--landing-forest);
+}
+.lp-quotes-controls button.swiper-button-disabled {
+  cursor: default;
+  opacity: 0.35;
 }
 
 .lp-final {

@@ -1,4 +1,4 @@
-import { ArrowRight, Check, Clock, ListOrdered, Lock, LockKeyhole, Plus, Tag } from "lucide-react";
+import { ArrowRight, Clock, ListOrdered, Lock, Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
@@ -14,7 +14,9 @@ import { COMMON_BORDER_RADIUS, COMMON_SECTION_PADDING } from "@/lib/constants/la
 import { cn } from "@/lib/utils";
 import { FeedbackScreenshots } from "./feedback-screenshots";
 import { LandingCountdown } from "./landing-countdown";
-import { LandingPrice, PriceCountdown, PricingSteps } from "./landing-price";
+import { LandingPrice, PricingFeatures, PricingSteps } from "./landing-price";
+import { QuotesSlider } from "./quotes-slider";
+import { RoadmapAccordion } from "./roadmap-accordion";
 import { AnnouncementText, Txt, WhenOffer, WhenPhaseText } from "./landing-text";
 import { TrailerPlayer } from "./trailer-player";
 
@@ -86,7 +88,7 @@ const getSectionLinks = (page: Page) => {
     (page?.curriculum?.length ?? 0) > 0 ? { href: "#curriculum", label: "What's inside" } : null,
     { href: "#buy", label: "Pricing" },
     hasText(content?.instructor?.bio) || hasText(content?.instructor?.title)
-      ? { href: "#teacher", label: "Teacher" }
+      ? { href: "#teacher", label: "Meet your instructor" }
       : null,
     testimonials?.showScreenshots || (testimonials?.quotes?.length ?? 0) > 0 || (page?.reviews?.length ?? 0) > 0
       ? { href: "#reviews", label: "Reviews" }
@@ -295,27 +297,42 @@ export function LandingHowItWorks({ page }: { page: Page }) {
   );
 }
 
+/**
+ * Roadmap: label, title and text on the left, then week cards that open one at a time with the open
+ * week's image beside them, the button to the price card and a closing note.
+ */
 export function LandingBenefits({ page }: { page: Page }) {
   const benefits = page?.content?.benefits;
-  const items = benefits?.items ?? [];
-  if (items.length === 0 && !hasText(benefits?.title)) return null;
+  const weeks = benefits?.weeks ?? [];
+  if (weeks.length === 0) return null;
 
   return (
-    <section className={cn("lp-section lp-gain", COMMON_SECTION_PADDING)} aria-labelledby="lp-gain-title">
+    <section className={cn("lp-section lp-gain lp-roadmap", COMMON_SECTION_PADDING)} aria-labelledby="lp-gain-title">
       <div className="kratika-yoga-container lp-rv">
-        <p className="lp-gain-eyebrow">What you&apos;ll get</p>
-        <SectionHeading id="lp-gain-title" text={benefits?.text} title={benefits?.title} />
-        {items.length > 0 && (
-          <ul className="lp-gain-list">
-            {items.map((item, index) => (
-              <li key={index}>
-                <Check aria-hidden="true" size={20} strokeWidth={2.25} />
-                <span>
-                  <Txt text={item} />
-                </span>
-              </li>
-            ))}
-          </ul>
+        <div className="lp-roadmap-head">
+          {hasText(benefits?.eyebrow) && <p className="lp-gain-eyebrow">{benefits?.eyebrow}</p>}
+          {hasText(benefits?.title) && (
+            <h2 id="lp-gain-title">
+              <Txt text={benefits?.title} />
+            </h2>
+          )}
+          {hasText(benefits?.text) && (
+            <p className="lp-lead">
+              <Txt text={benefits?.text} />
+            </p>
+          )}
+        </div>
+        <RoadmapAccordion weeks={weeks}>
+          {hasText(benefits?.button) && (
+            <a className="lp-btn lp-roadmap-btn" href="#buy">
+              <Txt text={benefits?.button} />
+            </a>
+          )}
+        </RoadmapAccordion>
+        {hasText(benefits?.note) && (
+          <p className="lp-roadmap-note">
+            <Txt text={benefits?.note} />
+          </p>
         )}
       </div>
     </section>
@@ -440,7 +457,7 @@ export function LandingCurriculum({ page }: { page: Page }) {
   );
 }
 
-/** One card: offer badge and countdown, the price, the steps and the Enroll button. */
+/** One card: the price, offer badge, steps, what's included and the Enroll button. */
 export function LandingPricing({ page }: { page: Page }) {
   const pricing = page?.content?.pricing;
 
@@ -456,33 +473,25 @@ export function LandingPricing({ page }: { page: Page }) {
       </div>
       <div className="kratika-yoga-container">
         <div className={cn("lp-price lp-rv", COMMON_BORDER_RADIUS)}>
-          <div className="lp-price-top">
-            <WhenOffer>
-              <WhenPhaseText value={pricing?.badge}>
-                <span className="lp-offer">
-                  <Tag aria-hidden="true" size={14} strokeWidth={2} />
-                  <Txt phase={pricing?.badge} />
-                </span>
-              </WhenPhaseText>
-            </WhenOffer>
-            <PriceCountdown />
-          </div>
           <LandingPrice />
+          <WhenOffer>
+            <WhenPhaseText value={pricing?.badge}>
+              <span className="lp-offer">
+                <Txt phase={pricing?.badge} />
+              </span>
+            </WhenPhaseText>
+          </WhenOffer>
           {hasText(pricing?.note) && (
             <p className="lp-price-note">
               <Txt text={pricing?.note} />
             </p>
           )}
           <PricingSteps steps={pricing?.steps} title={pricing?.stepsTitle} />
+          <PricingFeatures items={pricing?.features} />
           <a className="lp-btn lp-price-btn" href={getCheckoutHref(page?.course?.id ?? "")}>
             <Txt text={hasText(pricing?.button) ? pricing?.button : "Enroll in the course"} />
           </a>
-          <p className="lp-secure">
-            <LockKeyhole aria-hidden="true" size={14} strokeWidth={1.8} /> Secure payment
-            <span>UPI</span>
-            <span>Cards</span>
-            <span>Netbanking</span>
-          </p>
+          <p className="lp-secure">Secure payment · UPI, cards &amp; netbanking</p>
         </div>
       </div>
     </section>
@@ -652,15 +661,7 @@ export function LandingTestimonials({ page, feedbackImages }: { page: Page; feed
           title={hasText(testimonials?.title) ? testimonials?.title : "What students say"}
         />
         {showScreenshots && <FeedbackScreenshots images={feedbackImages} />}
-        {quotes.length > 0 && (
-          <div className="lp-quotes">
-            {quotes.map((quote, index) => (
-              <blockquote className={COMMON_BORDER_RADIUS} key={index}>
-                “<Txt text={quote?.text} />”{quote?.name && <cite>{quote.name}</cite>}
-              </blockquote>
-            ))}
-          </div>
-        )}
+        {quotes.length > 0 && <QuotesSlider quotes={quotes} />}
       </div>
     </section>
   );
