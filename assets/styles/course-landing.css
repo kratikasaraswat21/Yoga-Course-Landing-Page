@@ -2,6 +2,10 @@
    and always uses its light colours. */
 
 .lp {
+  /* Admin-written text can contain long unbroken words or links; let them wrap instead of widening
+     the page. `clip` (not `hidden`) still lets sticky elements stick. */
+  overflow-wrap: anywhere;
+  overflow-x: clip;
   --lp-bg: #fff8f1;
   --lp-card: #fff;
   --lp-ink: #1f2d27;
@@ -811,6 +815,8 @@ html:has(.lp) {
 }
 .lp-roadmap-body {
   display: grid;
+  /* minmax(0, …): the column never grows past the screen to fit its widest content. */
+  grid-template-columns: minmax(0, 1fr);
   gap: 24px 40px;
   max-width: 760px;
   margin-top: 36px;
