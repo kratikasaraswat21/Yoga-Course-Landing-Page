@@ -11,7 +11,7 @@ import { LibraryEmptyState } from "@/components/shared/library-empty-state";
 import { toast } from "@/components/ui/toast";
 import { useDebounce } from "@/hooks/useDebounce";
 import { multipleApiHandler } from "@/lib/api/multiple.api";
-import type { ApiCourse, CoursesResponse } from "@/types/course";
+import { getCourseViewHref, type ApiCourse, type CoursesResponse } from "@/types/course";
 
 const fallbackImage = loginYoga;
 type CourseListingMode = "enrolled" | "explore";
@@ -144,7 +144,9 @@ export function CourseListingPage({ mode }: { mode: CourseListingMode }) {
                   <strong className="font-montserrat">
                     ₹{((mode === "explore" && (course.discount ?? 0) > 0) ? course.totalPayableAmount : course.price).toLocaleString("en-IN")}
                   </strong>
-                  <Link className="catalog-button" href={`/course/enrolled/${course.id}`}>
+                  <Link
+                    className="catalog-button"
+                    href={mode === "enrolled" ? `/course/enrolled/${course.id}` : getCourseViewHref(course)}>
                     {mode === "enrolled" ? "Continue course" : "View course"}
                   </Link>
                 </div>

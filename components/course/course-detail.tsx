@@ -6,7 +6,22 @@ import { toast } from "@/components/ui/toast";
 import { multipleApiHandler } from "@/lib/api/multiple.api";
 import { formatDuration, formatVideoDuration } from "@/lib/utils";
 import type { Course, CourseVideo } from "@/types/course";
-import { Award, CheckCircle2, Clock3, Infinity, Lock, Play, Share2, ShieldCheck } from "lucide-react";
+import { useNow } from "@/hooks/useNow";
+import { formatCountdown, getCurrentPricing } from "@/lib/helper/course-pricing";
+import { formatScheduleDate } from "@/lib/helper/schedule-date";
+import {
+  ArrowRight,
+  Award,
+  CalendarClock,
+  CheckCircle2,
+  Clock3,
+  Infinity,
+  ListOrdered,
+  Lock,
+  Play,
+  Share2,
+  ShieldCheck,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -24,6 +39,13 @@ export function CourseDetailHero({
 }) {
   const totalSeconds = course.courseVideos.reduce((total, video) => total + video.durationSeconds, 0);
   const [isCopied, setIsCopied] = useState(false);
+  const now = useNow();
+  // Re-check the offer in the browser so the price switches at midnight without a reload.
+  const pricing = course.pricing && now !== null ? getCurrentPricing(course.pricing, now) : course.pricing;
+  const price = pricing?.price ?? course.price;
+  const discount = pricing?.discountPercent ?? course.discount;
+  const payableAmount = pricing?.payableAmount ?? course.totalPayableAmount;
+  const prelaunch = pricing?.offerType === "PRELAUNCH" ? pricing.prelaunch : null;
 
   const handleShare = async () => {
     try {
@@ -58,16 +80,30 @@ export function CourseDetailHero({
             <Share2 size={18} />
           </button>
         </div>
+        {!course.isPurchased && prelaunch && <span className="course-card-prelaunch-chip">Prelaunch price</span>}
         <div className="detail-price">
-          {course.discount > 0 && (
+          {discount > 0 && (
             <>
-              <del className="font-montserrat">₹{course.price.toLocaleString("en-IN")}</del>
-              <span className="discount">{course.discount}% off</span>
+              <del className="font-montserrat">₹{price.toLocaleString("en-IN")}</del>
+              <span className="discount">{discount}% off</span>
             </>
           )}
-          <strong className="font-montserrat">₹{(course.discount > 0 ? course.totalPayableAmount : course.price).toLocaleString("en-IN")}</strong>
+          <strong className="font-montserrat">₹{(discount > 0 ? payableAmount : price).toLocaleString("en-IN")}</strong>
         </div>
-        <small className="payment-copy">One-time payment · Lifetime access</small>
+        <small className="payment-copy">
+          One-time payment · Lifetime access
+          {!course.isPurchased && prelaunch && now !== null
+            ? ` · Prelaunch offer ends in ${formatCountdown(Date.parse(prelaunch.endsAt) - now)}`
+            : ""}
+        </small>
+        {course.isPurchased && course.upcomingReleaseDate && (
+          <p className="course-release-notice">
+            <CalendarClock size={17} aria-hidden="true" />
+            {course.courseVideos.some((video) => !video.isLocked)
+              ? `New lessons unlock on their release dates. Next one: ${formatScheduleDate(course.upcomingReleaseDate, true)}.`
+              : `Your course unlocks on ${formatScheduleDate(course.upcomingReleaseDate, true)}.`}
+          </p>
+        )}
         <div className="detail-stats">
           <span>
             <Play size={18} /> {course.videoCount} lessons
@@ -116,13 +152,27 @@ export function CourseVideoCard({
   courseId,
   isPurchased,
   isAccessRevoked = false,
+  isNext = false,
 }: {
   video: CourseVideo;
   courseId: string;
   isPurchased: boolean;
   isAccessRevoked?: boolean;
+  /** The buyer's next video when the course locks videos in order. */
+  isNext?: boolean;
 }) {
-  const canAccessVideo = isPurchased && !isAccessRevoked;
+  // Locked until the previous video is completed (courses that lock videos in order).
+  const isSequentiallyLocked = video.isLocked === true && video.lockReason === "SEQUENTIAL";
+  // A video with a future release date stays locked even for buyers until its day.
+  const isScheduled = video.isLocked === true && !isSequentiallyLocked;
+  const canAccessVideo = isPurchased && !isAccessRevoked && video.isLocked !== true;
+  const lockTitle = isAccessRevoked
+    ? "Access to this course has been revoked"
+    : isSequentiallyLocked
+      ? "Complete the previous video to unlock"
+      : isScheduled
+        ? `Available on ${formatScheduleDate(video.releaseDate, true)}`
+        : "Purchase this course to watch";
   const card = (
     <article
       className={`course-video-card${canAccessVideo ? "" : " course-video-card-locked"}${isAccessRevoked ? " course-video-card-revoked" : ""}`}>
@@ -140,16 +190,27 @@ export function CourseVideoCard({
             <Play size={20} fill="currentColor" />
           </span>
         ) : (
-          <span
-            className="video-lock"
-            title={isAccessRevoked ? "Access to this course has been revoked" : "Purchase this course to watch"}>
+          <span className="video-lock" title={lockTitle}>
             <Lock size={15} />
           </span>
         )}
         <b>{formatVideoDuration(video.durationSeconds)}</b>
       </div>
       <div className="video-copy">
-        <small>Lesson {video.sortOrder}</small>
+        <small>
+          Lesson {video.sortOrder}
+          {isScheduled && video.releaseDate && (
+            <span className="video-release-badge">
+              {isPurchased ? "Available on" : "Coming"} {formatScheduleDate(video.releaseDate)}
+            </span>
+          )}
+          {isSequentiallyLocked && !isAccessRevoked && (
+            <span className="video-release-badge video-order-badge">
+              <Lock size={11} aria-hidden="true" /> Complete the previous video to unlock
+            </span>
+          )}
+          {isNext && canAccessVideo && <span className="video-next-badge">Up next</span>}
+        </small>
         <h3 className="title-case">{video.title}</h3>
         <div className="rich-text-description line-clamp-4!" dangerouslySetInnerHTML={{ __html: video.description }} />
       </div>
@@ -166,25 +227,75 @@ export function CourseVideoCard({
 }
 
 export function CourseVideoSection({ course }: { course: Course }) {
+  const groups = course.groups ?? [];
+  // The buyer's next video: from the API when the course locks videos in order, else the first unfinished one.
+  const nextVideo =
+    course.courseVideos.find((video) => video.id === course.nextVideoId) ??
+    course.courseVideos.find((video) => !video.isLocked && !video.isCompleted);
+  const showsOrder = course.isPurchased && !course.isAccessRevoked && course.sequentialUnlock === true;
+  const renderCards = (videos: CourseVideo[]) => (
+    <div className="course-video-grid">
+      {videos.map((video) => (
+        <CourseVideoCard
+          key={video.id}
+          video={video}
+          courseId={course.id}
+          isPurchased={course.isPurchased}
+          isAccessRevoked={course.isAccessRevoked}
+          isNext={showsOrder && video.id === nextVideo?.id}
+        />
+      ))}
+    </div>
+  );
+
+  // The week with the buyer's next unfinished video opens by default (the first week otherwise).
+  const openGroupIndex = Math.max(
+    0,
+    groups.findIndex((group) => group.videos.some((video) => video.id === nextVideo?.id)),
+  );
+
   return (
     <section className="course-video-section">
       <div className="course-section-heading">
         <div>
           <h2>Course videos</h2>
-          <p>{course.videoCount} guided video lessons</p>
+          <p>
+            {course.videoCount} guided video lessons
+            {groups.length > 0 ? ` · ${groups.length} ${groups.length === 1 ? "section" : "sections"}` : ""}
+          </p>
+          {showsOrder && (
+            <p className="course-order-note">
+              <ListOrdered size={16} aria-hidden="true" /> Videos unlock in order: complete each one to open the next.
+            </p>
+          )}
         </div>
+        {showsOrder && nextVideo && (
+          <Link className="course-continue-link" href={`/course/enrolled/${course.id}/videos/${nextVideo.id}`}>
+            Continue: Lesson {nextVideo.sortOrder} <ArrowRight size={16} aria-hidden="true" />
+          </Link>
+        )}
       </div>
-      <div className="course-video-grid">
-        {course.courseVideos.map((video) => (
-          <CourseVideoCard
-            key={video.id}
-            video={video}
-            courseId={course.id}
-            isPurchased={course.isPurchased}
-            isAccessRevoked={course.isAccessRevoked}
-          />
-        ))}
-      </div>
+      {groups.length === 0
+        ? renderCards(course.courseVideos)
+        : groups.map((group, index) => {
+            const completed = group.videos.filter((video) => video.isCompleted).length;
+            return (
+              <details className="course-video-group" key={group.id ?? "other"} open={index === openGroupIndex}>
+                <summary>
+                  <span>
+                    <strong>{group.title}</strong>
+                    <small>
+                      {group.videoCount} {group.videoCount === 1 ? "video" : "videos"}
+                      {group.totalDurationSeconds > 0 ? ` · ${formatDuration(group.totalDurationSeconds)}` : ""}
+                      {course.isPurchased ? ` · ${completed} of ${group.videoCount} completed` : ""}
+                    </small>
+                  </span>
+                </summary>
+                {group.description && <p className="course-video-group-description">{group.description}</p>}
+                {renderCards(group.videos)}
+              </details>
+            );
+          })}
     </section>
   );
 }

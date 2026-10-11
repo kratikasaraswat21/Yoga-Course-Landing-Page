@@ -1,6 +1,7 @@
 import { ArrowRight, Download, Users } from "lucide-react";
 
 import pdfFallback from "@/assets/images/landing/pdf/pdf-program-dummy.webp";
+import { DiscountRibbon } from "@/components/landing-page/course-card";
 import { formatCurrency } from "@/lib/formatters/currency";
 import type { LandingPdfCourse } from "@/types/landing-pdf-course";
 
@@ -29,8 +30,9 @@ export function PdfCourseListing({ courses, error }: { courses: LandingPdfCourse
               <article className="pdf-landing-card" key={course.id || `${course.title}-${index}`}>
                 <div
                   className="pdf-landing-card-image aspect-video"
-                  style={{ backgroundImage: `url(${course.thumbnailUrl || pdfFallback.src})` }}
-                />
+                  style={{ backgroundImage: `url(${course.thumbnailUrl || pdfFallback.src})` }}>
+                  <DiscountRibbon discount={course.discount} />
+                </div>
                 <div className="pdf-landing-card-content">
                   <div className="w-full">
                     <div className="pdf-landing-card-meta">
@@ -48,12 +50,7 @@ export function PdfCourseListing({ courses, error }: { courses: LandingPdfCourse
                   </div>
                   <div className="pdf-landing-card-footer w-full">
                     <div>
-                      {course.discount > 0 && (
-                        <>
-                          <del className="font-montserrat">{formatCurrency(course.price)}</del>
-                          <small>{course.discount}% OFF</small>
-                        </>
-                      )}
+                      {course.discount > 0 && <del className="font-montserrat">{formatCurrency(course.price)}</del>}
                       <strong className="font-montserrat">{formatCurrency(course.discount > 0 ? course.totalPayableAmount : course.price)}</strong>
                     </div>
                     <a href={`/pdf-course/${course.id}`}>

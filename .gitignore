@@ -40,9 +40,3 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 public/videos/hero-video.mp4
-*.md
-!README.md
-!TradeMark.md
-!app/content/
-!app/content/markdown/
-!app/content/markdown/**/*.md

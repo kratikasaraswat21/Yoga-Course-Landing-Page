@@ -1,13 +1,5 @@
 "use client";
 
-import feedback1 from "@/assets/images/insta-feed-back/insta-feed-back-1.webp";
-import feedback2 from "@/assets/images/insta-feed-back/insta-feed-back-2.webp";
-import feedback3 from "@/assets/images/insta-feed-back/insta-feed-back-3.webp";
-import feedback4 from "@/assets/images/insta-feed-back/insta-feed-back-4.webp";
-import feedback5 from "@/assets/images/insta-feed-back/insta-feed-back-5.webp";
-import feedback6 from "@/assets/images/insta-feed-back/insta-feed-back-6.webp";
-import feedback7 from "@/assets/images/insta-feed-back/insta-feed-back-7.webp";
-
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import "swiper/css";
@@ -15,9 +7,12 @@ import "swiper/css/navigation";
 import { A11y, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-const feedbackImages = [feedback1, feedback2, feedback3, feedback4, feedback5, feedback6, feedback7];
+import type { FeedbackImage } from "./feedback-images";
 
-export function InstagramFeedbackSwiper() {
+export function InstagramFeedbackSwiper({ images }: { images: FeedbackImage[] }) {
+  // Wide screens: 6 per row when there are at least 6 screenshots, otherwise 4 so they don't look tiny.
+  const desktopSlidesPerView = images.length >= 6 ? 6 : 4;
+
   return (
     <section className="landing-instagram-feedback" aria-label="Instagram feedback">
       <div className="kratika-yoga-container">
@@ -35,15 +30,15 @@ export function InstagramFeedbackSwiper() {
           navigation={{ nextEl: ".instagram-feedback-next", prevEl: ".instagram-feedback-prev" }}
           spaceBetween={24}
           slidesPerView={1}
-          breakpoints={{ 640: { slidesPerView: 2 }, 1100: { slidesPerView: 4 } }}>
-          {feedbackImages.map((image, imageIndex) => (
-            <SwiperSlide key={image.src}>
+          breakpoints={{ 640: { slidesPerView: 2 }, 1100: { slidesPerView: desktopSlidesPerView } }}>
+          {images.map((image) => (
+            <SwiperSlide key={image.key}>
               <div className="landing-instagram-feedback-card">
                 <Image
-                  src={image}
-                  alt={`Instagram feedback ${imageIndex + 1}`}
+                  src={image.src}
+                  alt={image.alt}
                   fill
-                  sizes="(max-width: 639px) 100vw, (max-width: 1099px) 50vw, 25vw"
+                  sizes={`(max-width: 639px) 100vw, (max-width: 1099px) 50vw, ${Math.ceil(100 / desktopSlidesPerView)}vw`}
                 />
               </div>
             </SwiperSlide>

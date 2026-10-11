@@ -1,0 +1,1749 @@
+/* Public course landing page: /courses/<slug>. Everything is scoped to .lp. Follows the course page design
+   and always uses its light colours. */
+
+.lp {
+  --lp-bg: #fff8f1;
+  --lp-card: #fff;
+  --lp-ink: #1f2d27;
+  --lp-mute: #5f6c65;
+  --lp-line: #f0e0d0;
+  --lp-accent: #d4532c;
+  --lp-accent-d: #b8431f;
+  --lp-tint: #ffeadb;
+  --lp-deep: #1f4a3d;
+  --lp-deep2: #2d6a57;
+  --lp-on: #fff;
+  --lp-serif: Fraunces, Georgia, serif;
+  /* Used by the site's navbar brand and footer, which this page reuses. */
+  --landing-forest: #17382e;
+  --landing-cream: #f7f3ec;
+  --landing-peach: #eeb79c;
+  min-height: 100vh;
+  background: var(--lp-bg);
+  color: var(--lp-ink);
+  font:
+    16px/1.65 Inter,
+    system-ui,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+html:has(.lp) {
+  scroll-behavior: smooth;
+  /* Keep section titles clear of the sticky navbar when jumping from a navbar link. */
+  scroll-padding-top: 96px;
+}
+@media (max-width: 900px) {
+  html:has(.lp) {
+    scroll-padding-top: 130px;
+  }
+}
+
+.lp *,
+.lp *::before,
+.lp *::after {
+  box-sizing: border-box;
+}
+.lp h1,
+.lp h2,
+.lp h3,
+.lp p,
+.lp ul,
+.lp blockquote,
+.lp figure {
+  margin: 0;
+}
+.lp h1,
+.lp h2,
+.lp h3 {
+  font-family: var(--lp-serif);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+.lp h1 {
+  font-size: clamp(2.2rem, 6vw, 3.8rem);
+}
+/* Section titles and their intro text use the same sizes as the home page sections
+   (landing-overrides.css): titles 30 → 34 → 40 → 50px, intro text 16 → 18 → 20px. */
+.lp h2 {
+  font-size: 30px;
+  line-height: 1.1;
+}
+.lp .lp-lead {
+  font-size: 16px;
+  line-height: 1.6;
+}
+@media (min-width: 768px) {
+  .lp h2 {
+    font-size: 34px;
+  }
+}
+@media (min-width: 1024px) {
+  .lp h2 {
+    font-size: 40px;
+  }
+  .lp .lp-lead {
+    font-size: 18px;
+  }
+}
+@media (min-width: 1200px) {
+  .lp h2 {
+    font-size: 50px;
+  }
+  .lp .lp-lead {
+    font-size: 20px;
+  }
+}
+/* The closing section is a little larger, like the home page's final call to action. */
+@media (min-width: 1400px) {
+  .lp .lp-final h2 {
+    font-size: 60px;
+  }
+}
+.lp h3 {
+  font-size: 1.375rem;
+}
+/* Browsers draw <small> smaller by default; nothing on this page goes below 16px. */
+.lp small {
+  font-size: 1rem;
+}
+.lp em {
+  font-style: normal;
+  color: var(--lp-accent-d);
+}
+.lp h1 em,
+.lp h2 em {
+  background: linear-gradient(120deg, var(--lp-accent), #e8803f);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-style: italic;
+}
+.lp-center {
+  text-align: center;
+}
+/* Section padding (top and bottom) comes from COMMON_SECTION_PADDING in lib/constants/layout.ts. */
+.lp-lead {
+  max-width: 650px;
+  font-size: 20px;
+  margin-top: 12px !important;
+  color: var(--lp-mute);
+}
+@media (max-width: 600px) {
+  .lp-lead {
+    font-size: 18px;
+  }
+}
+.lp-center .lp-lead {
+  margin-inline: auto;
+}
+
+.lp-btn {
+  display: inline-block;
+  padding: 14px 28px;
+  border-radius: 99px;
+  background: linear-gradient(135deg, var(--lp-accent), #e8803f);
+  box-shadow: 0 8px 20px -8px var(--lp-accent);
+  color: var(--lp-on);
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.2s;
+}
+.lp-btn:hover {
+  background: linear-gradient(135deg, var(--lp-accent-d), var(--lp-accent));
+  transform: translateY(-2px);
+}
+.lp-btn.lp-ghost {
+  border: 1px solid var(--lp-line);
+  background: none;
+  box-shadow: none;
+  color: var(--lp-ink);
+}
+.lp-btn.lp-ghost:hover {
+  background: var(--lp-tint);
+}
+.lp-btn em {
+  color: inherit;
+}
+
+.lp-ann {
+  padding: 10px 16px;
+  background: var(--lp-deep);
+  color: #fff;
+  font-size: 1rem;
+  text-align: center;
+}
+
+@media only screen and (max-width: 767px) {
+  .lp-ann {
+    font-size: 14px !important;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .lp-ann {
+    font-size: 12px !important;
+  }
+}
+
+.lp-ann em {
+  color: #ffc9ae;
+  font-weight: 700;
+}
+
+/* Navbar: the site's logo + brand, links to this page's sections, and Enroll. */
+.lp-nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  border-bottom: 1px solid var(--lp-line);
+  background: #fff;
+}
+.lp-nav-inner {
+  display: flex;
+  min-height: 76px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.lp-nav .landing-brand span {
+  font-size: 24px;
+}
+.lp-nav-links {
+  display: flex;
+  align-items: center;
+  gap: clamp(18px, 2.2vw, 36px);
+}
+.lp-nav-links a {
+  color: var(--landing-forest);
+  font-size: 16px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.lp-nav-links a:hover {
+  color: var(--lp-accent);
+}
+.lp-nav .lp-nav-cta {
+  flex: none;
+  padding: 11px 22px;
+}
+/* Phones and tablets: only the logo and the Enroll button; the section links are hidden. */
+@media (max-width: 900px) {
+  .lp-nav-links {
+    display: none;
+  }
+}
+/* Small phones: the brand name crowds the Enroll button, so show only the logo. */
+@media (max-width: 450px) {
+  .lp-nav .landing-brand span {
+    display: none;
+  }
+}
+
+.lp-lead {
+  max-width: 650px;
+  font-size: 20px;
+  margin-top: 12px !important;
+  color: var(--lp-mute);
+}
+@media (max-width: 600px) {
+  .lp-lead {
+    font-size: 18px;
+  }
+}
+.lp-center .lp-lead {
+  margin-inline: auto;
+}
+
+.lp-btn {
+  display: inline-block;
+  padding: 14px 28px;
+  border-radius: 99px;
+  background: linear-gradient(135deg, var(--lp-accent), #e8803f);
+  box-shadow: 0 8px 20px -8px var(--lp-accent);
+  color: var(--lp-on);
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.2s;
+}
+.lp-btn:hover {
+  background: linear-gradient(135deg, var(--lp-accent-d), var(--lp-accent));
+  transform: translateY(-2px);
+}
+.lp-btn.lp-ghost {
+  border: 1px solid var(--lp-line);
+  background: none;
+  box-shadow: none;
+  color: var(--lp-ink);
+}
+.lp-btn.lp-ghost:hover {
+  background: var(--lp-tint);
+}
+.lp-btn em {
+  color: inherit;
+}
+
+.lp-ann {
+  padding: 10px 16px;
+  background: var(--lp-deep);
+  color: #fff;
+  font-size: 1rem;
+  text-align: center;
+}
+.lp-ann em {
+  color: #ffc9ae;
+  font-weight: 700;
+}
+
+.lp-logo {
+  color: var(--lp-ink);
+  font-family: var(--lp-serif);
+  font-size: 1.2rem;
+  text-decoration: none;
+}
+
+.lp-hero {
+  background: radial-gradient(600px 400px at 90% 0, var(--lp-tint), transparent 70%);
+}
+.lp-hero-grid {
+  display: grid;
+  align-items: center;
+  gap: 40px;
+}
+@media (min-width: 820px) {
+  .lp-hero-grid {
+    grid-template-columns: 1.15fr 1fr;
+  }
+}
+.lp-badge {
+  display: inline-block;
+  margin-bottom: 18px;
+  padding: 6px 14px;
+  border-radius: 99px;
+  background: var(--lp-tint);
+  color: var(--lp-accent-d);
+  font-size: 1rem;
+  font-weight: 600;
+}
+.lp-badge em {
+  background: none;
+  color: inherit;
+}
+.lp-sub {
+  max-width: 480px;
+  margin: 18px 0 26px !important;
+  color: var(--lp-mute);
+  font-size: 1.1rem;
+}
+.lp-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.lp-count-label {
+  margin-bottom: 8px !important;
+  color: var(--lp-mute);
+  font-size: 1rem;
+  font-weight: 600;
+}
+.lp-count {
+  display: flex;
+  gap: 10px;
+  margin: 0 0 24px;
+}
+.lp-count div {
+  /* Up to 84px each, shrinking together on narrow phones so all four fit. */
+  flex: 0 1 84px;
+  min-width: 0;
+  padding: 8px 0;
+  border: 1px solid var(--lp-line);
+  border-radius: 14px;
+  background: var(--lp-card);
+  text-align: center;
+}
+.lp-count strong {
+  display: block;
+  color: var(--lp-accent-d);
+  font-family: var(--lp-serif);
+  font-size: 1.5rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+.lp-count span {
+  color: var(--lp-mute);
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.lp-media {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  background: linear-gradient(160deg, var(--lp-deep), var(--lp-deep2));
+  box-shadow: 0 30px 60px -30px var(--lp-deep);
+}
+.lp-media > img {
+  border-radius: inherit;
+  object-fit: cover;
+}
+.lp-chip {
+  position: absolute;
+  z-index: 2;
+  padding: 8px 14px;
+  border-radius: 99px;
+  background: var(--lp-card);
+  box-shadow: 0 10px 24px -10px #0006;
+  color: var(--lp-ink);
+  font-size: 1rem;
+  font-weight: 600;
+}
+.lp-chip-a {
+  top: 8%;
+  left: -4%;
+}
+.lp-chip-b {
+  right: -3%;
+  bottom: 10%;
+}
+@media (max-width: 600px) {
+  .lp-chip-a {
+    left: 8px;
+  }
+  .lp-chip-b {
+    right: 8px;
+  }
+}
+
+/* Trailer section under the hero: 16:9 frame */
+.lp-trailer-frame {
+  position: relative;
+  overflow: hidden;
+  max-width: 1040px;
+  margin: 32px auto 0;
+  aspect-ratio: 16 / 9;
+  box-shadow: 0 40px 80px -40px rgba(184, 67, 31, 0.35);
+  /* Makes Safari clip the poster and video to the rounded corners. */
+  isolation: isolate;
+}
+.lp-trailer-section .lp-lead {
+  max-width: 640px;
+}
+
+.lp-trailer-poster,
+.lp-trailer-player {
+  position: absolute;
+  inset: 0;
+}
+.lp-trailer-poster {
+  display: grid;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  place-items: center;
+}
+/* Only without a thumbnail: under one, the orange would show as a thin line at the edges. */
+.lp-trailer-poster-empty {
+  background: linear-gradient(120deg, var(--lp-accent), #e8803f);
+}
+/* 1px past each edge (clipped by the frame), so fractional sizes never leave a gap. */
+.lp-trailer-thumb {
+  position: absolute;
+  inset: -1px;
+  background-position: center;
+  background-size: cover;
+}
+.lp-play-button {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 12px 30px -8px rgba(184, 67, 31, 0.45);
+  color: var(--lp-accent);
+  place-items: center;
+  transition: transform 0.2s;
+}
+/* The icon scales with the button. */
+.lp-play-button svg {
+  width: 40%;
+  height: 40%;
+  margin-left: 3px;
+}
+.lp-trailer-poster:hover .lp-play-button {
+  transform: scale(1.06);
+}
+/* A pill, so it stays readable on any thumbnail without darkening the image. */
+.lp-trailer-label {
+  position: absolute;
+  z-index: 1;
+  bottom: 22px;
+  padding: 6px 16px;
+  border-radius: 99px;
+  background: linear-gradient(120deg, var(--lp-accent), #e8803f);
+  font-size: 1rem;
+  font-weight: 600;
+}
+/* After the base rules above, so these win on phones. */
+@media (max-width: 600px) {
+  .lp-play-button {
+    width: 48px;
+    height: 48px;
+  }
+  .lp-trailer-label {
+    bottom: 12px;
+    padding: 4px 12px;
+    font-size: 0.875rem;
+  }
+}
+.lp-trailer-player {
+  background: #000;
+}
+/* Fill the 16:9 frame (video and its poster), cropping the edges of other shapes. */
+.lp-trailer-player video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+}
+.lp-trailer-controls {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px;
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.55));
+}
+.lp-trailer-controls button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: 0;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #1f2d27;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+}
+.lp-trailer-controls button:hover {
+  background: #fff;
+}
+.lp-trailer-error {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  left: 16px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  font-size: 1rem;
+  text-align: center;
+}
+
+/* "Course at a glance" card below the hero grid. Tiles share one row on desktop (however many there
+   are), 3 per row on tablets, 2 on large phones and 1 on small phones, with thin dividers between tiles. */
+.lp-stats {
+  margin-top: 48px;
+  padding: 32px 16px;
+  border: 1px solid var(--lp-line);
+  background: var(--lp-card);
+  text-align: center;
+}
+.lp-stats-title {
+  color: var(--lp-accent-d);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+/* The gap sits here because `.lp p { margin: 0 }` overrides margins on the title. */
+.lp-stats-grid {
+  display: grid;
+  margin-top: 32px;
+}
+/* Small phones: one tile per row, with a line between tiles. */
+.lp-stat {
+  padding: 20px 12px;
+  line-height: 1.4;
+}
+.lp-stat:first-child {
+  padding-top: 0;
+}
+.lp-stat:last-child {
+  padding-bottom: 0;
+}
+.lp-stat + .lp-stat {
+  border-top: 1px solid var(--lp-line);
+}
+@media (min-width: 480px) {
+  .lp-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 28px;
+  }
+  .lp-stat,
+  .lp-stat:first-child,
+  .lp-stat:last-child {
+    padding: 4px 12px;
+  }
+  .lp-stat + .lp-stat {
+    border-top: 0;
+  }
+  .lp-stat:nth-child(2n) {
+    border-left: 1px solid var(--lp-line);
+  }
+}
+@media (min-width: 600px) {
+  .lp-stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .lp-stat:nth-child(2n) {
+    border-left: 0;
+  }
+  .lp-stat:not(:nth-child(3n + 1)) {
+    border-left: 1px solid var(--lp-line);
+  }
+}
+@media (min-width: 980px) {
+  .lp-stats {
+    padding: 36px 24px;
+  }
+  .lp-stats-grid {
+    grid-auto-columns: 1fr;
+    grid-auto-flow: column;
+    grid-template-columns: none;
+  }
+  .lp-stat + .lp-stat {
+    border-left: 1px solid var(--lp-line);
+  }
+  /* More than 6 tiles: 6 per row, so they never get squeezed. */
+  .lp-stats-grid:has(> .lp-stat:nth-child(7)) {
+    grid-auto-flow: row;
+    grid-template-columns: repeat(6, 1fr);
+    row-gap: 28px;
+  }
+  .lp-stats-grid:has(> .lp-stat:nth-child(7)) > .lp-stat:nth-child(6n + 1) {
+    border-left: 0;
+  }
+}
+.lp-stat .lp-emoji,
+.lp-stat-icon {
+  display: block;
+  width: 32px;
+  height: 32px;
+  margin: 0 auto 10px;
+  object-fit: contain;
+}
+.lp-stat .lp-emoji {
+  display: grid;
+}
+.lp-stat strong {
+  display: block;
+  color: var(--lp-ink);
+  font-family: var(--lp-serif);
+  font-size: clamp(1.35rem, 1.1rem + 0.8vw, 1.75rem);
+  font-weight: 600;
+  line-height: 1.2;
+}
+.lp-stat-text {
+  display: block;
+  margin-top: 8px;
+  color: var(--lp-mute);
+  font-size: 1rem;
+}
+
+.lp-cards {
+  display: grid;
+  gap: 16px;
+  margin-top: 32px;
+}
+@media (min-width: 700px) {
+  .lp-cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.lp-card {
+  padding: 24px;
+  border: 1px solid var(--lp-line);
+  background: var(--lp-card);
+  transition: 0.25s;
+}
+.lp-card:hover {
+  box-shadow: 0 18px 30px -20px #0004;
+  transform: translateY(-4px);
+}
+.lp-card p {
+  margin-top: 8px !important;
+  color: var(--lp-mute);
+  font-size: 1rem;
+}
+.lp-emoji {
+  display: inline-grid;
+  width: 32px;
+  height: 32px;
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+  font-size: 28px;
+  font-style: normal;
+  line-height: 1;
+  place-items: center;
+}
+.lp-ic {
+  display: grid;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 14px;
+  border-radius: 16px;
+  background: var(--lp-tint);
+  place-items: center;
+}
+.lp-ic-img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+.lp-steps {
+  display: grid;
+  gap: 16px;
+  margin-top: 32px;
+  counter-reset: lp-step;
+}
+@media (min-width: 760px) {
+  .lp-steps {
+    /* One row for a few steps; more wrap onto new rows, each step at least 220px wide. */
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+}
+.lp-steps div {
+  padding: 24px;
+  border: 1px solid var(--lp-line);
+  background: var(--lp-card);
+}
+.lp-steps div::before {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  margin-bottom: 12px;
+  border-radius: 50%;
+  background: var(--lp-accent);
+  color: var(--lp-on);
+  content: counter(lp-step);
+  counter-increment: lp-step;
+  font-weight: 700;
+  place-items: center;
+}
+.lp-steps p {
+  margin-top: 6px !important;
+  color: var(--lp-mute);
+  font-size: 1rem;
+}
+
+.lp-deep {
+  background: linear-gradient(160deg, var(--lp-deep), var(--lp-deep2));
+  color: #fff;
+}
+.lp-deep .lp-lead {
+  color: #d6e6df;
+}
+.lp-deep h2 em {
+  background: none;
+  color: #ffc9ae;
+}
+.lp-deep .lp-btn {
+  background: #fff;
+  box-shadow: none;
+  color: var(--lp-deep);
+}
+/* What you'll get: eyebrow, title, then the benefits in two columns with amber ticks. */
+.lp-gain {
+  background: #f3e9d6;
+}
+.lp-gain-eyebrow {
+  text-align: center;
+  color: #b07a2a;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.lp-gain h2 {
+  margin-top: 10px !important;
+  color: #1d2b25;
+  font-weight: 600;
+  text-wrap: balance;
+}
+.lp-gain h2 em {
+  background: none;
+  -webkit-text-fill-color: currentColor;
+  color: inherit;
+  font-style: normal;
+}
+.lp-gain .lp-lead {
+  margin-top: 10px !important;
+  color: var(--lp-mute);
+}
+/* Roadmap: header on the left; week cards (one open) beside the open week's 16:9 image. */
+.lp-roadmap-head {
+  max-width: 720px;
+}
+.lp-roadmap-head .lp-gain-eyebrow {
+  text-align: left;
+}
+.lp-roadmap-head h2 {
+  margin-top: 10px !important;
+}
+.lp-roadmap-head .lp-lead {
+  margin-top: 10px !important;
+  color: var(--lp-mute);
+}
+.lp-roadmap-body {
+  display: grid;
+  gap: 24px 40px;
+  max-width: 760px;
+  margin-top: 36px;
+}
+.lp-roadmap-with-photo {
+  max-width: none;
+}
+@media (min-width: 900px) {
+  .lp-roadmap-body {
+    margin-top: 48px;
+  }
+  .lp-roadmap-with-photo {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+.lp-roadmap-weeks {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.lp-roadmap-card {
+  border: 1px solid var(--lp-line);
+  background: var(--lp-card);
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+.lp-roadmap-card.is-open {
+  border-color: #c4893a;
+  box-shadow: 0 18px 40px -28px rgba(176, 122, 42, 0.55);
+}
+.lp-roadmap-card h3 {
+  margin: 0;
+}
+.lp-roadmap-card button {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 20px;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+.lp-roadmap-card-head {
+  display: grid;
+  gap: 4px;
+}
+.lp-roadmap-card-title {
+  color: #1d2b25;
+  font-family: var(--lp-serif);
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.lp-roadmap-card-title em {
+  color: inherit;
+}
+.lp-roadmap-card-text {
+  color: var(--lp-mute);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+}
+.lp-roadmap-card-icon {
+  flex: none;
+  color: #c4893a;
+}
+/* Opens by animating the row height from 0 to its content (no measuring, no jump). */
+.lp-roadmap-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease;
+}
+.lp-roadmap-card.is-open .lp-roadmap-panel {
+  grid-template-rows: 1fr;
+}
+.lp-roadmap-panel > div {
+  overflow: hidden;
+  padding: 0 20px;
+}
+.lp-roadmap-card.is-open .lp-roadmap-panel > div {
+  padding-bottom: 20px;
+}
+.lp-roadmap-label {
+  margin-bottom: 6px !important;
+  color: #1d2b25;
+  font-weight: 700;
+}
+.lp-roadmap-panel ul {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.lp-roadmap-panel li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  color: #2a332e;
+  line-height: 1.5;
+}
+.lp-roadmap-panel svg {
+  flex: none;
+  margin-top: 2px;
+  color: #c4893a;
+}
+.lp-btn.lp-roadmap-btn {
+  display: block;
+  margin-top: 12px;
+  text-align: center;
+}
+/* The images sit on top of each other and cross-fade, so the box never changes size. */
+.lp-roadmap-photo {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  background: #e6dac8;
+  order: -1;
+}
+@media (min-width: 900px) {
+  .lp-roadmap-photo {
+    position: sticky;
+    top: 96px;
+    order: 0;
+  }
+}
+.lp-roadmap-photo img {
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.03);
+  transition:
+    opacity 0.5s ease,
+    transform 0.8s ease;
+}
+.lp-roadmap-photo img.is-shown {
+  opacity: 1;
+  transform: scale(1);
+}
+.lp-roadmap-caption {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  max-width: calc(100% - 28px);
+  padding: 6px 14px;
+  border-radius: 99px;
+  background: rgba(20, 28, 24, 0.72);
+  color: #fff;
+  font-size: 1rem;
+  animation: lp-roadmap-caption-in 0.4s ease;
+}
+.lp-roadmap-caption em {
+  color: inherit;
+}
+@keyframes lp-roadmap-caption-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+.lp-roadmap-note {
+  margin-top: 28px !important;
+  color: var(--lp-mute);
+  font-size: 1rem;
+}
+@media (prefers-reduced-motion: reduce) {
+  .lp-roadmap-card,
+  .lp-roadmap-panel,
+  .lp-roadmap-photo img {
+    transition: none;
+  }
+  .lp-roadmap-caption {
+    animation: none;
+  }
+}
+
+/* What's inside: title and text, then each week as its own card that opens and closes. */
+.lp-inside {
+  background: var(--landing-cream);
+}
+.lp-inside-wrap {
+  max-width: 830px;
+  margin-inline: auto;
+}
+.lp-inside h2 {
+  color: #1d2b25;
+  font-weight: 600;
+  text-wrap: balance;
+}
+/* The highlighted part of the title is plain ink, as in the design. */
+.lp-inside h2 em {
+  background: none;
+  -webkit-text-fill-color: currentColor;
+  color: inherit;
+  font-style: normal;
+}
+.lp-inside .lp-lead {
+  margin-top: 8px !important;
+  color: var(--lp-mute);
+  font-size: 15px;
+}
+.lp-inside-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px !important;
+  color: var(--lp-mute);
+  font-size: 14px;
+}
+.lp-inside-list {
+  margin-top: 28px;
+}
+
+/* One week = one white card; "+" turns into "–" and the border turns orange when open. */
+.lp-weeks {
+  display: grid;
+  gap: 10px;
+}
+.lp-week {
+  border: 1px solid #efe5d6;
+  background: var(--lp-card);
+  transition: border-color 0.2s;
+}
+.lp-week[open] {
+  border-color: #e3a689;
+}
+.lp-week summary {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  cursor: pointer;
+  list-style: none;
+}
+.lp-week summary::-webkit-details-marker {
+  display: none;
+}
+.lp-week summary::after {
+  flex: none;
+  color: #d98a3d;
+  content: "+";
+  font-size: 1.375rem;
+  font-weight: 500;
+  line-height: 1;
+}
+.lp-week[open] summary::after {
+  color: #c4502c;
+  content: "–";
+}
+/* "W1", "W2"… */
+.lp-week-badge {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  flex: none;
+  border-radius: 10px;
+  background: #fde8dc;
+  color: #c4502c;
+  font-size: 12px;
+  font-weight: 700;
+  place-items: center;
+}
+.lp-week-copy {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+}
+.lp-week-title {
+  color: #1d2b25;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.lp-week-meta {
+  color: var(--lp-mute);
+  font-size: 12px;
+}
+.lp-week-body {
+  padding: 0 18px 8px;
+}
+
+/* Lessons: inside an open week, or in one white card when there are no weeks.
+   One row each: "Lesson 3" pill, title, then the length on the right. */
+.lp-lessons {
+  padding: 4px 18px;
+  border: 1px solid #efe5d6;
+  background: var(--lp-card);
+}
+.lp-lesson {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 0;
+  border-top: 1px solid #f3ebdf;
+}
+.lp-lessons > .lp-lesson:first-child,
+.lp-week-body > .lp-lesson:first-child {
+  border-top: 0;
+}
+.lp-lesson-no {
+  flex: none;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: #fde8dc;
+  color: #c4502c;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+.lp-lesson-copy {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+}
+.lp-lesson-title {
+  color: #1d2b25;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.lp-lesson.is-upcoming .lp-lesson-title {
+  color: var(--lp-mute);
+}
+.lp-lesson-soon {
+  color: #b8431f;
+  font-size: 12px;
+}
+.lp-lesson-time {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 5px;
+  color: var(--lp-mute);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+@media (max-width: 600px) {
+  .lp-week summary {
+    gap: 12px;
+    padding: 14px 16px;
+  }
+  .lp-week-body {
+    padding: 0 16px 6px;
+  }
+  .lp-lessons {
+    padding: 4px 16px;
+  }
+  .lp-lesson {
+    gap: 10px;
+  }
+}
+
+/* "Show all N lessons" for long lists without weeks. */
+.lp-more {
+  border-top: 1px solid #f3ebdf;
+}
+.lp-more summary {
+  padding: 14px 0;
+  color: #d98a3d;
+  cursor: pointer;
+  font-weight: 600;
+  list-style: none;
+  text-align: center;
+}
+.lp-more summary::-webkit-details-marker {
+  display: none;
+}
+.lp-more .lp-more-open,
+.lp-more[open] .lp-more-closed {
+  display: none;
+}
+.lp-more[open] .lp-more-open {
+  display: inline;
+}
+/* Once open, the toggle moves under the full list. */
+.lp-more[open] {
+  display: flex;
+  flex-direction: column;
+}
+.lp-more[open] summary {
+  order: 2;
+  border-top: 1px solid #f3ebdf;
+}
+.lp-more .lp-lesson:first-of-type {
+  border-top: 0;
+}
+
+/* Pricing: one card on a soft circle. */
+.lp-buy {
+  position: relative;
+  /* overflow: hidden; */
+}
+/* Soft glow centred behind the price card, fading out evenly on every side. */
+.lp-buy > .kratika-yoga-container {
+  position: relative;
+  z-index: 0;
+}
+/* The title block sits above the glow, which is big enough to reach up behind it. */
+.lp-buy > .kratika-yoga-container:first-child {
+  z-index: 1;
+}
+.lp-buy > .kratika-yoga-container:last-child::before {
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  left: 50%;
+  width: min(1100px, 160vw);
+  aspect-ratio: 1;
+  background: radial-gradient(closest-side, #f6dccb 0%, rgba(248, 228, 214, 0.6) 55%, rgba(255, 248, 241, 0) 100%);
+  content: "";
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+.lp-buy .lp-lead {
+  max-width: 460px;
+  color: #3d4740;
+  font-size: 1.0625rem;
+}
+/* Narrow centred card with an accent border: price, badge, steps, ticked list and the button. */
+.lp-price {
+  max-width: 400px;
+  margin: 48px auto 0;
+  padding: 36px 28px 28px;
+  border: 1.5px solid var(--lp-accent);
+  background: var(--lp-card);
+  box-shadow: 0 30px 60px -30px rgba(212, 83, 44, 0.45);
+  text-align: center;
+}
+@media (max-width: 600px) {
+  .lp-price {
+    margin-top: 40px;
+    padding: 30px 20px 24px;
+  }
+}
+.lp-price-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.lp-price-was {
+  color: var(--lp-mute);
+  font-size: 1rem;
+}
+.lp-amt {
+  color: #1d2b25;
+  font-size: clamp(40px, 9vw, 48px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+.lp-offer {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 16px;
+  padding: 4px 14px;
+  border-radius: 99px;
+  background: var(--lp-tint);
+  color: var(--lp-accent-d);
+  font-size: 1rem;
+  font-weight: 600;
+}
+.lp-offer em {
+  color: inherit;
+}
+.lp-price-note {
+  margin-top: 12px !important;
+  color: #3d4740;
+}
+.lp-card-label {
+  margin-bottom: 8px !important;
+  color: #1d2b25;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+/* "How it works": a plain numbered list in a soft peach box. */
+.lp-how {
+  margin-top: 28px;
+  padding: 18px 16px;
+  background: var(--lp-tint);
+  text-align: left;
+}
+.lp-how ol {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding-left: 1.25em;
+  list-style: decimal;
+  color: #1d2b25;
+  line-height: 1.5;
+}
+.lp-how em {
+  color: inherit;
+  font-weight: 700;
+}
+
+/* What the price includes, each line with an accent tick. */
+.lp-price-list {
+  display: grid;
+  gap: 14px;
+  margin-top: 24px !important;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+}
+.lp-price-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  color: #1d2b25;
+  line-height: 1.5;
+}
+.lp-price-list svg {
+  flex: none;
+  margin-top: 3px;
+  color: var(--lp-accent);
+}
+
+.lp-btn.lp-price-btn {
+  display: block;
+  margin-top: 28px;
+  padding: 14px 24px;
+  font-size: 1rem;
+  text-align: center;
+}
+.lp-secure {
+  margin-top: 14px !important;
+  color: var(--lp-mute);
+  font-size: 1rem;
+}
+
+/* Teacher card */
+.lp-teacher {
+  display: grid;
+  overflow: hidden;
+  background: #e6dac8;
+  color: #2e3a33;
+}
+@media (min-width: 820px) {
+  .lp-teacher {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  }
+  .lp-teacher.lp-teacher-no-photo {
+    grid-template-columns: 1fr;
+  }
+}
+/* The photo is uploaded at 4:5 (the admin rejects other ratios) and shown at 4:5. On desktop it fills
+   the card's height; on tablets the height is capped. Any crop comes from the bottom, not the face. */
+.lp-teacher-photo {
+  position: relative;
+  /* An explicit width keeps max-height from shrinking the width to hold the ratio. */
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  max-height: 560px;
+}
+/* Desktop: the photo is at least 4:5 (the ::before spacer) and stretches to the full card height when
+   the text column is taller, so it always reaches the bottom of the card. */
+@media (min-width: 820px) {
+  .lp-teacher-photo {
+    aspect-ratio: auto;
+    max-height: none;
+  }
+  .lp-teacher-photo::before {
+    content: "";
+    display: block;
+    padding-top: 125%;
+  }
+}
+.lp-teacher-photo img {
+  object-fit: cover;
+  object-position: center 25%;
+}
+.lp-teacher-availability {
+  position: absolute;
+  z-index: 1;
+  bottom: 20px;
+  left: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: calc(100% - 40px);
+  padding: 9px 16px 9px 12px;
+  border-radius: 10px;
+  background: rgba(255, 250, 244, 0.9);
+  box-shadow: 0 6px 18px -10px rgba(0, 0, 0, 0.35);
+  color: #2e3a33;
+  font-size: 0.95rem;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+.lp-teacher-availability-dot {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #2f8a5b;
+  box-shadow: 0 0 0 4px rgba(47, 138, 91, 0.2);
+}
+.lp-teacher-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 36px 24px;
+}
+@media (min-width: 820px) {
+  .lp-teacher-copy {
+    padding: 64px 56px;
+  }
+}
+.lp-teacher h2 {
+  color: #1d3a30;
+}
+/* The highlighted part of the name is plain rust italic here, not the gradient used elsewhere. */
+.lp-teacher h2 em {
+  background: none;
+  -webkit-text-fill-color: currentColor;
+  color: #9a4527;
+  font-style: italic;
+}
+.lp-teacher-bio {
+  max-width: 680px;
+  margin-top: 16px !important;
+  color: #3d4740;
+  font-size: 1rem;
+  line-height: 1.75;
+  white-space: pre-line;
+}
+.lp-teacher-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px 44px;
+  margin: 24px 0 0;
+  padding-top: 24px;
+  border-top: 1px solid rgba(46, 58, 51, 0.16);
+}
+.lp-teacher-stats dt {
+  color: #1d3a30;
+  font-family: var(--lp-serif);
+  font-size: 1.7rem;
+  line-height: 1.1;
+}
+.lp-teacher-stats dd {
+  margin: 4px 0 0;
+  color: #3d4740;
+  font-size: 1rem;
+}
+.lp-teacher-teaches {
+  margin-top: 28px;
+}
+.lp-teacher-teaches-label {
+  margin: 0 0 12px !important;
+  color: #5d655f;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.lp-teacher-teaches ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.lp-teacher-teaches li {
+  padding: 7px 16px;
+  border: 1px solid rgba(46, 58, 51, 0.2);
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.3);
+  color: #2e3a33;
+  font-size: 0.95rem;
+}
+/* ".lp-teacher" in front: the page reset (.lp figure { margin: 0 }) would otherwise remove the gap. */
+.lp-teacher .lp-teacher-quote {
+  margin: 28px 0 0;
+  padding: 20px 24px;
+  border-left: 4px solid #9a4527;
+  border-radius: 4px 14px 14px 4px;
+  background: rgba(255, 255, 255, 0.4);
+}
+.lp-teacher-quote blockquote {
+  margin: 0;
+  color: #1f2d27;
+  font-family: var(--lp-serif);
+  font-size: 1.2rem;
+  font-style: italic;
+  line-height: 1.55;
+}
+.lp-teacher-quote figcaption {
+  margin-top: 10px;
+  color: #5d655f;
+  font-size: 0.95rem;
+}
+.lp-teacher-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 16px;
+  margin-top: 32px;
+}
+.lp-teacher-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 12px 28px;
+  border: 1.5px solid #1d3a30;
+  border-radius: 10px;
+  background: #1d3a30;
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: 0.2s;
+}
+.lp-teacher-btn:hover {
+  background: #14291f;
+  transform: translateY(-2px);
+}
+.lp-teacher-btn-outline {
+  background: transparent;
+  color: #1d3a30;
+}
+.lp-teacher-btn-outline:hover {
+  background: rgba(29, 58, 48, 0.08);
+}
+.lp-teacher-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #4a544d;
+  font-size: 0.95rem;
+}
+/* Phones: full-width buttons, stacked. */
+@media (max-width: 559px) {
+  .lp-teacher-btn {
+    width: 100%;
+  }
+  .lp-teacher-quote blockquote {
+    font-size: 1.1rem;
+  }
+}
+
+.lp-alt {
+  background: var(--lp-tint);
+}
+.lp-shots {
+  display: flex;
+  overflow-x: auto;
+  gap: 14px;
+  margin-top: 28px;
+  padding: 8px 2px 16px;
+  scroll-snap-type: x mandatory;
+}
+.lp-shots button {
+  flex: none;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+  scroll-snap-align: start;
+}
+.lp-shots img {
+  width: auto;
+  height: 420px;
+  border: 1px solid var(--lp-line);
+  background: var(--lp-card);
+}
+@media (max-width: 600px) {
+  .lp-shots img {
+    height: 360px;
+  }
+}
+.lp-hint {
+  margin-top: 4px !important;
+  color: var(--lp-mute);
+  font-size: 1rem;
+}
+.lp-lightbox {
+  position: fixed;
+  z-index: 50;
+  inset: 0;
+  display: grid;
+  width: 100%;
+  border: 0;
+  background: #000d;
+  cursor: zoom-out;
+  place-items: center;
+}
+.lp-lightbox img {
+  width: auto;
+  max-width: 92vw;
+  height: auto;
+  max-height: 88vh;
+  border-radius: 12px;
+}
+.lp-quotes {
+  margin-top: 32px;
+}
+/* Every card in a row as tall as the tallest. */
+.lp-quotes .swiper-slide {
+  height: auto;
+}
+.lp-quotes blockquote {
+  height: 100%;
+  padding: 24px;
+  border: 1px solid var(--lp-line);
+  background: var(--lp-card);
+  font-size: 1rem;
+}
+.lp-quotes blockquote::before {
+  display: block;
+  margin-bottom: 10px;
+  color: #f2a33a;
+  content: "★★★★★";
+  letter-spacing: 2px;
+}
+.lp-quotes cite {
+  display: block;
+  margin-top: 14px;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 600;
+}
+.lp-quotes-controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+/* Swiper locks both arrows when every quote fits; then the row goes too. */
+.lp-quotes-controls:has(.swiper-button-lock) {
+  display: none;
+}
+.lp-quotes-controls button {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border: 1px solid rgba(23, 56, 46, 0.3);
+  border-radius: 50%;
+  background: var(--lp-card);
+  color: var(--landing-forest);
+  cursor: pointer;
+  transition: 0.2s;
+}
+.lp-quotes-controls button:hover {
+  border-color: var(--landing-forest);
+}
+.lp-quotes-controls button.swiper-button-disabled {
+  cursor: default;
+  opacity: 0.35;
+}
+
+.lp-final {
+  text-align: center;
+}
+.lp-final .lp-lead {
+  margin-inline: auto;
+}
+.lp-final .lp-cta {
+  justify-content: center;
+  margin-top: 24px;
+}
+
+/* Scroll-in animation; only once JavaScript has added .lp-js, so content is never hidden without it. */
+.lp-js .lp-rv {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.7s,
+    transform 0.7s;
+}
+.lp-js .lp-rv.lp-in {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .lp-js .lp-rv {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .lp-btn,
+  .lp-card {
+    transition: none;
+  }
+  html:has(.lp) {
+    scroll-behavior: auto;
+  }
+}
+
+/* FAQ: the home page layout (.platform-faq* in landing.css). The page reset above (.lp h2, .lp p)
+   would remove its spacing, so it is restored here; headings keep this page's serif font. */
+.lp .lp-faq .platform-section-intro h2 {
+  margin: 0 0 22px;
+  color: var(--landing-forest);
+  letter-spacing: -0.03em;
+}
+.lp .lp-faq .platform-section-intro p {
+  margin-top: 0 !important;
+  color: #53615c;
+  font-size: 16px;
+  line-height: 1.6;
+}
+@media (min-width: 1024px) {
+  .lp .lp-faq .platform-section-intro p {
+    font-size: 18px;
+  }
+}
+@media (min-width: 1200px) {
+  .lp .lp-faq .platform-section-intro p {
+    font-size: 20px;
+  }
+}
+.lp .lp-faq .platform-faq-list summary {
+  font-family: var(--lp-serif);
+}
+.lp .lp-faq .platform-faq-list p {
+  margin: -5px 0 22px;
+  white-space: pre-line;
+}

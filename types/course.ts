@@ -1,3 +1,5 @@
+import type { CoursePricing } from "@/types/course-landing";
+
 export interface CourseVideo {
   id: string;
   title: string;
@@ -6,6 +8,27 @@ export interface CourseVideo {
   sortOrder: number;
   thumbnailUrl: string;
   createdAt: string;
+  isCompleted?: boolean;
+  /**
+   * True for a video the viewer can't open yet: a future release date (prelaunch buyers and people who
+   * haven't bought yet) or, when the course locks videos in order, a video after the buyer's next one.
+   */
+  isLocked?: boolean;
+  /** Why the video is locked: SCHEDULED (release date) or SEQUENTIAL (finish the previous video first). */
+  lockReason?: "SCHEDULED" | "SEQUENTIAL" | null;
+  releaseAt?: string | null;
+  /** YYYY-MM-DD (IST) day the video unlocks. */
+  releaseDate?: string | null;
+}
+
+/** A week/group of videos. `id` is null for "Other videos" (videos without a group). */
+export interface CourseVideoGroup {
+  id: string | null;
+  title: string;
+  description: string | null;
+  videoCount: number;
+  totalDurationSeconds: number;
+  videos: CourseVideo[];
 }
 
 export interface Course {
@@ -27,6 +50,15 @@ export interface Course {
   updatedAt: string;
   videoCount: number;
   courseVideos: CourseVideo[];
+  pricing?: CoursePricing;
+  isPrelaunchPurchase?: boolean;
+  /** Weeks/groups; empty when the course doesn't group its videos (show `courseVideos` as one list). */
+  groups?: CourseVideoGroup[];
+  upcomingReleaseDate?: string | null;
+  /** Buyers must complete each video before the next one opens. */
+  sequentialUnlock?: boolean;
+  /** The buyer's next video: the first released one not completed yet ("Continue"). */
+  nextVideoId?: string | null;
 }
 
 export interface CourseDetailsResponse {
@@ -49,7 +81,14 @@ export interface ApiCourse {
   completedVideoCount?: number;
   completedLessons?: number;
   completed?: number;
+  /** Set when the course has a public landing page at /courses/<slug>. */
+  slug?: string;
+  landingPageEnabled?: boolean;
 }
+
+/** "View course" for a course the user hasn't bought: its landing page when it has one, otherwise the course page. */
+export const getCourseViewHref = (course: Pick<ApiCourse, "id" | "slug" | "landingPageEnabled">) =>
+  course.landingPageEnabled && course.slug ? `/courses/${course.slug}` : `/course/enrolled/${course.id}`;
 
 export interface CoursesResponse {
   success: boolean;

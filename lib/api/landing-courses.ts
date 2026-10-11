@@ -7,6 +7,9 @@ const COURSES_URL = EnvConfig.API_BASE_URL.endsWith("/app/api/v1")
 
 const fallbackCourse = (course: Partial<LandingCourse>): LandingCourse => ({
   courseId: course.courseId ?? "",
+  slug: course.slug,
+  landingPageEnabled: course.landingPageEnabled === true,
+  pricing: course.pricing,
   title: course.title ?? "Untitled course",
   description: course.description ?? "No description available",
   rating: Number.isFinite(course.rating) ? Number(course.rating) : 0,
@@ -25,7 +28,8 @@ export async function getLandingCourses(
   if (!EnvConfig.API_BASE_URL) return { courses: [], error: "Course service is not configured." };
 
   try {
-    const response = await fetch(`${COURSES_URL}/${kind}`, { next: { revalidate: 600 } });
+    // Also refreshed on demand by the backend through the `courses` tag (see app/api/revalidate).
+    const response = await fetch(`${COURSES_URL}/${kind}`, { next: { revalidate: 600, tags: ["courses"] } });
     if (!response.ok) return { courses: [], error: `Unable to load courses (${response.status}).` };
     const payload = (await response.json()) as LandingCoursesResponse;
     if (!payload.success) return { courses: [], error: "Unable to load courses right now." };

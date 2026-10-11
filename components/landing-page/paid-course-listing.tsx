@@ -1,8 +1,5 @@
-import { ArrowRight, Clock3, Video } from "lucide-react";
-
-import courseFallback from "@/assets/images/landing/course/course-main.png";
 import type { LandingCourse } from "@/types/landing-course";
-import { CourseRatingStars } from "./course-rating-stars";
+import { CourseCard } from "./course-card";
 
 export function PaidCourseListing({ courses, error }: { courses: LandingCourse[]; error?: string }) {
   return (
@@ -27,46 +24,7 @@ export function PaidCourseListing({ courses, error }: { courses: LandingCourse[]
           {!error && courses.length === 0 && <p className="landing-course-message">No courses available right now.</p>}
           <div className="paid-course-list-grid">
             {courses.map((course) => (
-              <article className="paid-course-card" key={course.courseId}>
-                <div
-                  className="paid-course-card-image aspect-video"
-                  style={{ backgroundImage: `url(${course.thumbnail || courseFallback.src})` }}
-                />
-                <div className="paid-course-card-content">
-                  <div className="paid-course-card-rating">
-                    <CourseRatingStars rating={course.rating} />
-                    <strong>{course.rating.toFixed(1)}</strong>
-                    <span>course rating</span>
-                  </div>
-                  <h3 className="line-clamp-2">{course.title}</h3>
-                  <div className="line-clamp-4 rich-text-description" dangerouslySetInnerHTML={{ __html: course.description }} />
-                  <div className="paid-course-card-meta">
-                    <span>
-                      <Video size={17} />
-                      {course.totalVideos} videos
-                    </span>
-                    <span>
-                      <Clock3 size={17} />
-                      {course.totalHours} hours
-                    </span>
-                    <span>{course.totalStudents} students</span>
-                  </div>
-                  <div className="paid-course-card-footer">
-                    <div>
-                      {course.discount > 0 && (
-                        <>
-                          <del className="font-montserrat">₹{course.price.toLocaleString("en-IN")}</del>
-                          <small>{course.discount}% off</small>
-                        </>
-                      )}
-                      <strong className="font-montserrat">₹{(course.discount > 0 ? course.totalPayableAmount : course.price).toLocaleString("en-IN")}</strong>
-                    </div>
-                    <a href={`/course/enrolled/${course.courseId}`}>
-                      View course <ArrowRight size={16} />
-                    </a>
-                  </div>
-                </div>
-              </article>
+              <CourseCard course={course} key={course.courseId} />
             ))}
           </div>
         </div>

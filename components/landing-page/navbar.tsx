@@ -2,6 +2,7 @@
 
 import logo from "@/assets/images/logo/logo.png";
 import { landingNavLinks } from "@/data/landing-page";
+import { BOOK_A_CALL_URL } from "@/lib/constants/links";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -28,10 +29,16 @@ export function Navbar() {
               {link.label}
             </a>
           ))}
+        </nav>
+
+        <div className="landing-nav-actions">
+          <a className="landing-nav-book" href={BOOK_A_CALL_URL} target="_blank" rel="noopener noreferrer">
+            Book a call
+          </a>
           <a className="landing-nav-cta" href="/login">
             Start your practice <ArrowRight aria-hidden="true" size={17} />
           </a>
-        </nav>
+        </div>
       </div>
     </header>
   );

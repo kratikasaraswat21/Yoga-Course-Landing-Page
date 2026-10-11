@@ -14,7 +14,7 @@ export async function LandingPage() {
       <HeroSection />
       <AboutSection />
       <PlatformSections
-        topCourses={topCourses.slice(0, 3)}
+        topCourses={topCourses}
         topPdfCourses={topPdfCourses.slice(0, 5)}
         error={error}
         pdfError={pdfError}

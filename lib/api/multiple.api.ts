@@ -29,6 +29,14 @@ const axiosApiErrorHandler = (error: unknown): ApiReturnInterface => {
   return { error, ok: false };
 };
 
+// A 403 for a video that isn't open yet (release date, or "lock videos in order") isn't a login problem:
+// the page shows a locked state instead of sending the user to the login page.
+const VIDEO_LOCK_CODES = new Set(["VIDEO_LOCKED_SCHEDULED", "VIDEO_LOCKED_SEQUENTIAL"]);
+const isVideoLockedResponse = (result: ApiReturnInterface) => {
+  const code = (result.data as { data?: { code?: unknown } } | undefined)?.data?.code;
+  return result.status === 403 && typeof code === "string" && VIDEO_LOCK_CODES.has(code);
+};
+
 const fetchEndpoint = async (endpoint: EndpointObject, signal?: AbortSignal): Promise<ApiReturnInterface> => {
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
@@ -60,7 +68,9 @@ const fetchEndpoint = async (endpoint: EndpointObject, signal?: AbortSignal): Pr
     };
   } catch (error) {
     const result = axiosApiErrorHandler(error);
-    if (endpoint.protected && [401, 403, 404].includes(result.status ?? 0)) redirectToLogin();
+    if (endpoint.protected && [401, 403, 404].includes(result.status ?? 0) && !isVideoLockedResponse(result)) {
+      redirectToLogin();
+    }
     return result;
   }
 };

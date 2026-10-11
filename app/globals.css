@@ -9,5 +9,7 @@
 @import "../assets/styles/course-detail.css";
 @import "../assets/styles/video-playback.css";
 @import "../assets/styles/landing-overrides.css";
+@import "../assets/styles/course-landing.css";
+@import "../assets/styles/course-schedule.css";
 
 @custom-variant dark (&:is(.dark *));
