@@ -33,10 +33,12 @@ export function DiscountRibbon({ discount, label }: { discount: number; label?: 
 export function CourseCard({ course }: { course: LandingCourse }) {
   const [isCopied, setIsCopied] = useState(false);
   const thumbnail = course.thumbnail || courseFallback.src;
+  // "View course" only when the course has its own landing page; otherwise "Buy course" is the one action.
+  const hasLandingPage = Boolean(course.landingPageEnabled && course.slug);
 
   const copyCourseLink = async () => {
     try {
-      const coursePath = course.landingPageEnabled && course.slug ? `/courses/${course.slug}` : "/#course-library";
+      const coursePath = hasLandingPage ? `/courses/${course.slug}` : "/#course-library";
       await navigator.clipboard.writeText(`${window.location.origin}${coursePath}`);
       setIsCopied(true);
       window.setTimeout(() => setIsCopied(false), 1800);
@@ -87,9 +89,11 @@ export function CourseCard({ course }: { course: LandingCourse }) {
         </div>
         <div className="home-course-card-actions">
           <div className="home-course-card-buttons">
-            <Link className="home-course-card-button home-course-card-button-outline" href={getLandingCourseHref(course)}>
-              View course
-            </Link>
+            {hasLandingPage && (
+              <Link className="home-course-card-button home-course-card-button-outline" href={getLandingCourseHref(course)}>
+                View course
+              </Link>
+            )}
             <Link className="home-course-card-button" href={getCheckoutHref(course.courseId)}>
               Buy course <ArrowRight size={17} aria-hidden="true" />
             </Link>
