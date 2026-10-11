@@ -2394,3 +2394,10 @@
     border-bottom: 0;
   }
 }
+
+/* Small phones: only "Start your practice" fits next to the logo. */
+@media (max-width: 424px) {
+  .landing-nav-book {
+    display: none;
+  }
+}
