@@ -2741,6 +2741,7 @@ html {
 }
 
 /* Course, PDF-course and affiliate titles use the sans-serif brand typeface everywhere. */
+.home-course-card-body h3,
 .course-card h3,
 .explore-copy h3,
 .pdf-details h3,
@@ -3063,7 +3064,7 @@ html {
 .home-course-card-body h3 {
   margin: 0;
   color: var(--landing-forest);
-  font-family: Georgia, serif;
+  font-family: var(--font-montserrat), Arial, sans-serif;
   font-size: 1.6rem;
   letter-spacing: -0.01em;
   font-weight: 400;
