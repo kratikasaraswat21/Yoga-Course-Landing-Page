@@ -115,6 +115,12 @@ html:has(.lp) {
   font-style: normal;
   color: var(--lp-accent-d);
 }
+/* Old price next to the current one: "~{originalPrice}~ {price}". */
+.lp del {
+  opacity: 0.7;
+  font-weight: inherit;
+  text-decoration-thickness: 1.5px;
+}
 .lp h1 em,
 .lp h2 em {
   background: linear-gradient(120deg, var(--lp-accent), #e8803f);
