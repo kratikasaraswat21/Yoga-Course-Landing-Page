@@ -76,10 +76,12 @@ export default function DashboardPage() {
       completed: String(completed),
       progress: course.progress ?? (lessons ? Math.round((completed / lessons) * 100) : 0),
       href: `/course/enrolled/${course.id}`,
+      imageUrl: course.thumbnailUrl,
     };
   });
   const exploreRows = exploreCourses.slice(0, 2).map((course) => ({
     title: course.title,
+    imageUrl: course.thumbnailUrl,
     lessons: String(course.videoCount),
     basePrice: course.discount && course.discount > 0 ? `₹${course.price.toLocaleString("en-IN")}` : "",
     discount: course.discount ? `${course.discount}%` : "",
