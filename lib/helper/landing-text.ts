@@ -41,9 +41,12 @@ export function getPlaceholderValues(page: CourseLandingPage, pricing: CoursePri
   };
 }
 
-/** Replaces known {placeholders}; unknown ones are left as typed. */
+/** Replaces known {placeholders} (also {{placeholders}}, a common typo); unknown ones are left as typed. */
 export const fillPlaceholders = (text: string, values: LandingPlaceholderValues) =>
-  text.replace(/\{(\w+)\}/g, (match, key: string) => values[key] ?? match);
+  text.replace(/\{\{\s*(\w+)\s*\}\}|\{\s*(\w+)\s*\}/g, (match, doubleKey?: string, singleKey?: string) => {
+    const key = doubleKey ?? singleKey ?? "";
+    return values[key] ?? values[Object.keys(values).find((name) => name.toLowerCase() === key.toLowerCase()) ?? ""] ?? match;
+  });
 
 /** Splits "30 Days to *Full Mobility*" into plain and highlighted parts. */
 export function splitHighlights(text: string): { text: string; highlighted: boolean }[] {
