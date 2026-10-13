@@ -33,7 +33,8 @@ export function LandingTextProvider({ page, children }: { page: CourseLandingPag
         isPrelaunch: pricing.offerType === "PRELAUNCH",
         values: getPlaceholderValues(page, pricing),
         now,
-      }}>
+      }}
+    >
       {children}
     </LandingTextContext.Provider>
   );
@@ -45,7 +46,7 @@ export function useLandingText() {
   return state;
 }
 
-/** Renders admin text with {placeholders} filled and *words* highlighted. */
+/** Renders admin text with {placeholders} filled, *words* highlighted and ~words~ struck through. */
 export function Txt({ text, phase }: { text?: string | null; phase?: PhaseText | null }) {
   const { isPrelaunch, values } = useLandingText();
   const source = (phase ? pickPhase(phase, isPrelaunch) : text) ?? "";
@@ -53,7 +54,14 @@ export function Txt({ text, phase }: { text?: string | null; phase?: PhaseText |
   return (
     <>
       {splitHighlights(fillPlaceholders(source, values)).map((part, index) =>
-        part.highlighted ? <em key={index}>{part.text}</em> : <span key={index}>{part.text}</span>,
+        // "~{originalPrice}~ {price}" without a running offer would show the same price twice.
+        part.struck && part.text.trim() === values.price ? null : part.highlighted ? (
+          <em key={index}>{part.text}</em>
+        ) : part.struck ? (
+          <del key={index}>{part.text}</del>
+        ) : (
+          <span key={index}>{part.text}</span>
+        ),
       )}
     </>
   );
