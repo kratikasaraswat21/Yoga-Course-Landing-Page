@@ -78,7 +78,7 @@ export function WhenOffer({ children }: { children: ReactNode }) {
 export function AnnouncementText({ value }: { value?: PhaseText | null }) {
   const { isPrelaunch, pricing } = useLandingText();
   const text = (value ? pickPhase(value, isPrelaunch) : "") ?? "";
-  const addDiscount = !isPrelaunch && pricing.discountPercent > 0 && !text.includes("{discount}");
+  const addDiscount = !isPrelaunch && pricing.discountPercent > 0 && !/\{\s*discount\s*\}/i.test(text);
 
   return <Txt text={addDiscount ? `${text.trim()} · Now *{discount}% off*` : text} />;
 }
