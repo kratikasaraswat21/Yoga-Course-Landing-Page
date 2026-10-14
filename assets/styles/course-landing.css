@@ -523,26 +523,34 @@ html:has(.lp) {
 .lp-trailer-player {
   background: #000;
 }
-/* Fill the 16:9 frame (video and its poster), cropping the edges of other shapes. */
+/* Once playing, the frame grows to fit the video plus the control bar below it. */
+.lp-trailer-frame:has(.lp-trailer-player) {
+  aspect-ratio: auto;
+}
+.lp-trailer-frame .lp-trailer-player {
+  position: relative;
+  inset: auto;
+}
+/* Keep the video itself 16:9, cropping the edges of other shapes. */
 .lp-trailer-player video {
+  display: block;
   width: 100%;
-  height: 100%;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
   cursor: pointer;
 }
+/* Control bar below the video: Play/Pause (or Restart once ended), progress and time. */
 .lp-trailer-controls {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
   display: flex;
-  justify-content: center;
-  gap: 10px;
-  padding: 14px;
-  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.55));
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  background: #111;
+  color: #fff;
 }
 .lp-trailer-controls button {
   display: inline-flex;
+  flex-shrink: 0;
   align-items: center;
   gap: 6px;
   padding: 8px 16px;
@@ -556,6 +564,41 @@ html:has(.lp) {
 }
 .lp-trailer-controls button:hover {
   background: #fff;
+}
+/* Read-only: shows how far the trailer has played, but can't be dragged to seek. */
+.lp-trailer-progress {
+  flex: 1;
+  height: 6px;
+  overflow: hidden;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.2);
+}
+.lp-trailer-progress span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(120deg, var(--lp-accent), #e8803f);
+  transform-origin: left;
+  /* timeupdate fires a few times a second; ease between updates so the bar moves smoothly. */
+  transition: transform 0.25s linear;
+}
+.lp-trailer-time {
+  flex-shrink: 0;
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.85;
+}
+@media (max-width: 600px) {
+  .lp-trailer-controls {
+    gap: 10px;
+    padding: 10px 12px;
+  }
+  .lp-trailer-controls button {
+    padding: 6px 12px;
+    font-size: 0.875rem;
+  }
+  .lp-trailer-time {
+    font-size: 0.75rem;
+  }
 }
 .lp-trailer-error {
   position: absolute;

@@ -6,9 +6,17 @@ import { useEffect, useRef, useState } from "react";
 
 import type { CourseTrailer } from "@/types/course-landing";
 
+/** Formats seconds as m:ss. */
+function formatTime(seconds: number) {
+  if (!Number.isFinite(seconds) || seconds < 0) return "0:00";
+  const whole = Math.floor(seconds);
+  return `${Math.floor(whole / 60)}:${String(whole % 60).padStart(2, "0")}`;
+}
+
 /**
- * Course trailer: a thumbnail with a play button. Once started, the only controls are Play, Pause and
- * Restart (no seeking, no download menu).
+ * Course trailer: a thumbnail with a play button. Once started, a bar below the video holds Play/Pause,
+ * a read-only progress bar and the time; Restart replaces Play once the trailer has ended (no seeking,
+ * no download menu).
  */
 export function TrailerPlayer({ trailer, title }: { trailer: CourseTrailer; title: string }) {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -16,6 +24,9 @@ export function TrailerPlayer({ trailer, title }: { trailer: CourseTrailer; titl
   const [hasStarted, setHasStarted] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const [hasEnded, setHasEnded] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
 
   // Attach the HLS stream only after the visitor presses play, so the page loads no video data before.
   // Same order as the lesson player: attach the video, then load the playlist, then play once it's parsed.
@@ -76,8 +87,11 @@ export function TrailerPlayer({ trailer, title }: { trailer: CourseTrailer; titl
     const video = videoRef.current;
     if (!video) return;
     restartFromBeginning(video);
+    setCurrentTime(0);
     void video.play().catch(() => setIsPlaying(false));
   };
+
+  const progress = duration > 0 ? Math.min(currentTime / duration, 1) : 0;
 
   if (!hasStarted) {
     return (
@@ -112,15 +126,28 @@ export function TrailerPlayer({ trailer, title }: { trailer: CourseTrailer; titl
         disablePictureInPicture
         controlsList="nodownload noplaybackrate noremoteplayback"
         onContextMenu={(event) => event.preventDefault()}
-        onPlay={() => setIsPlaying(true)}
+        onPlay={() => {
+          setIsPlaying(true);
+          setHasEnded(false);
+        }}
         onPlaying={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
-        onEnded={() => setIsPlaying(false)}
+        onEnded={() => {
+          setIsPlaying(false);
+          setHasEnded(true);
+        }}
+        onLoadedMetadata={(event) => setDuration(event.currentTarget.duration)}
+        onDurationChange={(event) => setDuration(event.currentTarget.duration)}
+        onTimeUpdate={(event) => setCurrentTime(event.currentTarget.currentTime)}
         onClick={() => (isPlaying ? pause() : play())}
       />
       {hasError && <p className="lp-trailer-error">The trailer couldn&apos;t be played in this browser.</p>}
       <div className="lp-trailer-controls">
-        {isPlaying ? (
+        {hasEnded ? (
+          <button type="button" onClick={restart} aria-label="Restart trailer">
+            <RotateCcw size={18} /> Restart
+          </button>
+        ) : isPlaying ? (
           <button type="button" onClick={pause} aria-label="Pause trailer">
             <Pause size={18} fill="currentColor" /> Pause
           </button>
@@ -129,9 +156,18 @@ export function TrailerPlayer({ trailer, title }: { trailer: CourseTrailer; titl
             <Play size={18} fill="currentColor" /> Play
           </button>
         )}
-        <button type="button" onClick={restart} aria-label="Restart trailer">
-          <RotateCcw size={18} /> Restart
-        </button>
+        <div
+          className="lp-trailer-progress"
+          role="progressbar"
+          aria-label="Trailer progress"
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={Math.round(progress * 100)}>
+          <span style={{ transform: `scaleX(${progress})` }} />
+        </div>
+        <span className="lp-trailer-time">
+          {formatTime(currentTime)} / {formatTime(duration)}
+        </span>
       </div>
     </div>
   );
